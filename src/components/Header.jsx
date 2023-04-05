@@ -6,7 +6,7 @@ import { Popover, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 
 import { Container } from '@/components/Container'
-import avatarImage from '@/images/avatar.jpg'
+import cloudflareLoader from "@/lib/cloudflareImageLoader";
 
 function CloseIcon(props) {
   return (
@@ -234,8 +234,11 @@ function Avatar({ large = false, className, ...props }) {
       {...props}
     >
       <Image
-        src={avatarImage}
+        loader={cloudflareLoader}
+        src="dp.jpg"
         alt=""
+        width={640}
+        height={640}
         sizes={large ? '4rem' : '2.25rem'}
         className={clsx(
           'rounded-full bg-zinc-100 object-cover dark:bg-zinc-800',

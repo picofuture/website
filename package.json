@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pull-env": "vercel env pull .env.local"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {

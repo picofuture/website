@@ -9,6 +9,18 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.picofuture.com',
+        port: '',
+        pathname: '/static/imgs/**',
+      },
+    ],
+    loader: 'custom',
+    loaderFile: './src/lib/cloudflareImageLoader.js',
+  },
 }
 
 const withMDX = nextMDX({

@@ -10,7 +10,8 @@ import {
   LinkedInIcon,
   TwitterIcon,
 } from '@/components/SocialIcons'
-import portraitImage from '@/images/portrait.jpg'
+import cloudflareLoader from "@/lib/cloudflareImageLoader";
+
 
 function SocialLink({ className, href, children, icon: Icon }) {
   return (
@@ -52,7 +53,10 @@ export default function About() {
           <div className="lg:pl-20">
             <div className="max-w-xs px-2.5 lg:max-w-none">
               <Image
-                src={portraitImage}
+                loader={cloudflareLoader}
+                src="portrait.jpg"
+                width={640}
+                height={640}
                 alt=""
                 sizes="(min-width: 1024px) 32rem, 20rem"
                 className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
