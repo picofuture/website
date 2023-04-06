@@ -15,7 +15,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.picofuture.com',
         port: '',
-        pathname: '/static/imgs/**',
+        pathname: '/static/**',
       },
     ],
     loader: 'custom',

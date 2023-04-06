@@ -131,35 +131,28 @@ function Newsletter() {
 function Resume() {
   let resume = [
     {
-      company: 'Planetaria',
-      title: 'CEO',
-      logo: formatCDNURl('logos/planetaria.svg'),
-      start: '2019',
+      company: 'Logitech',
+      title: 'Principal Software Engineer',
+      logo: formatCDNURl('logos/logitech.svg'),
+      start: '2021',
       end: {
         label: 'Present',
         dateTime: new Date().getFullYear(),
       },
     },
     {
-      company: 'Airbnb',
-      title: 'Product Designer',
-      logo: formatCDNURl('logos/airbnb.svg'),
-      start: '2014',
+      company: 'Logitech',
+      title: 'Senior Software Engineer',
+      logo: formatCDNURl('logos/logitech.svg'),
+      start: '2019',
+      end: '2021',
+    },
+    {
+      company: 'Streamlabs',
+      title: 'Senior Software Engineer',
+      logo: formatCDNURl('logos/streamlabs.svg'),
+      start: '2019',
       end: '2019',
-    },
-    {
-      company: 'Facebook',
-      title: 'iOS Software Engineer',
-      logo: formatCDNURl('logos/facebook.svg'),
-      start: '2011',
-      end: '2014',
-    },
-    {
-      company: 'Starbucks',
-      title: 'Shift Supervisor',
-      logo: formatCDNURl('logos/starbucks.svg'),
-      start: '2008',
-      end: '2011',
     },
   ]
 
@@ -203,7 +196,7 @@ function Resume() {
           </li>
         ))}
       </ol>
-      <Button href="#" variant="secondary" className="group mt-6 w-full">
+      <Button href="/api/resume" variant="secondary" className="group mt-6 w-full">
         Download CV
         <ArrowDownIcon className="h-4 w-4 stroke-zinc-400 transition group-active:stroke-zinc-600 dark:group-hover:stroke-zinc-50 dark:group-active:stroke-zinc-50" />
       </Button>
