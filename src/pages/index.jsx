@@ -2,6 +2,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import clsx from 'clsx'
+import toast from 'react-hot-toast'
+import axios from 'axios'
 
 import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
@@ -16,6 +18,8 @@ import { formatDate } from '@/lib/formatDate'
 import { generateRssFeed } from '@/lib/generateRssFeed'
 import { getAllArticles } from '@/lib/getAllArticles'
 import cloudflareLoader, {formatCDNURl} from "@/lib/cloudflareImageLoader";
+import {GITHUB_LINK, INSTAGRAM_LINK, LINKEDIN_LINK, TWITTER_LINK} from "@/lib/sharedConsts";
+import {useState} from "react";
 
 function MailIcon(props) {
   return (
@@ -100,9 +104,44 @@ function SocialLink({ icon: Icon, ...props }) {
 }
 
 function Newsletter() {
+  const [formSubmissionState, setFormSubmissionState] = useState(false);
+  const [email, setEmail] = useState('');
+
+  async function emailSubmitHandler(e) {
+    e.preventDefault();
+
+    setFormSubmissionState(true);
+
+    if (email) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(email)) {
+        toast.error('Please enter a valid email address.');
+
+        setFormSubmissionState(false);
+
+        return;
+      }
+
+      const loadingToast = toast.loading('Please wait...');
+
+      const response = await axios.post('api/subscribe', { email });
+
+      toast.dismiss(loadingToast);
+
+      if (response.status === 200) {
+        toast.success('Thank you for subscribing!');
+      } else {
+        toast.error('Something went wrong. Please try again.');
+      }
+    } else {
+      toast.error('Please enter a valid email address.');
+    }
+
+    setEmail('');
+    setFormSubmissionState(false);
+  }
+
   return (
-    <form
-      action="/thank-you"
+    <div
       className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40"
     >
       <h2 className="flex text-sm font-semibold text-zinc-900 dark:text-zinc-100">
@@ -119,12 +158,21 @@ function Newsletter() {
           aria-label="Email address"
           required
           className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-teal-400 dark:focus:ring-teal-400/10 sm:text-sm"
+          disabled={formSubmissionState}
+          onChange={(e) => { setEmail(e.target.value) }}
+          onKeyPress={ async (e) => { if (e.key === 'Enter') { await emailSubmitHandler(e); } } }
+          value={email}
         />
-        <Button type="submit" className="ml-4 flex-none">
+        <Button
+          type="submit"
+          className="ml-4 flex-none"
+          disabled={formSubmissionState}
+          onClick={ async (e) => { await emailSubmitHandler(e) } }
+        >
           Join
         </Button>
       </div>
-    </form>
+    </div>
   )
 }
 
@@ -239,42 +287,40 @@ export default function Home({ articles }) {
     <>
       <Head>
         <title>
-          Spencer Sharp - Software designer, founder, and amateur astronaut
+          Anfal Mushtaq - Software Engineer, Entrepreneur, Philosopher, and Tinkerer
         </title>
         <meta
           name="description"
-          content="I’m Spencer, a software designer and entrepreneur based in New York City. I’m the founder and CEO of Planetaria, where we develop technologies that empower regular people to explore space on their own terms."
+          content="I’m Anfal Mushtaq, a software designer and entrepreneur based in Vancouver, Canada. I’m the founder of Pico Future, where I explore and design the future."
         />
       </Head>
       <Container className="mt-9">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            Software designer, founder, and amateur astronaut.
+            Software Engineer, Entrepreneur, Philosopher, and Tinkerer
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            I’m Spencer, a software designer and entrepreneur based in New York
-            City. I’m the founder and CEO of Planetaria, where we develop
-            technologies that empower regular people to explore space on their
-            own terms.
+            I&apos;m Anfal Mushtaq, a software designer and entrepreneur based in Vancouver, Canada.
+            I&apos;m the founder of Pico Future, where I explore and design the future.
           </p>
           <div className="mt-6 flex gap-6">
             <SocialLink
-              href="https://twitter.com"
+              href={TWITTER_LINK}
               aria-label="Follow on Twitter"
               icon={TwitterIcon}
             />
             <SocialLink
-              href="https://instagram.com"
+              href={INSTAGRAM_LINK}
               aria-label="Follow on Instagram"
               icon={InstagramIcon}
             />
             <SocialLink
-              href="https://github.com"
+              href={GITHUB_LINK}
               aria-label="Follow on GitHub"
               icon={GitHubIcon}
             />
             <SocialLink
-              href="https://linkedin.com"
+              href={LINKEDIN_LINK}
               aria-label="Follow on LinkedIn"
               icon={LinkedInIcon}
             />

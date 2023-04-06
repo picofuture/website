@@ -11,6 +11,7 @@ import {
   TwitterIcon,
 } from '@/components/SocialIcons'
 import cloudflareLoader from "@/lib/cloudflareImageLoader";
+import {EMAIL_LINK, GITHUB_LINK, INSTAGRAM_LINK, LINKEDIN_LINK, TWITTER_LINK} from "@/lib/sharedConsts";
 
 
 function SocialLink({ className, href, children, icon: Icon }) {
@@ -86,20 +87,20 @@ export default function About() {
           </div>
           <div className="lg:pl-20">
             <ul role="list">
-              <SocialLink href="https://twitter.com/AnfalMushtaq" icon={TwitterIcon}>
+              <SocialLink href={TWITTER_LINK} icon={TwitterIcon}>
                 Follow on Twitter
               </SocialLink>
-              <SocialLink href="https://www.instagram.com/m_anfal" icon={InstagramIcon} className="mt-4">
+              <SocialLink href={INSTAGRAM_LINK} icon={InstagramIcon} className="mt-4">
                 Follow on Instagram
               </SocialLink>
-              <SocialLink href="https://github.com/MAnfal" icon={GitHubIcon} className="mt-4">
+              <SocialLink href={GITHUB_LINK} icon={GitHubIcon} className="mt-4">
                 Follow on GitHub
               </SocialLink>
-              <SocialLink href="https://www.linkedin.com/in/anfalmushtaq" icon={LinkedInIcon} className="mt-4">
+              <SocialLink href={LINKEDIN_LINK} icon={LinkedInIcon} className="mt-4">
                 Follow on LinkedIn
               </SocialLink>
               <SocialLink
-                href="mailto:hello@anfalmushtaq.com"
+                href={`mailto:${EMAIL_LINK}`}
                 icon={MailIcon}
                 className="mt-8 border-t border-zinc-100 pt-8 dark:border-zinc-700/40"
               >

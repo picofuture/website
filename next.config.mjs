@@ -14,7 +14,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.picofuture.com',
-        port: '',
         pathname: '/static/**',
       },
     ],

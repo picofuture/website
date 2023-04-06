@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
 import clsx from 'clsx'
+import { Toaster } from 'react-hot-toast'
 
 const OuterContainer = forwardRef(function OuterContainer(
   { className, children, ...props },
@@ -7,6 +8,8 @@ const OuterContainer = forwardRef(function OuterContainer(
 ) {
   return (
     <div ref={ref} className={clsx('sm:px-8', className)} {...props}>
+      <Toaster />
+
       <div className="mx-auto max-w-7xl lg:px-8">{children}</div>
     </div>
   )
