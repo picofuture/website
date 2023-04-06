@@ -54,7 +54,7 @@ export default function About() {
             <div className="max-w-xs px-2.5 lg:max-w-none">
               <Image
                 loader={cloudflareLoader}
-                src="portrait.jpg"
+                src="dp.jpg"
                 width={640}
                 height={640}
                 alt=""
