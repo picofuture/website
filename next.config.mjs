@@ -13,7 +13,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'cdn.picofuture.com',
+        hostname: 'cdn.anfalmushtaq.com',
         pathname: '/static/**',
       },
     ],
