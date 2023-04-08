@@ -7,39 +7,39 @@ import {formatCDNURl} from "@/lib/cloudflareImageLoader";
 
 const projects = [
   {
-    name: 'Planetaria',
+    name: 'Laravel SSE',
     description:
-      'Creating technology to empower civilians to explore space on their own terms.',
-    link: { href: 'http://planetaria.tech', label: 'planetaria.tech' },
-    logo: formatCDNURl('logos/planetaria.svg'),
+      'A wrapper on top of LibSSE customized for Laravel',
+    link: { href: 'https://github.com/MAnfal/sse', label: 'github.com' },
+    logo: formatCDNURl('logos/robot.png'),
   },
   {
-    name: 'Animaginary',
+    name: 'Crypto Investment Overview',
     description:
-      'High performance web animation library, hand-written in optimized WASM.',
-    link: { href: '#', label: 'github.com' },
-    logo: formatCDNURl('logos/animaginary.svg'),
+      'Tool to help you keep track of your crypto investments and applicable taxes',
+    link: { href: 'https://github.com/MAnfal/crypto-investment-overview', label: 'github.com' },
+    logo: formatCDNURl('logos/robot.png'),
   },
   {
-    name: 'HelioStream',
+    name: 'Lean Validator',
     description:
-      'Real-time video streaming library, optimized for interstellar transmission.',
-    link: { href: '#', label: 'github.com' },
-    logo: formatCDNURl('logos/helio-stream.svg'),
+      'Javascript validation library built on top of approve JS to provide blazing fast validation.',
+    link: { href: 'https://github.com/MAnfal/lean_validator', label: 'github.com' },
+    logo: formatCDNURl('logos/robot.png'),
   },
   {
-    name: 'cosmOS',
+    name: 'Tailwind Jekyll Starter Code',
     description:
-      'The operating system that powers our Planetaria space shuttles.',
-    link: { href: '#', label: 'github.com' },
-    logo: formatCDNURl('logos/cosmos.svg'),
+      'SSG starter code using tailwind CSS and Jekyll.',
+    link: { href: 'https://github.com/MAnfal/tailwind-jekyll-starter-code', label: 'github.com' },
+    logo: formatCDNURl('logos/robot.png'),
   },
   {
-    name: 'OpenShuttle',
+    name: 'Reverse Clock',
     description:
-      'The schematics for the first rocket I designed that successfully made it to orbit.',
-    link: { href: '#', label: 'github.com' },
-    logo: formatCDNURl('logos/open-shuttle.svg'),
+      'A web UI that fetches global data on mortality rates, applies statistics to subtract major human activities and give back an overview of free time to be productive.',
+    link: { href: 'https://github.com/MAnfal/reverse-clock', label: 'github.com' },
+    logo: formatCDNURl('logos/robot.png'),
   },
 ]
 
@@ -66,7 +66,7 @@ export default function Projects() {
       </Head>
       <SimpleLayout
         title="Things I’ve made trying to put my dent in the universe."
-        intro="I’ve worked on tons of little projects over the years but these are the ones that I’m most proud of. Many of them are open-source, so if you see something that piques your interest, check out the code and contribute if you have ideas for how it can be improved."
+        intro="The following is a showcase of a few out of many projects I have worked on over the years."
       >
         <ul
           role="list"
