@@ -20,6 +20,7 @@ import { getAllArticles } from '@/lib/getAllArticles'
 import cloudflareLoader, {formatCDNURl} from "@/lib/cloudflareImageLoader";
 import {GITHUB_LINK, INSTAGRAM_LINK, LINKEDIN_LINK, TWITTER_LINK} from "@/lib/sharedConsts";
 import {useState} from "react";
+import {useRouter} from "next/router";
 
 function MailIcon(props) {
   return (
@@ -106,11 +107,13 @@ function SocialLink({ icon: Icon, ...props }) {
 function Newsletter() {
   const [formSubmissionState, setFormSubmissionState] = useState(false);
   const [email, setEmail] = useState('');
+  const router = useRouter();
 
   async function emailSubmitHandler(e) {
     e.preventDefault();
 
     setFormSubmissionState(true);
+    let shouldRedirectToThankYou = true;
 
     if (email) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(email)) {
@@ -127,17 +130,21 @@ function Newsletter() {
 
       toast.dismiss(loadingToast);
 
-      if (response.status === 200) {
-        toast.success('Thank you for subscribing!');
-      } else {
+      if (response.status !== 200) {
         toast.error('Something went wrong. Please try again.');
+        shouldRedirectToThankYou = false;
       }
     } else {
       toast.error('Please enter a valid email address.');
+      shouldRedirectToThankYou = false;
     }
 
     setEmail('');
     setFormSubmissionState(false);
+
+    if (shouldRedirectToThankYou) {
+      await router.push('/thank-you');
+    }
   }
 
   return (
