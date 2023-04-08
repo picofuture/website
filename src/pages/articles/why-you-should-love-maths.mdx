@@ -1,0 +1,57 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import Image from 'next/image'
+import cloudflareLoader from "@/lib/cloudflareImageLoader";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2021-04-25',
+  title: 'Why you should love maths!!',
+  description: 'Why you should love maths!!',
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<Image
+  loader={cloudflareLoader}
+  src='blog/2021-04-25-why-you-should-love-maths/i-love-maths.jpg'
+  width={1000}
+  height={1000}
+  alt="I Love Maths"
+/>
+
+**Oh God!!!**
+
+**When will this class be over?**
+
+**When will I meet my friends?**
+
+We are all familiar with these thoughts when we were/are going through our Maths classes. I remember sleeping a lot in my class, and I was always punished for it. I have taken all kinds of Maths classes, differential equations, integrations, algebra, calculus 1, calculus 2, numerical analysis, discrete mathematics, Maths involving metallurgy, Maths for mechanical components, linear Algebra, different coordinate systems, real systems, imaginary systems, and so on. If you haven't noticed yet, I love this discipline. I think about Maths to this day. But even after having so much love for a subject, I never scored an A in any of the Maths exams. Instead, I received some F grades during my student life. I don't even remember a single piece of advanced Maths right now. I am not a dull student, I pick up things extremely fast. So what went wrong? where did everything collapse?
+
+I did an extreme postmortem on this topic and now, I am ready to share with you what I think went wrong.
+
+The discipline of Maths, like all the other scientific disciplines, deeply studies nature. It is our way to numerically define the universe. We see a cloud, we try to figure out the exact Maths behind it. Human beings are very good at making connections. Go read my article on <a href="https://anf.al/programming/2021/04/11/write-your-code-for-humans/" target="_blank">why we should write code for humans</a> to understand how much this connection-making actually influences us. We love it when we find connections between objects and evolve our thought process. This is exactly how Newton discovered calculus at the age of 23.
+
+Let me visually show you what I mean by making connections. Consider a circle, now try to imagine a way to find the area of the circle. I am not talking about the formula `A = pi * r^2`. I am talking about imagining you are Newton and you have the task of finding a way that leads to this `A = pi * r^2` formula. If you are like me, and you went through the same old boring classes (due to which I never could realize my potential), you will soon realize that you are at a dead end.
+
+Let's see how it is supposed to happen. You have to use derivation to first divide the circle into concentric rings, then you have to slice all those rings to create straight lines, and then you have to use those straight lines to create a triangle. Now, after all of the above is done, you should be able to use the formula for the area of the triangle to figure out the area of the circle. But wait, it's not just all talk and no show. Take a look at the picture below. I went ahead and did the same procedure in Python while documenting each step for you to follow.
+
+<Image
+  loader={cloudflareLoader}
+  src='blog/2021-04-25-why-you-should-love-maths/area-of-circle-with-right-triangle.png'
+  width={1000}
+  height={1000}
+  alt="Area Of Circle With Right Triangle"
+/>
+
+The jupyter notebook was quite big, so I could not show the entire picture here, but you can find the entire mathematical calculation on my <a href="https://github.com/MAnfal/intro-to-ml-pytorch-nanodegree/blob/master/notebooks/essence-of-calculus/video_1.ipynb" target="_blank">Github</a>. In the example above, you can clearly see that the area of the right triangle created via concentric rings almost approaches the area of circle calculated via `A = pi * r^2`.
+
+I learned this from this beautiful video created by <a href="https://www.youtube.com/watch?v=WUvTyaaNkzM" target="_blank">3Blue1Brown</a>. If you have even the tiniest bit of love for Maths like me, please go check out their videos. These videos are a gold mine, and you will learn about concepts and things that you haven't ever learned in the class. Being able to truly visualize what goes on behind an equation is truly something we should all learn. After all, we learn visual concepts way quicker, and to create logic out of chaos, it's very important to visualize the entire problem.
+
+Recently I had the pleasure to know another great channel on YouTube called <a href="https://www.youtube.com/c/InigoQuilez/featured" target="_blank">Inigo Quilez</a>. The YouTuber shows the usage of different mathematical concepts beautifully and I highly recommend watching the videos on these 2 channels. You will never question yourself on where am I even going to use this equation?
+
+If you are ready to take on this journey a bit more seriously, I will suggest another great Youtuber called <a href="https://www.youtube.com/channel/UCgBncpylJ1kiVaPyP-PZauQ" target="_blank">Luis Serrano</a>. He shows the practical use of all of these concepts like Algebra, parabolas, differential equations, integrations, and much more in the world of machine learning. If you ever want to pursue the path of machine learning, I highly recommend this <a href="https://www.udacity.com/course/intro-to-machine-learning-nanodegree--nd229" target="_blank">nanodegree</a>. The bonus point is, **Luis Serrano** is one of the teachers in this nano degree.
+
+Coming back to my original point, I think we need to change the way we learn what we love and strive to find the original, authentic, and universal way to create our knowledge. It will not only help us in our journey for the things we love but will also help us in learning more things and nourish our brain. This is what my teachers failed to do, this is what I think is the most important thing, and this in my opinion is how Newton succeeded in finding an entirely new discipline at such a young age.
+
+I will also say a few words to the teachers as well. Please don't make students learn hundreds of formulas just for the sake of making them pass the exams. Explorers are not memory champions, they are great problem solvers. SpaceX's rockets are not built by someone who remembered 200 numerical analysis formulas, they are built by people who understand how nature works and are able to visualize complex concepts out of basic building blocks.
