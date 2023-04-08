@@ -1,0 +1,65 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import Image from 'next/image'
+import cloudflareLoader from "@/lib/cloudflareImageLoader";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2021-03-06',
+  title: 'Tailwind CSS Review By A Backend Developer',
+  description: 'My thoughts on tailwindcss as a back-end developer',
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<Image
+  loader={cloudflareLoader}
+  src='blog/2021-03-06-tailwindcss-review-by-a-backend-developer/tailwindcss.png'
+  width={1000}
+  height={1000}
+  alt="Tailwind CSS"
+/>
+
+You must've seen a lot of reviews on tailwindcss already. Therefore, I won't go into the details but, just as a little refresher, tailwindcss is a utility first CSS framework that allows you to create the entire front-end of a website without touching any CSS at all. If you are interested in reading more, you can certainly check out <a href="https://blog.logrocket.com/tailwind-css-is-it-tomorrows-bootstrap-ebe560f9d00b/" target="_blank">LogRocket's</a> article.
+
+## TL;DR
+Tailwind CSS is definitely worth it.
+
+## Discussion
+Let's discuss some pros of using a utility first framework for developing your front-end.
+
+### Flexibility
+Since tailwindcss works off of atomic classes that can provide support across browsers and screen sizes, it is very flexible. It does come at a price because you may get a bit overwhelmed in the beginning when you will look at the class attribute and see tons of classes associated with one tag and many people think it makes the HTML look ugly but this is one of the few compromises you have to make for getting such flexibility.
+
+The following is an example of a button using tailwindcss.
+
+```html
+<button type="button" class="relative w-1/2 bg-white border-gray-200 rounded-md shadow-sm py-2 text-sm font-medium text-gray-700 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:z-10 sm:w-auto sm:px-8">Test</button>
+```
+
+To be fair, in the modern world of VueJS/ReactJS and components based front-ends, this is one of the compromises that I can easily make
+because it becomes a lot easier on the eyes when you divide everything into components and have to look at one of them at a time.
+
+### Minimalistic UI
+This is more like a perk IMO, but I would like to mention it here nonetheless. Even though you can customize the entire UI however you want, the default UI for the components is perfect, modern-looking, and minimalistic. Even if you just copy and paste a component and never touch the `tailwind.config.js` file for customization, you will never regret it.
+
+### Extreme Customization
+You can create whatever UI you desire and never touch one single line of CSS. You can customize colors, fonts, layouts, and whatever else you like through `tailwind.config.js` and you will get any custom UI you want.
+
+### Separation Of Concern
+Since you never have to touch the CSS ever, it creates a nice separation of concern between a front-end developer and a front-end designer. No more ugly scoped CSS within the components, no more ugly inline styles to customize one button according to the requirements because the original design system never supported it. Just focus on developing front-ends and forget worrying about responsiveness, making components look a certain way on the fly, etc.
+
+### Perfectly Suited For Any Organization
+Whether you are a 1-man army doing everything or you are an organization that maintains its design system. Tailwindcss can help everyone.
+
+### Don't Repeat Yourself
+In software engineering it is really important to create single sources of truth whenever you can. It becomes a lot easier to maintain one source as compared to having a replica of the same thing in multiple places. For example, if there is a custom change required in the codebase, it is always better to figure out the source and modify it or create a source so that other places can use it as well. Tailwindcss follows these rules and when the time comes to maintain the entire design system, changing 1 place feels like a breeze as compared to making the same change in ten different places.
+
+### Tree Shaking
+Tailwind uses purge-css to automatically tree shake all the unused styles. It makes the final CSS file tiny and in the long run minimizing the download size of the website is extremely important. It can save you money and make the end user's experience better.
+
+### No JS Required
+I have been using Bootstrap for a while now and I never liked the fact that I had to include JQuery in my codebase because Bootstrap demands it. Every other thing will be written in Vue but just for the sake of Bootstrap, I am forced to use JQuery. A CSS only framework is definitely one thing I back with all my heart.
+
+## Final Thoughts
+I will admit that people can have different opinions about it. Some will say, adding too many classes is ugly and some will say it's not doing anything new and why shouldn't I use X? but in the end of the day, it is a choice that you have to make. From my experience in working with multiple technologies and domains, tailwindcss checks all the right boxes, so I will be using it for a while until something better comes along.

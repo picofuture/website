@@ -1,0 +1,127 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import Image from 'next/image'
+import cloudflareLoader from "@/lib/cloudflareImageLoader";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2021-04-11',
+  title: 'Write Your Code For Humans',
+  description: 'Write your code for humans',
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<Image
+  loader={cloudflareLoader}
+  src='blog/2021-04-11-write-your-code-for-humans/intelligent-brain.png'
+  width={1000}
+  height={1000}
+  alt="C++ Logo"
+/>
+
+## TL;DR
+Write your code for humans. Make sure to create repeatable patterns in your code.
+
+## Explanation
+As human beings, we are bound by our mental limitations and as we get older, these limitations only increase. Some notable limitations include memory loss, time skipping, and a gradual decrease in learning capabilities.
+There are experiments done across the globe on our perception and how our minds respond to the external stimuli with age. 2 experiments relevant to our discussion are discussed below.
+
+### Why Life Seems to Speed Up as We Age?
+<div className="text-center">
+  <iframe className="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/aIx2N-viNwY" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+</div>
+This video explains how our concept of time passage speeds up as we age. A minute for a young person can be 30 seconds for a grown-up in terms of passing time. Think about it, when we were young, 8 hours of school felt like an entire year but now, we don't even feel the passage of a year. It still feels like 2020 started yesterday.
+The major reason for this phenomenon is that our brain skims through all the events happening in our lives and practically discards everything else. It's like skipping through a 1-hour long video and only picking up important pieces will reduce that entire hour into 5 minutes. This phenomenon is more prevalent in adults because, during the childhood phase, the brain passes through a learning phase and tries to accumulate as much knowledge as possible.
+
+### How Our Brain Stitches Together Broken Information To Create The Entire Picture.
+<div className="text-center">
+  <iframe className="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/_FlV6pgwlrk" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+</div>
+This video goes more in-depth on how our brain performs the task of stitching together bits of information to create an entire image can be seen in this video. You can even look towards an LED through a low FPS camera and observe this phenomenon first hand.
+
+## Putting Together Everything
+Now after explaining the basic understanding of our mental capacities and how our brain functions, I'll come to the point.
+Our brain actively looks for patterns and tries to extend its information pool based on them. The more patterns you create, the easier it will be for a brain to follow.
+When you are working with a lot of developers this information becomes extremely important since there will be fresh developers joining the company every day and existing developers working on a piece of code for the first time. If they know where to look for some information in the system based on the previous patterns they made, they will get the job done without external knowledge sources and won't waste much time. But, if they have to constantly stay on their toes about where to look for certain information because everything is so randomly written, they will always take more time in getting the job done.
+Let's take a look at a few short code snippets to understand this concept.
+
+### Patterned Snippet (Good Example)
+```php
+<?php
+// Your code here!
+use ABC;
+use CDE;
+
+class A {
+    private $varA;
+
+    public function __construct($firstInjection) {
+        $this->$varA = $firstInjection;
+    }
+
+    public function doCertainTask() {
+        $taskResult = null;
+
+        if (some_condition) {
+            $taskResult = 'A';
+
+            if (something_else) {
+                $taskResult = 'B';
+            }
+        }
+
+        switch(something) {
+            case 'A':
+                $taskResult = 'sdf';
+                break;
+        }
+
+        return $taskResult;
+    }
+}
+?>
+```
+
+In this example, it is easy to create patterns. For example, the includes will always be on the top, the injection can be on the constructor or method level, the variable declaration will always be on the top of the method and the result return will always be at the bottom of the method. So if I went into someone else's code, I can use these same patterns and figure out quickly what is happening and get to the actual problem instead of wasting my time in figuring out how the code is structured.
+
+```php
+<?php
+// Your code here!
+use ABC;
+
+class A {
+    public function doCertainTask() {
+        $taskResult = null;
+        $varA = new \CDE\FirstClass();
+
+        if (some_condition) {
+            return 'A';
+
+            if (something_else) {
+                return 'B';
+            }
+        }
+
+        switch(something) {
+            case 'A':
+                return 'sdf';
+        }
+
+        return $taskResult;
+    }
+}
+?>
+```
+
+This example is bad on many levels. For example, the namespace inclusion is now divided between the top of the file and a sudden inclusion at the beginning of the method `new \CDE\FirstClass()`. Then we have a lot of lines returning some result. This raises immense confusion because of the following reasons.
+
+- Code varies a lot from place to place, you will always have to figure out all the places a method is returning the values from.
+- The sudden return of the result will force you to iterate over the same method in real-time (by debugging) to figure out how it's working.
+- There is no pattern you can extract from this that can help you in understanding the future assignments.
+
+## How Can we Follow the Good Example Then?
+This is rather easier to answer. In a closed source environment, you are free to choose a standard or even create your own. Make sure that the standard is well documented so that others can follow it as well. In an open-source environment, try to follow a standard that is widely adopted by everyone. You can't force everyone to use your standard so adopt the standard that is the most popular and if you feel something can be improved, propose your changes and make sure they become a part of the standards.
+
+## Key Takeaway
+The key takeaway from all of this is, avoid entropy as much as possible. Create patterns, in your life, in your code, and wherever else you feel like it, and don't hesitate to share them with the world. We need to work with our capacities, not against them.
