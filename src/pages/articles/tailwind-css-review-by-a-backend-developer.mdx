@@ -1,7 +1,6 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
 import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
-import Image from 'next/image'
-import cloudflareLoader from "@/lib/cloudflareImageLoader";
+import BlogImage from "@/components/blog-components/BlogImage";
 
 export const meta = {
   author: BLOG_AUTHOR_ANFAL,
@@ -12,13 +11,7 @@ export const meta = {
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<Image
-  loader={cloudflareLoader}
-  src='blog/2021-03-06-tailwindcss-review-by-a-backend-developer/tailwindcss.png'
-  width={1000}
-  height={1000}
-  alt="Tailwind CSS"
-/>
+<BlogImage src='blog/2021-03-06-tailwindcss-review-by-a-backend-developer/tailwindcss.png' alt="Tailwind CSS" />
 
 You must've seen a lot of reviews on tailwindcss already. Therefore, I won't go into the details but, just as a little refresher, tailwindcss is a utility first CSS framework that allows you to create the entire front-end of a website without touching any CSS at all. If you are interested in reading more, you can certainly check out <a href="https://blog.logrocket.com/tailwind-css-is-it-tomorrows-bootstrap-ebe560f9d00b/" target="_blank">LogRocket's</a> article.
 

@@ -1,7 +1,6 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
 import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
-import Image from 'next/image'
-import cloudflareLoader from "@/lib/cloudflareImageLoader";
+import BlogImage from "@/components/blog-components/BlogImage";
 
 export const meta = {
   author: BLOG_AUTHOR_ANFAL,
@@ -12,13 +11,7 @@ export const meta = {
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<Image
-  loader={cloudflareLoader}
-  src='blog/2021-04-21-startup-guide/startup-guide.jpg'
-  width={1000}
-  height={1000}
-  alt="Startup Guide"
-/>
+<BlogImage src='blog/2021-04-21-startup-guide/startup-guide.jpg' alt="Startup Guide" />
 
 ## Context
 I have had a very difficult time figuring out the nitty-gritty details of startups and I want to save your time by relaying my knowledge to you. Here is a step-by-step list of creating a startup that I would follow if I had to create one.

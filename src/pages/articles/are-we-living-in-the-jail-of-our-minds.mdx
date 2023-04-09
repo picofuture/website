@@ -1,7 +1,6 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
 import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
-import Image from 'next/image'
-import cloudflareLoader from "@/lib/cloudflareImageLoader";
+import BlogImage from "@/components/blog-components/BlogImage";
 
 export const meta = {
   author: BLOG_AUTHOR_ANFAL,
@@ -12,13 +11,9 @@ export const meta = {
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<Image
-  loader={cloudflareLoader}
+<BlogImage
   src='blog/2021-04-17-are-we-in-the-jail-of-our-mind/brain.jpg'
-  width={1000}
-  height={1000}
-  alt="Image Of Brain"
-/>
+  alt="Image Of Brain" />
 
 I love watching good documentaries. Recently, I binge-watched a lot of jail documentaries, check out this <a target="_blank" href="https://www.youtube.com/watch?v=A8slYgeqGLw">link</a> if you want to watch them too.
 

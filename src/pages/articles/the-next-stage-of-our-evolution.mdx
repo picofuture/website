@@ -1,7 +1,6 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
 import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
-import Image from 'next/image'
-import cloudflareLoader from "@/lib/cloudflareImageLoader";
+import BlogImage from "@/components/blog-components/BlogImage";
 
 export const meta = {
   author: BLOG_AUTHOR_ANFAL,
@@ -12,13 +11,7 @@ export const meta = {
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<Image
-  loader={cloudflareLoader}
-  src='blog/2021-02-15-the-next-stage-of-our-evolution/a-new-dawn.jpg'
-  width={1000}
-  height={1000}
-  alt="A New Dawn"
-/>
+<BlogImage src='blog/2021-02-15-the-next-stage-of-our-evolution/a-new-dawn.jpg' alt="A New Dawn" />
 
 I often ask this question to myself. What is the next frontier for our race, in which direction are we heading, and how will we get there?
 
@@ -51,13 +44,7 @@ NASA is researching into this field and countless others are providing their inp
 The only focus is to figure out how far we can go as a species and how to go there.
 The picture below really takes me down the memory lane into the times when we were at the cusp of something big and I have to tell you it feels good.
 
-<Image
-  loader={cloudflareLoader}
-  src='blog/2021-02-15-the-next-stage-of-our-evolution/starships.jpg'
-  width={1000}
-  height={1000}
-  alt="SpaceX Starships"
-/>
+<BlogImage src='blog/2021-02-15-the-next-stage-of-our-evolution/starships.jpg' alt="SpaceX Starships" />
 
 As the closing statement, I would like to emphasize one thing. It is really important for us to stay hungry, curious and literally shoot for the stars.
 We didn't get here because we liked to rest. We got here because we were curious. So, if possible, please practice this, and let's get to our evolution together.

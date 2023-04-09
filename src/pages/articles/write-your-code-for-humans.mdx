@@ -1,7 +1,7 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
 import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
-import Image from 'next/image'
-import cloudflareLoader from "@/lib/cloudflareImageLoader";
+import BlogImage from "@/components/blog-components/BlogImage";
+import BlogYoutubeVideoEmbed from "@/components/blog-components/BlogYoutubeVideoEmbed";
 
 export const meta = {
   author: BLOG_AUTHOR_ANFAL,
@@ -12,13 +12,7 @@ export const meta = {
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<Image
-  loader={cloudflareLoader}
-  src='blog/2021-04-11-write-your-code-for-humans/intelligent-brain.png'
-  width={1000}
-  height={1000}
-  alt="Intelligent Brain"
-/>
+<BlogImage src='blog/2021-04-11-write-your-code-for-humans/intelligent-brain.png' alt="Intelligent Brain" />
 
 ## TL;DR
 Write your code for humans. Make sure to create repeatable patterns in your code.
@@ -28,16 +22,12 @@ As human beings, we are bound by our mental limitations and as we get older, the
 There are experiments done across the globe on our perception and how our minds respond to the external stimuli with age. 2 experiments relevant to our discussion are discussed below.
 
 ### Why Life Seems to Speed Up as We Age?
-<div className="text-center">
-  <iframe className="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/aIx2N-viNwY" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-</div>
+<BlogYoutubeVideoEmbed src='aIx2N-viNwY' title="YouTube video player"/>
 This video explains how our concept of time passage speeds up as we age. A minute for a young person can be 30 seconds for a grown-up in terms of passing time. Think about it, when we were young, 8 hours of school felt like an entire year but now, we don't even feel the passage of a year. It still feels like 2020 started yesterday.
 The major reason for this phenomenon is that our brain skims through all the events happening in our lives and practically discards everything else. It's like skipping through a 1-hour long video and only picking up important pieces will reduce that entire hour into 5 minutes. This phenomenon is more prevalent in adults because, during the childhood phase, the brain passes through a learning phase and tries to accumulate as much knowledge as possible.
 
 ### How Our Brain Stitches Together Broken Information To Create The Entire Picture.
-<div className="text-center">
-  <iframe className="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/_FlV6pgwlrk" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-</div>
+<BlogYoutubeVideoEmbed src='_FlV6pgwlrk' title="YouTube video player"/>
 This video goes more in-depth on how our brain performs the task of stitching together bits of information to create an entire image can be seen in this video. You can even look towards an LED through a low FPS camera and observe this phenomenon first hand.
 
 ## Putting Together Everything

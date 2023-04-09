@@ -1,7 +1,6 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
 import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
-import Image from 'next/image'
-import cloudflareLoader from "@/lib/cloudflareImageLoader";
+import BlogImage from "@/components/blog-components/BlogImage";
 
 export const meta = {
   author: BLOG_AUTHOR_ANFAL,
@@ -12,13 +11,9 @@ export const meta = {
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<Image
-  loader={cloudflareLoader}
+<BlogImage
   src='blog/2021-04-25-why-you-should-love-maths/i-love-maths.jpg'
-  width={1000}
-  height={1000}
-  alt="I Love Maths"
-/>
+  alt="I Love Maths" />
 
 **Oh God!!!**
 
@@ -36,13 +31,7 @@ Let me visually show you what I mean by making connections. Consider a circle, n
 
 Let's see how it is supposed to happen. You have to use derivation to first divide the circle into concentric rings, then you have to slice all those rings to create straight lines, and then you have to use those straight lines to create a triangle. Now, after all of the above is done, you should be able to use the formula for the area of the triangle to figure out the area of the circle. But wait, it's not just all talk and no show. Take a look at the picture below. I went ahead and did the same procedure in Python while documenting each step for you to follow.
 
-<Image
-  loader={cloudflareLoader}
-  src='blog/2021-04-25-why-you-should-love-maths/area-of-circle-with-right-triangle.png'
-  width={1000}
-  height={1000}
-  alt="Area Of Circle With Right Triangle"
-/>
+<BlogImage  src='blog/2021-04-25-why-you-should-love-maths/area-of-circle-with-right-triangle.png'  alt="Area Of Circle With Right Triangle" />
 
 The jupyter notebook was quite big, so I could not show the entire picture here, but you can find the entire mathematical calculation on my <a href="https://github.com/MAnfal/intro-to-ml-pytorch-nanodegree/blob/master/notebooks/essence-of-calculus/video_1.ipynb" target="_blank">Github</a>. In the example above, you can clearly see that the area of the right triangle created via concentric rings almost approaches the area of circle calculated via `A = pi * r^2`.
 

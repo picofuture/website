@@ -1,7 +1,6 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
 import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
-import Image from 'next/image'
-import cloudflareLoader from "@/lib/cloudflareImageLoader";
+import BlogImage from "@/components/blog-components/BlogImage";
 
 export const meta = {
   author: BLOG_AUTHOR_ANFAL,
@@ -12,13 +11,9 @@ export const meta = {
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<Image
-  loader={cloudflareLoader}
+<BlogImage
   src='blog/2021-04-03-open-source-a-hidden-gem/love-open-source.gif'
-  width={1000}
-  height={1000}
-  alt="Love Open Source"
-/>
+  alt="Love Open Source"/>
 
 ## Our Mentality
 We as a human race have always been curious and hungry for knowledge. It's hardwired in our brains to question reality and wonder what would happen if x occurs. And if we are motivated enough, we embark on the journey of finding the answer to our wonders. Even I got into computer science because as a kid I always wondered what makes this cursor moves inside the computer screen? Is it black magic? Is there a human sitting on the other side of the monitor moving it? I am sure every human being can relate to this at some point in their life.
@@ -30,69 +25,39 @@ On the other hand, some people supported this idea and dedicated their work to t
 The companies that were slow to adopt the open-source first approach either perished or soon realized its potential and converged towards it. I won't go into the details but there are a lot of examples available if you want to search for them.
 Now, this movement has picked up so much momentum that there is enough data available to extrapolate its impact. According to recent studies, the companies that are open-source by purpose tend to have a higher success rate as compared to the companies that are open-source by chance.
 
-<Image
-  loader={cloudflareLoader}
-  src='blog/2021-04-03-open-source-a-hidden-gem/open-source-study.png'
-  width={1000}
-  height={1000}
-  alt="Open Source Study"
-/>
+<BlogImage  src='blog/2021-04-03-open-source-a-hidden-gem/open-source-study.png' alt="Open Source Study"/>
 
 ## It's State Today
 Nowadays, open-source for every company is a must. They will either fund the projects, have their own open-sourced projects, or will support them through their platform. This is excellent news for everyone in the tech industry. If you go open-source by choice, you will see a torrent of help coming your way from every direction. Let's look at a few examples of support below.
 
 ### Jetbrains
-<Image
-  loader={cloudflareLoader}
+<BlogImage
   src='blog/2021-04-03-open-source-a-hidden-gem/jetbrains.png'
-  width={1000}
-  height={1000}
-  alt="Jetbrains Loves Open Source"
-/>
+  alt="Jetbrains Loves Open Source"/>
 
 ### Netlify
-<Image
-  loader={cloudflareLoader}
+<BlogImage
   src='blog/2021-04-03-open-source-a-hidden-gem/netlify.png'
-  width={1000}
-  height={1000}
-  alt="Netlify Loves Open Source"
-/>
+  alt="Netlify Loves Open Source"/>
 
 ### Github
-<Image
-  loader={cloudflareLoader}
+<BlogImage
   src='blog/2021-04-03-open-source-a-hidden-gem/github-1.png'
-  width={1000}
-  height={1000}
-  alt="Github Loves Open Source"
-/>
+  alt="Github Loves Open Source"/>
 
-<Image
-  loader={cloudflareLoader}
+<BlogImage
   src='blog/2021-04-03-open-source-a-hidden-gem/github-2.png'
-  width={1000}
-  height={1000}
-  alt="Github Loves Open Source"
-/>
+  alt="Github Loves Open Source"/>
 
 ### CircleCI
-<Image
-  loader={cloudflareLoader}
+<BlogImage
   src='blog/2021-04-03-open-source-a-hidden-gem/circleci.png'
-  width={1000}
-  height={1000}
-  alt="CircleCI Loves Open Source"
-/>
+  alt="CircleCI Loves Open Source"/>
 
 ### Digital Ocean
-<Image
-  loader={cloudflareLoader}
+<BlogImage
   src='blog/2021-04-03-open-source-a-hidden-gem/digitalocean.png'
-  width={1000}
-  height={1000}
-  alt="Digital Ocean Loves Open Source"
-/>
+  alt="Digital Ocean Loves Open Source"/>
 
 The examples above are just a drop in the ocean, but they are enough to prove my point that as soon as you go open-source, you will have help from every corner of the industry and there will be thousands of community members willing to contribute and grow your project.
 
