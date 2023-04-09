@@ -1,11 +1,8 @@
 import {supabase} from '@/lib/supabaseClient';
+import {buildResponse} from "@/lib/apiResponseBuilder";
 
 export const config = {
   runtime: 'experimental-edge',
-}
-
-function buildResponse(body = null, status = 200, statusText = "OK") {
-  return new Response(body, { status, statusText });
 }
 
 export default async function handler(req) {
