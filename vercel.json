@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/cron/twitterbot",
+      "path": "/api/cron/twitterbot?key=1e0af629-963d-4ff1-a03f-761ba4b53d02",
       "schedule": "0 10 * * *"
     }
   ]

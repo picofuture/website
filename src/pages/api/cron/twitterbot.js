@@ -1,7 +1,10 @@
-import {twitterClient, twitterBearer} from "@/lib/twitterAPI";
+import {tweetThread} from "@/lib/twitterAPI";
 
-export default async function handler(req, res) {
-  await twitterClient.v2.tweetThread();
+export default function handler(request, response) {
+  if (request.query.key !== process.env.TWITTER_BOT_CRON_JOB_KEY) {
+    response.status(404).end();
+    return;
+  }
 
-  return res.status(200).json({ message: 'OK' });
+  response.status(200).json({ success: true });
 }
