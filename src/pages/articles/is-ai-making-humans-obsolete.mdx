@@ -1,43 +1,50 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
 import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
 import BlogImage from "@/components/blog-components/BlogImage";
+import BlogYoutubeVideoEmbed from "@/components/blog-components/BlogYoutubeVideoEmbed";
 
 export const meta = {
   author: BLOG_AUTHOR_ANFAL,
   date: '2023-04-08',
   title: 'Is AI going to make humans obsolete?',
   description: 'Is AI going to make humans obsolete?',
+  draft: true,
 }
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<BlogImage src="blog/2021-03-09-hello-world/cpp-logo.png" alt="C++ Logo" />
+<BlogImage src="blog/2023-04-08-is-ai-going-to-make-humans-obsolete/robot-takingover-humans.jpg" alt="Robot taking over humans." />
 
-It's been seven years since I graduated, and it's been a heck of a journey, filled with adventures, learnings, meeting great people, and much more.
+## TL;DR
+No, AI is not going to make humans obsolete. It is going to make humans more productive and efficient.
 
-I still remember my first job. It was a back-end engineering role in Java. It was the language we picked up along-side C++ to learn object-oriented programming. The moment we started using it, I fell in love with it. The things we used to do in 100s of LOC were all condensed into a couple of LOCs max. I even used to question my teacher who would focus more on C++ and less on Java about why are we even learning C++? why should I write an entire 50+ LOC function to read in a file and process its lines when I can do the same thing in Java for under 5 lines? but he knew what was right for us. I was just excited to learn Java because it made our lives so much easier and in the process, I drifted apart from C++.
+## Long Version
+Unless you are completely disconnected from the internet, you may have heard about Open AI and their achievements in creating one of the best [LLM (Large Language Model)](https://en.wikipedia.org/wiki/Wikipedia:Large_language_models) a.k.a [Chat GPT](https://chat.openai.com/).
+Not only has this tool made them the fastest growing company (in terms of user base) on the internet,
+but it has also set the stage for the next big tech revolution.
+In fact, it's so good that it has created an existential crisis for many people and raised a wave of fear among them that
+AI is coming for their jobs. Not going to lie, I am one of those people who have been asking this question myself for some time now
+as well. That is why I have decided to write this article to give my perspective on this from the point of view of a Software
+engineer and a person who is really interested in AI for quite some time now and understands its limitations.
 
-At the start of 2015, I started working on building a startup with my friends and I got involved in PHP. Those were some exciting times and PHP was great, you just create a script and drop PHP, HTML, CSS in one file, and voilà, your very first site is live. Years went by and I got the opportunity to work with many higher-level languages like Java, PHP, Python, etc.
+Before we discuss whether this new wave of AI revolution is going to make humans obsolete, let me paint the picture of how good Chat GPT is, for you.
 
-If we look closely at any programming language, we will realize that it's just a wrapper, a highly sophisticated wrapper written on top of an existing programming language or an architecture to make the lives of the programmers easier and satisfy a certain scenario. For example, Javascript is a "wrapper" on top of C++ (<a href="https://github.com/v8/v8" target="_blank" title="V8 Github Repo">V8</a> engine is written in C++). Similarly, <a href="https://github.com/php/php-src" target="_blank" title="PHP Repo Github">PHP</a> has majority of it's base written in C. And it makes sense, both from the productivity POV and maintenance POV, let me explain both separately.
+## Chat GPT
+Chat GPT is a really capable generative AI. If you can create a good enough prompt, you can instruct Chat GPT to provide you with almost any piece of information. The current cut-off for the data set GPT-4 has been trained on is September 2021. You can ask it any question and it will answer. You can ask it to write you a piece of software and with a bit of help, self-reflection, and context it will do a very good job.
+Furthermore, it has now been supercharged by the addition of a plugin ecosystem to provide it with latest context and more. Please watch the video below to understand how crucial this plugin ecosystem is going to be.
+<BlogYoutubeVideoEmbed src="Fjh1kwOzr7c" />
 
-From the productivity POV, you don't want developers to spend most of their useful time building up the boilerplate. Imagine people writing custom scripts for their company before starting to do any actual work. Or writing a web templating engine before they can start writing useful code.
+All in all, CHAT GPT is a really powerful tool, and it is going to be a game changer for the tech industry. In fact, we can see it happening right in-front of our eyes.
+It has opened a flood gate of new utilities that people are implementing every day.
 
-From the maintenance POV, it will quickly become a nightmare if you re-invent the wheel, because the tech world moves fast and it's better to use something battle-tested and open-sourced as compared to creating something of your own. Furthermore, it is always better to let someone maintain and standardize a piece of software to have a better acceptance everywhere and that you focus on what's important and impactful.
+## Conclusion
+AI is here, it's improving every day, and it's going to make humans more productive and efficient.
+Instead of fearing it, we should embrace it and use it to our advantage.
+We should augment ourselves with it and use it to make our lives better and more productive.
 
-A very good example of such abstraction and ease of use is when you work with things like tensors. Let's take a look at a very basic matrix operation in Python 3.x.
-
-```python
-import numpy as np
-
-dummy_array = np.array([[1, 2], [3, 4]])
-
-# Print out transpose of dummy_array
-print(dummy_array.T)
-```
-
-Now if you just want the transpose, then look no further. But, if you are like me, and you want to know what the hell happened? you will start to wonder how did all of this happen? how did we get an array? why is a nested Python list acting as a matrix? what is `.T`? what mathematical calculation went into finding the transpose? In reality, we got the job done because Python made it easy for us, but we missed out on so much learning and knowledge and my friend, this knowledge is what's necessary to go to the pinnacle. After all, it is said that the devil is in the details.
-
-As a good software engineer, you should be able to apply your skills in any language but, you also have to become a master of one language, and you should be able to apply the concepts from mathematics, algebra, physics and all the other domains without opening Google every 5 minutes. Doesn't matter what that language is, but you have to be a master of it just like you are a master of your spoken language. You should be able to achieve hardware-level programming experience with this language and command it however you want. The computer is a piece of technology and is at your disposal to do whatever you want so, treat it like that.
-
-I have had the pleasure of working with so many higher-level languages because they are so much productive, maintainable, and easier to learn. But I never really got the time to master one language. After careful consideration and after going through the thought process I described in this post, I have finally decided that I will go back to the basics and master **C++** as my primary language. I will implement design patterns, data structures, design algorithms, and apply mathematics in C++. It's going to be painful, it's going to be long, but it will be definitely worth it. After all, I still remember how to implement a linked list in C++ which I took one entire week to learn in the university even though it's been over seven years.
+[Knocker Upper](https://en.wikipedia.org/wiki/Knocker-up)
+[AGI](https://en.wikipedia.org/wiki/Artificial_general_intelligence)
+[Sparks Of AGI](https://arxiv.org/abs/2303.12712)
+<BlogYoutubeVideoEmbed src="Mqg3aTGNxZ0"/>
+<BlogYoutubeVideoEmbed src="24yjRbBah3w"/>
+<BlogYoutubeVideoEmbed src="oak1CqqIzug"/>

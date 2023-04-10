@@ -24,6 +24,7 @@
     "fast-glob": "^3.2.11",
     "feed": "^4.2.2",
     "focus-visible": "^5.2.0",
+    "lodash": "^4.17.21",
     "next": "13.0.2",
     "node-fetch": "^3.3.1",
     "postcss-focus-visible": "^6.0.4",

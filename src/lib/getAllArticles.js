@@ -1,5 +1,6 @@
 import glob from 'fast-glob'
 import * as path from 'path'
+import { has } from 'lodash';
 
 async function importArticle(articleFilename) {
   let { meta, default: component } = await import(
@@ -19,5 +20,7 @@ export async function getAllArticles() {
 
   let articles = await Promise.all(articleFilenames.map(importArticle))
 
-  return articles.sort((a, z) => new Date(z.date) - new Date(a.date))
+  return articles
+    .filter((meta) => !has(meta, 'draft') || !meta.draft)
+    .sort((a, z) => new Date(z.date) - new Date(a.date))
 }
