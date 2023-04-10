@@ -1,8 +1,7 @@
-import {buildResponse} from "@/lib/apiResponseBuilder";
+import {twitterClient, twitterBearer} from "@/lib/twitterAPI";
 
-export const config = {
-  runtime: 'experimental-edge',
-}
+export default async function handler(req, res) {
+  await twitterClient.v2.tweetThread();
 
-export default async function handler(req) {
+  return res.status(200).json({ message: 'OK' });
 }
