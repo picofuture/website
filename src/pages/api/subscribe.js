@@ -1,5 +1,6 @@
 import {supabase} from '@/lib/supabaseClient';
 import {buildResponse} from "@/lib/apiResponseBuilder";
+import {EMAIL_SUBSCRIPTIONS} from "@/lib/sharedConsts";
 
 export const config = {
   runtime: 'experimental-edge',
@@ -17,7 +18,7 @@ export default async function handler(req) {
       return buildResponse(null, 400, "Bad Request");
     }
 
-    const selectResponse = await supabase.from('email_subscriptions')
+    const selectResponse = await supabase.from(EMAIL_SUBSCRIPTIONS)
       .select('*')
       .eq('email', email);
 
@@ -28,7 +29,7 @@ export default async function handler(req) {
     const { data } = selectResponse;
 
     if (data.length === 0) {
-      const insertResponse = await supabase.from('email_subscriptions')
+      const insertResponse = await supabase.from(EMAIL_SUBSCRIPTIONS)
         .insert([{ email }]);
 
       if (insertResponse.error || insertResponse.status !== 201) {

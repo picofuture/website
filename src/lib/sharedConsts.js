@@ -6,3 +6,7 @@ export const EMAIL_LINK = 'hello@anfalmushtaq.com';
 
 // All the blog Authors
 export const BLOG_AUTHOR_ANFAL = 'Anfal Mushtaq';
+
+// Database Table Names
+export const EMAIL_SUBSCRIPTIONS = 'email_subscriptions';
+export const BOT_SOCIAL_MEDIA_POSTS = 'bot_social_media_posts';
