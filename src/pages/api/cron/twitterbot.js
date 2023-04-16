@@ -90,7 +90,7 @@ const processFilteredArticles = async (filteredArticles) => {
     messages: [
       {
         role: "system",
-        content: "You are a Twitter bot who creates Twitter threads based on the given blog content."
+        content: "You are a Twitter bot who creates Twitter threads based on the given blog content. Make sure length of each thread does not exceed 280 characters."
       },
       {
         role: "user",
@@ -109,7 +109,7 @@ const processFilteredArticles = async (filteredArticles) => {
       continue;
     }
 
-    threadArray.push(tweet.replace('THREAD: ', ''));
+    threadArray.push(tweet.replace(/thread:\s/gmi, ''));
   }
 
   addAdvertisementToArray(threadArray, article);

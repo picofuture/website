@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   const buffer = await response.buffer();
 
   // Create a temporary file on the server
-  const filePath = join(process.cwd(), resumeName);
+  const filePath = `/tmp/${resumeName}`;
   fs.writeFileSync(filePath, buffer);
 
   // Send the file as a response to the client
