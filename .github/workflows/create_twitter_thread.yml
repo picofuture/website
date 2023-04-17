@@ -20,4 +20,4 @@ jobs:
         run: npm install
 
       - name: Run Job
-        run: node src/actions/create-twitter-thread.js
+        run: node src/actions/create_twitter_thread.js
