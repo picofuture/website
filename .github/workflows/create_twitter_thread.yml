@@ -3,6 +3,7 @@ name: Create Twitter Thread
 on:
   schedule:
     - cron: '0 10 * * *' # 10 AM UTC
+  workflow_dispatch:
 
 jobs:
   create_twitter_thread:
