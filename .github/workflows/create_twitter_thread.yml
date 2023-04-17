@@ -1,8 +1,5 @@
 name: Create Twitter Thread
 
-env:
-  TEST: {{ secrets.TEST }}
-
 on:
   schedule:
     - cron: '0 10 * * *' # 10 AM UTC
@@ -24,3 +21,5 @@ jobs:
 
       - name: Run Job
         run: node src/actions/create_twitter_thread.js
+        env:
+          TEST: { { secrets.TEST } }
