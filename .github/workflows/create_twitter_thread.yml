@@ -20,6 +20,10 @@ jobs:
         run: npm install
 
       - name: Run Job
-        run: node src/actions/create_twitter_thread.js
+        run: node src/actions/create_twitter_thread.mjs
         env:
-          TEST: ${{ secrets.TEST1 }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          OPEN_AI_API_KEY: ${{ secrets.OPEN_AI_API_KEY }}
+          OPEN_AI_ORGANIZATION: ${{ secrets.OPEN_AI_ORGANIZATION }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

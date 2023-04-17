@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pull-env": "vercel env pull .env.local"
+    "pull-env": "vercel env pull .env.local",
+    "crate_twitter_thread_action": "export NODE_ENV=develop && node --experimental-modules --experimental-specifier-resolution=node src/actions/create_twitter_thread.mjs"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
@@ -37,6 +38,7 @@
     "twitter-api-v2": "^1.14.2"
   },
   "devDependencies": {
+    "dotenv": "^16.0.3",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.2",
     "prettier": "^2.8.7",
