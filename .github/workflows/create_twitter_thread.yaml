@@ -1,1 +1,24 @@
-name: Create Twitter Thread From Blog Article
+name: Create Twitter Thread
+
+on:
+  schedule:
+    - cron: '0 10 * * *' # 10 AM UTC
+
+jobs:
+  create_twitter_thread:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: latest
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Job
+        run: node src/actions/create-twitter-thread.js
