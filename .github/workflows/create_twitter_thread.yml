@@ -22,4 +22,4 @@ jobs:
       - name: Run Job
         run: node src/actions/create_twitter_thread.js
         env:
-          TEST: ${{ secrets.TEST }}
+          TEST: ${{ secrets.TEST1 }}
