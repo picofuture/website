@@ -1,5 +1,8 @@
 name: Create Twitter Thread
 
+env:
+  TEST: {{ secrets.TEST }}
+
 on:
   schedule:
     - cron: '0 10 * * *' # 10 AM UTC
