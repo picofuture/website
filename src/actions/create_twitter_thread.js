@@ -51,28 +51,23 @@ const updateArticleInDB = async (article, formattedContent) => {
   return !(updateResponse.error || (updateResponse.status >= 300 || updateResponse.status < 200));
 }
 
-const generatePrompt = (articleName, content) => {
-  return `
-  Create an engaging and detailed Twitter thread based on the blog content with the topic "${articleName}" given below.\n
-  Make sure to include relevant hashtags.\n
-  Separate each tweet with a delimiter ${DELIMITER}.\n
-  Convert markdown into regular text.\n
-  Make sure length of each thread does not exceed ${TWITTER_MAX_CHARS_PER_TWEET} characters.\n
-  Context: ${content}\n\n
-  `;
-}
-
-const generateThread = async (prompt) => {
+const generateThread = async (articleName, content) => {
   const response = await getOpenAIClient().createChatCompletion({
     model: "gpt-4",
     messages: [
       {
         role: "system",
-        content: "You are a Twitter bot who creates Twitter threads based on the given blog content."
+        content: `You are a social media manager who posts engaging tweets on Twitter.\n
+        Create an engaging but brief Twitter thread based on the topic "${articleName}" using the content I will provide you.\n
+        Do not include markdown.\n
+        Make sure to include relevant hashtags.\n
+        Separate each tweet with a delimiter ${DELIMITER}.\n
+        Absolutely make sure length of each tweet in the thread must not exceed ${TWITTER_MAX_CHARS_PER_TWEET} characters.\n
+        `
       },
       {
         role: "user",
-        content: prompt
+        content: content
       }
     ],
     temperature: 1,
@@ -109,9 +104,7 @@ const main = async () => {
     return;
   }
 
-  const formattedContent = generatePrompt(article.slug, article.raw_content);
-
-  const formattedResponse = await generateThread(formattedContent);
+  const formattedResponse = await generateThread(article.slug, article.raw_content);
 
   const formattedThreadArray = getFormattedThreadArray(formattedResponse, article);
 
