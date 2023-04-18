@@ -1,6 +1,10 @@
 {
   "crons": [
     {
+      "path": "/api/cron/twitterbot?key=9028c897-f96d-4348-8765-72cd7513292d",
+      "schedule": "0 09 * * *"
+    },
+    {
       "path": "/api/cron/twitterbot?key=1e0af629-963d-4ff1-a03f-761ba4b53d02",
       "schedule": "0 10 * * *"
     }
