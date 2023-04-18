@@ -48,7 +48,7 @@ const insertProcessedArticleInDB = async (article, rawContent) => {
 }
 
 export default async function handler(request, response) {
-  if (request.query.key !== process.env.TWITTER_BOT_CRON_JOB_KEY) {
+  if (request.query.key !== process.env.BLOG_ARTICLES_TABLE_UPDATE_CRON_JOB_KEY) {
     response.status(404).end();
     return;
   }
