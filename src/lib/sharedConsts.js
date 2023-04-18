@@ -9,4 +9,4 @@ export const BLOG_AUTHOR_ANFAL = 'Anfal Mushtaq';
 
 // Database Table Names
 export const EMAIL_SUBSCRIPTIONS = 'email_subscriptions';
-export const BOT_SOCIAL_MEDIA_POSTS = 'bot_social_media_posts';
+export const SOCIAL_MEDIA_BLOG_POSTS = 'social_media_blog_posts';

@@ -2,7 +2,7 @@ name: Create Twitter Thread
 
 on:
   schedule:
-    - cron: '0 10 * * *' # 10 AM UTC
+    - cron: '30 09 * * *' # 9:30 AM UTC
   workflow_dispatch:
 
 jobs:
@@ -22,4 +22,8 @@ jobs:
       - name: Run Job
         run: node src/actions/create_twitter_thread.js
         env:
-          TEST: ${{ secrets.TEST1 }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          OPEN_AI_API_KEY: ${{ secrets.OPEN_AI_API_KEY }}
+          OPEN_AI_ORGANIZATION: ${{ secrets.OPEN_AI_ORGANIZATION }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
