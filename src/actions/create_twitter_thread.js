@@ -31,7 +31,8 @@ const getArticleToProcess = async () => {
   const selectResponse = await getSupabaseClient()
     .from(SOCIAL_MEDIA_BLOG_POSTS)
     .select('*')
-    .eq('is_posted', 0);
+    .eq('is_posted', 0)
+    .eq('formatted_content', null);
 
   if (selectResponse.error || selectResponse.status !== 200) {
     return null;
