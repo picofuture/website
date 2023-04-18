@@ -16,6 +16,15 @@ const getFormattedArticleContent = async () => {
   return selectResponse.data[0];
 }
 
+const updateArticleIsPostedInDB = async (article) => {
+  const updateResponse = await supabase
+    .from(SOCIAL_MEDIA_BLOG_POSTS)
+    .update({ is_posted: 1 })
+    .eq('id', article.id);
+
+  return !(updateResponse.error || (updateResponse.status >= 300 || updateResponse.status < 200));
+}
+
 export default async function handler(request, response) {
   if (request.query.key !== process.env.TWITTER_BOT_CRON_JOB_KEY) {
     response.status(404).end();
@@ -24,9 +33,14 @@ export default async function handler(request, response) {
 
   const dbRecord = await getFormattedArticleContent();
 
-  console.log(dbRecord);
+  if (!dbRecord) {
+    response.status(200).json({ success: false });
+    return;
+  }
 
-  // await tweetThread(threadArray);
+  await tweetThread(dbRecord.formatted_content);
+
+  await updateArticleIsPostedInDB(dbRecord);
 
   response.status(200).json({ success: true });
 }
