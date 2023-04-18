@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/cron/twitterbot?key=9028c897-f96d-4348-8765-72cd7513292d",
+      "path": "/api/cron/blog-articles-table-update?key=9028c897-f96d-4348-8765-72cd7513292d",
       "schedule": "0 09 * * *"
     },
     {
