@@ -10,6 +10,7 @@ if (process.env.NODE_ENV === 'develop') {
 
 const SOCIAL_MEDIA_BLOG_POSTS = 'social_media_blog_posts';
 const DELIMITER = '[,]';
+const TWITTER_MAX_CHARS_PER_TWEET = 280;
 
 const getSupabaseClient = () => {
   return createClient(
@@ -32,7 +33,7 @@ const getArticleToProcess = async () => {
     .from(SOCIAL_MEDIA_BLOG_POSTS)
     .select('*')
     .eq('is_posted', 0)
-    .eq('formatted_content', null);
+    .is('formatted_content', null)
 
   if (selectResponse.error || selectResponse.status !== 200) {
     return null;
@@ -56,6 +57,7 @@ const generatePrompt = (articleName, content) => {
   Make sure to include relevant hashtags.\n
   Separate each tweet with a delimiter ${DELIMITER}.\n
   Convert markdown into regular text.\n
+  Make sure length of each thread does not exceed ${TWITTER_MAX_CHARS_PER_TWEET} characters.\n
   Context: ${content}\n\n
   `;
 }
@@ -66,7 +68,7 @@ const generateThread = async (prompt) => {
     messages: [
       {
         role: "system",
-        content: "You are a Twitter bot who creates Twitter threads based on the given blog content. Make sure length of each thread does not exceed 280 characters."
+        content: "You are a Twitter bot who creates Twitter threads based on the given blog content."
       },
       {
         role: "user",
