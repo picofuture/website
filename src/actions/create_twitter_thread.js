@@ -46,7 +46,7 @@ const updateArticleInDB = async (article, formattedContent) => {
     .update({ formatted_content: formattedContent })
     .eq('id', article.id);
 
-  return !(updateResponse.error || updateResponse.status !== 200);
+  return !(updateResponse.error || (updateResponse.status >= 300 || updateResponse.status < 200));
 }
 
 const generatePrompt = (articleName, content) => {
@@ -101,15 +101,20 @@ const main = async () => {
 
   const article = await getArticleToProcess();
 
+  if (!article) {
+    console.log('No article to process');
+    return;
+  }
+
   const formattedContent = generatePrompt(article.slug, article.raw_content);
 
-  let formattedResponse = await generateThread(formattedContent);
+  const formattedResponse = await generateThread(formattedContent);
 
   const formattedThreadArray = getFormattedThreadArray(formattedResponse, article);
 
   const updateResult = await updateArticleInDB(article, formattedThreadArray);
 
-  console.log('Updated article in DB ', updateResult ? 'successfully' : 'unsuccessfully');
+  console.log('Updated article in DB', updateResult ? 'successfully' : 'unsuccessfully');
 }
 
 main();
