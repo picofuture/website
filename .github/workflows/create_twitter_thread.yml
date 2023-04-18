@@ -20,7 +20,7 @@ jobs:
         run: npm install
 
       - name: Run Job
-        run: node src/actions/create_twitter_thread.js
+        run: npm run cttp
         env:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
