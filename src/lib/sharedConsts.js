@@ -1,3 +1,4 @@
+export const TWITTER_USERNAME = '@AnfalMushtaq';
 export const TWITTER_LINK = 'https://twitter.com/AnfalMushtaq';
 export const INSTAGRAM_LINK = 'https://www.instagram.com/m_anfal/';
 export const GITHUB_LINK = 'https://github.com/MAnfal';

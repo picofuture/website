@@ -5,6 +5,7 @@ import { Container } from '@/components/Container'
 import { Prose } from '@/components/Prose'
 import { formatDate } from '@/lib/formatDate'
 import {formatCDNURl} from "@/lib/cloudflareImageLoader";
+import {TWITTER_USERNAME} from "@/lib/sharedConsts";
 
 function ArrowLeftIcon(props) {
   return (
@@ -56,6 +57,7 @@ export function ArticleLayout({
         <meta name="twitter:image" content={metaPageImage} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image:alt" content={metaDescription} />
+        <meta name="twitter:creator" content={TWITTER_USERNAME} />
       </Head>
       <Container className="mt-16 lg:mt-32">
         <div className="xl:relative">
