@@ -8,17 +8,32 @@ export const meta = {
   date: '2023-04-20',
   title: 'Can Humans Stay Relevant?',
   description: 'In this age when AI is exponentially growing and poses some serious questions. Is it possible for humans to stay relevant?',
-  draft: true,
+  draft: false,
 }
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<BlogImage src="blog/2023-04-08-is-ai-going-to-make-humans-obsolete/robot-takingover-humans.jpg" alt="Robot taking over humans." />
+<BlogImage src="blog/2023-04-08-is-ai-going-to-make-humans-obsolete/robot-takingover-humans-big.jpg" alt="Robot taking over humans." />
 
 ## Before we start
 Before we dive deep into my thought process, I would like to mention one very important thing here. I am in no way
 an expert. I don't even claim to be one. I am just a curious person who is trying to understand the current progress
 and how it will affect our future. And to question whether AI can really become as smart as a human and whether it will make us obsolete?
+
+## Why is it even a question?
+We are living in an exciting time. The progress in AI is exponential. It's implications, and the signs it's showing warrant this question
+now more than ever. We do not completely understand the technology. We do understand that if a model is trained on a large enough dataset,
+using the transformer model, it starts to show signs of intelligence. But to which level? and how will this impact us is a big question.
+
+In the research paper [GLU Variants Improve Transformer](https://arxiv.org/abs/2002.05202). It has been mentioned that.
+
+> We have extended the GLU family of layers and proposed their use in Transformer. In a transfer-learning
+setup, the new variants seem to produce better perplexities for the de-noising objective used in pre-training,
+as well as better results on many downstream language-understanding tasks. These architectures are simple
+to implement, and have no apparent computational drawbacks. We offer no explanation as to why these
+architectures seem to work; we attribute their success, as all else, to divine benevolence.
+
+Given all the surrounding evidence, I don't think this question is without merit.
 
 ## What is human intelligence?
 According to [Encyclopedia Britannica](https://www.britannica.com/science/human-intelligence-psychology)
@@ -29,7 +44,7 @@ In my opinion, it won't be objectionable if we also include creativity in this d
 
 ## Mapping Human Intelligence to AI Models: Large Language Models (LLMs)
 If we just limit the definition of human intelligence to learning from experience, adapting to new situations, understanding and handling abstract concepts, and using knowledge to manipulate one’s environment.
-Then it's safe to say that current Large Language Models are either showing sparks of this level of intelligence or are already there.
+Then it's safe to say that current LLMs are either showing sparks of this level of intelligence or are already there.
 
 ### Learn from experience
 In the following video, you can clearly see that [GPT-4](https://openai.com/research/gpt-4) is very much capable of self-reflection and learning from experience.
@@ -74,15 +89,16 @@ The main bottleneck discussed here is its inability to keep itself up to date. T
 September 2021. Anything that happens after that will not be known to [GPT-4](https://openai.com/research/gpt-4) unless it is retrained.
 
 To solve this problem, Open AI recently announced [plugins](https://openai.com/blog/chatgpt-plugins) that can
-help keep the main Large Language Model up-to-date.
+help keep the main LLM up-to-date.
 
-## How can we differentiate ourselves from Large Language Models?
-Given the information above, one must question. How can we differentiate ourselves from Large Language Models? What is that one thing that we can
-do and Large Language Models can't? is it even possible to keep the unique value humans present? or will we become obsolete?
+## How can we differentiate ourselves from LLMs?
+Given the information above, one must question. How can we differentiate ourselves from LLMs? What is that one thing that we can
+do and LLMs can't? is it even possible to keep the unique value humans present? or will we become obsolete?
 
 It's not just a matter of one person asking this question. There are thousands and thousands of people asking about it. Even the experts
-who are actively working are aware of this problem and I have to say, this does raise an existential crisis for us. Even I as a developer,
-whose entire job is built on top of knowledge work ask myself this question every day. And that's why I would like to give my 2 cents here.
+who are actively working are aware of this problem and I have to say, this does raise an existential crisis for us.
+
+Even I as a developer, whose entire job is built on top of knowledge work ask myself this question every day. And that's why I would like to give my 2 cents here.
 
 ### Creativity
 I believe the only way for us to distinguish ourselves moving forward is to introduce creativity in society. Many educational institutes
@@ -99,7 +115,7 @@ competitions.
 
 <BlogYoutubeVideoEmbed src="A3IUWnQ9SiE" />
 
-Then how can I definitely say that creativity is the only thing that can differentiate us from Large Language Models?
+Then how can I definitely say that creativity is the only thing that can differentiate us from LLMs?
 
 Well, to be honest, I can't. I am trying to make sense of all of it but what I can deduce from our history of evolution is our
 natural tendency to adapt to new situations to survive. I think that it is our best course of action. Given any non-creative job
