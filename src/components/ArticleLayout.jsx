@@ -52,6 +52,7 @@ export function ArticleLayout({
 
         <meta name="twitter:title" content={metaTitle} />
         <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:url" content={metaURL} />
         <meta name="twitter:image" content={metaPageImage} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image:alt" content={metaDescription} />
