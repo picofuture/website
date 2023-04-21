@@ -1,0 +1,114 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+import BlogYoutubeVideoEmbed from "@/components/blog-components/BlogYoutubeVideoEmbed";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2023-04-20',
+  title: 'Can Humans Stay Relevant?',
+  description: 'In this age when AI is exponentially growing and poses some serious questions. Is it possible for humans to stay relevant?',
+  draft: true,
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage src="blog/2023-04-08-is-ai-going-to-make-humans-obsolete/robot-takingover-humans.jpg" alt="Robot taking over humans." />
+
+## Before we start
+Before we dive deep into my thought process, I would like to mention one very important thing here. I am in no way
+an expert. I don't even claim to be one. I am just a curious person who is trying to understand the current progress
+and how it will affect our future. And to question whether AI can really become as smart as a human where we become obsolete?
+
+## What is human intelligence?
+According to [Encyclopedia Britannica](https://www.britannica.com/science/human-intelligence-psychology)
+
+> human intelligence, mental quality that consists of the abilities to learn from experience, adapt to new situations, understand and handle abstract concepts, and use knowledge to manipulate one’s environment.
+
+In my opinion it won't be objectionable if we also include creativity in this definition. After all, that is part of our identity.
+
+## Can we map the above definition to an AI model? more specifically an LLM?
+If we just limit the definition of human intelligence to learn from experience, adapt to new situations, understand and handle abstract concepts, and use knowledge to manipulate one’s environment.
+Then it's safe to say that current LLM's are either showing sparks of this level of intelligence or are already there.
+
+### Learn from experience
+In the following video, you can clearly see that GPT-4 is very much capable of self-reflection and learn from experience.
+
+<BlogYoutubeVideoEmbed src="5SgJKZLBrmg" />
+
+### Understand and handle abstract concepts
+In the research paper [Sparks Of AGI: Early Experiments With GPT-4](https://arxiv.org/pdf/2303.12712.pdf), it has been clearly stated that GPT-4 is quite
+capable of handling abstract ideas.
+
+> We have also shown that GPT-4 is able to handle abstract and novel situations that
+are not likely to have been seen during training, such as the modernized Sally-Anne test and the ZURFIN
+scenario. Our findings suggest that GPT-4 has a very advanced level of theory of mind.
+
+You can also watch a high level overview of the research paper above in the video below.
+
+<BlogYoutubeVideoEmbed src="Mqg3aTGNxZ0" />
+
+### Adapt to new situations
+While GPT-4 does not specifically excel in this department, it certainly can do a well enough job with some surrogate help (e.g. from a human).
+
+The following 2 quotes are taken from the same paper [Sparks Of AGI: Early Experiments With GPT-4](https://arxiv.org/pdf/2303.12712.pdf).
+
+> While it is clearly not embodied, the examples above illustrate that language is a powerful interface, allowing
+GPT-4 to perform tasks that require understanding the environment, the task, the actions, and the feedback,
+and adapting accordingly. While it cannot actually see or perform actions, it can do so via a surrogate (e.g., a
+human). Having said this, we acknowledge the limitation that we only tested GPT-4 on a limited number of
+games and real-world problems, and thus cannot draw general conclusions about its performance on different
+types of environments or tasks. A more systematic evaluation would require a larger and more diverse set of
+real world problems where GPT-4 was actually used in real-time, rather than retrospectively.
+
+And
+
+> Continual learning: The model lacks the ability to update itself or adapt to a changing environment.
+The model is fixed once it is trained, and there is no mechanism for incorporating new information
+or feedback from the user or the world. One can fine-tune the model on new data, but this can cause
+degradation of performance or overfitting. Given the potential lag between cycles of training, the system
+will often be out of date when it comes to events, information, and knowledge that came into being after
+the latest cycle of training.
+
+The main bottleneck discussed here is its inability to keep itself up to date. The current cut-off date for GPT-4 is
+September 2021. Anything that happens after that will not be known to GPT-4 unless it is retrained.
+
+To solve this problem, Open AI recently announced about [plugins](https://openai.com/blog/chatgpt-plugins) that can certainly
+help keep the main LLM up-to-date.
+
+## How can we differentiate ourselves from LLM's?
+Given the information above, one must question. How can we differentiate ourselves from LLM's? What is that one thing that we can
+do and LLMs can't? is it even possible to keep the unique value humans present? or will we become obsolete?
+
+It's not just a matter of one person asking this question. There are thousands and thousands of people asking it. Even the experts
+who are actively working are aware of this problem and I have to say, this does raise an existential crisis for us. Even I as a developer,
+whose entire job is built on top of knowledge work ask myself this question every day. And that's why I would like to give my 2 cents here.
+
+### Creativity
+I believe the only way for us to distinguish ourselves moving forward is to introduce creativity in the society. Many educational institutes
+focus more on children's ability to memorize things rather than their ability to think creatively. This is a huge problem. LLMs are already very good at this task.
+They have literally consumed majority of the text on the public web. You can never compete with that.
+
+Think about it. Did you ever consume the entire internet worth of content to get to the position you are today? the answer is clearly no.
+
+Sam Altman, the president of Open AI, has also [mentioned](https://techcrunch.com/2023/04/14/sam-altman-size-of-llms-wont-matter-as-much-moving-forward/) that parameter count doesn't really matter.
+In layman's terms, parameter count is a representation of how much data is out there. Instead, the main determinant of how smart an LLM is going to be is the quality of data.
+
+Even [Alpaca](https://crfm.stanford.edu/2023/03/13/alpaca.html) boasts GPT-3 level of performance while being surprisingly smaller in parameter size.
+
+This statement directly matches with my deduction that human intelligence cannot be defined what how much data we consume but how creative we are.
+
+## Conclusion
+I firmly believe that a future where we as humans don't feel obsolete is only possible if we focus on nurturing creativity. Make it a priority
+for children and focus less on repetitive tasks. Computers are excellent at automating repetitive tasks, and it's going to only become better
+in the future.
+
+Professors from stanford believe this exact thing as well. In order to for us to survive this AI revolution, we need to augment ourselves with it's
+capabilities. Use it to our advantage. Be the creative brain that this incredibly powerful beast requires.
+
+<BlogYoutubeVideoEmbed src="oak1CqqIzug" />
+
+If we are going to continue down this path of following the trends, using herd mentality and using less and less creativity, then we are going to
+be replaced. No doubts about it. Evolution agrees with me on this as well. We evolved into this technical age over time. We built our intuitions,
+instincts and creativity over time. A cave man could never survive in this day and age. We need to stop being the cave man of 21st century and start
+adapting.
