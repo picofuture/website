@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { Container } from '@/components/Container'
 import { Prose } from '@/components/Prose'
 import { formatDate } from '@/lib/formatDate'
+import {formatCDNURl} from "@/lib/cloudflareImageLoader";
 
 function ArrowLeftIcon(props) {
   return (
@@ -24,7 +25,13 @@ export function ArticleLayout({
   isRssFeed = false,
   previousPathname,
 }) {
-  let router = useRouter()
+  let router = useRouter();
+
+  const metaTitle = meta.title;
+  const metaURL = `${process.env.NEXT_PUBLIC_SITE_URL}/articles/${meta.slug}`;
+  const metaDescription = meta.description;
+  const metaPageImage = formatCDNURl(meta.image);
+
 
   if (isRssFeed) {
     return children
@@ -33,8 +40,21 @@ export function ArticleLayout({
   return (
     <>
       <Head>
-        <title>{`${meta.title} - Anfal Mushtaq`}</title>
-        <meta name="description" content={meta.description} />
+        <title>{`${metaTitle} | Anfal Mushtaq`}</title>
+        <meta name="description" content={metaDescription} />
+
+        <meta property="og:title" content={metaTitle} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={metaURL} />
+        <meta property="og:image" content={metaPageImage} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:site_name" content={metaTitle} />
+
+        <meta name="twitter:title" content={metaTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={metaPageImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image:alt" content={metaDescription} />
       </Head>
       <Container className="mt-16 lg:mt-32">
         <div className="xl:relative">
