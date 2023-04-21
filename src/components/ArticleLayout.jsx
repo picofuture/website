@@ -44,6 +44,10 @@ export function ArticleLayout({
         <title>{`${metaTitle} | Anfal Mushtaq`}</title>
         <meta name="description" content={metaDescription} />
 
+        <meta name="author" content="Anfal Mushtaq" />
+
+        <meta property="article:published_time" content={meta.date} />
+
         <meta property="og:title" content={metaTitle} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={metaURL} />
