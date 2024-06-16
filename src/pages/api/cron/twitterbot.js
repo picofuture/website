@@ -26,21 +26,21 @@ const updateArticleIsPostedInDB = async (article) => {
 }
 
 export default async function handler(request, response) {
-  if (request.query.key !== process.env.TWITTER_BOT_CRON_JOB_KEY) {
-    response.status(404).end();
-    return;
-  }
-
-  const dbRecord = await getFormattedArticleContent();
-
-  if (!dbRecord) {
-    response.status(200).json({ success: false });
-    return;
-  }
-
-  await tweetThread(dbRecord.formatted_content);
-
-  await updateArticleIsPostedInDB(dbRecord);
-
-  response.status(200).json({ success: true });
+  // if (request.query.key !== process.env.TWITTER_BOT_CRON_JOB_KEY) {
+  //   response.status(404).end();
+  //   return;
+  // }
+  //
+  // const dbRecord = await getFormattedArticleContent();
+  //
+  // if (!dbRecord) {
+  //   response.status(200).json({ success: false });
+  //   return;
+  // }
+  //
+  // await tweetThread(dbRecord.formatted_content);
+  //
+  // await updateArticleIsPostedInDB(dbRecord);
+  //
+  // response.status(200).json({ success: true });
 }

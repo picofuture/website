@@ -48,29 +48,29 @@ const insertProcessedArticleInDB = async (article, rawContent) => {
 }
 
 export default async function handler(request, response) {
-  if (request.query.key !== process.env.BLOG_ARTICLES_TABLE_UPDATE_CRON_JOB_KEY) {
-    response.status(404).end();
-    return;
-  }
-
-  const filteredArticles = await getFilteredArticles();
-
-  if (!filteredArticles) {
-    response.status(200).json({ success: false });
-    return;
-  }
-
-  // We will only deal with 1 article at a time.
-  const article = filteredArticles[0];
-
-  const rawFileContent = readRawFileContent(article.slug);
-
-  const insertResponse = await insertProcessedArticleInDB(article, rawFileContent);
-
-  if (!insertResponse) {
-    response.status(200).json({ success: false });
-    return;
-  }
-
-  response.status(200).json({ success: true });
+  // if (request.query.key !== process.env.BLOG_ARTICLES_TABLE_UPDATE_CRON_JOB_KEY) {
+  //   response.status(404).end();
+  //   return;
+  // }
+  //
+  // const filteredArticles = await getFilteredArticles();
+  //
+  // if (!filteredArticles) {
+  //   response.status(200).json({ success: false });
+  //   return;
+  // }
+  //
+  // // We will only deal with 1 article at a time.
+  // const article = filteredArticles[0];
+  //
+  // const rawFileContent = readRawFileContent(article.slug);
+  //
+  // const insertResponse = await insertProcessedArticleInDB(article, rawFileContent);
+  //
+  // if (!insertResponse) {
+  //   response.status(200).json({ success: false });
+  //   return;
+  // }
+  //
+  // response.status(200).json({ success: true });
 }
