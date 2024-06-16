@@ -186,14 +186,21 @@ function Newsletter() {
 function Resume() {
   let resume = [
     {
-      company: 'Logitech',
-      title: 'Principal Software Engineer',
-      logo: formatCDNURl('logos/logitech.svg'),
-      start: '2021',
+      company: 'Durable',
+      title: 'Engineering Lead',
+      logo: formatCDNURl('logos/durable-logo.svg'),
+      start: '2023',
       end: {
         label: 'Present',
         dateTime: new Date().getFullYear(),
       },
+    },
+    {
+      company: 'Logitech',
+      title: 'Principal Software Engineer',
+      logo: formatCDNURl('logos/logitech.svg'),
+      start: '2021',
+      end: '2023'
     },
     {
       company: 'Logitech',

@@ -95,22 +95,22 @@ const getFormattedThreadArray = (gptResponse, article) => {
 }
 
 const main = async () => {
-  console.log('Starting the Twitter Bot');
-
-  const article = await getArticleToProcess();
-
-  if (!article) {
-    console.log('No article to process');
-    return;
-  }
-
-  const formattedResponse = await generateThread(article.slug, article.raw_content);
-
-  const formattedThreadArray = getFormattedThreadArray(formattedResponse, article);
-
-  const updateResult = await updateArticleInDB(article, formattedThreadArray);
-
-  console.log('Updated article in DB', updateResult ? 'successfully' : 'unsuccessfully');
+  // console.log('Starting the Twitter Bot');
+  //
+  // const article = await getArticleToProcess();
+  //
+  // if (!article) {
+  //   console.log('No article to process');
+  //   return;
+  // }
+  //
+  // const formattedResponse = await generateThread(article.slug, article.raw_content);
+  //
+  // const formattedThreadArray = getFormattedThreadArray(formattedResponse, article);
+  //
+  // const updateResult = await updateArticleInDB(article, formattedThreadArray);
+  //
+  // console.log('Updated article in DB', updateResult ? 'successfully' : 'unsuccessfully');
 }
 
 main();
