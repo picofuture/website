@@ -5,7 +5,7 @@ function RobotsTxt() {
 export async function getServerSideProps({ res }) {
     res.setHeader('Content-Type', 'text/plain');
     // we send the XML to the browser
-    res.write(`User-agent: *\nDisallow: /`);
+    res.write(`User-agent: *\nAllow: /`);
     res.end();
 
     return {
