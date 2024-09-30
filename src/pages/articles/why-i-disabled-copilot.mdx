@@ -1,0 +1,49 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+
+export const meta = {
+    author: BLOG_AUTHOR_ANFAL,
+    date: '2024-09-29',
+    title: 'Why I have disabled Github copilot',
+    description: 'An in-depth look at why I have disabled Github copilot',
+    slug: 'why-i-disabled-copilot',
+    image: "blog/2024-09-29-why-i-have-disabled-copilot/no-copilot.png"
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage src='blog/2024-09-29-why-i-have-disabled-copilot/no-copilot.png' alt="Disabled Github copilot" />
+
+## Why I Partially Disabled Copilot
+I have to confess. I have not disabled the copilot completely. I have reassigned it to a specific keybinding in my editor. This will allow me to still leverage the copilot, but I will deliberately choose to use it instead of getting its automatic suggestions all the time.
+
+## Why Did I Do It?
+I have been using Copilot for over a year now. Don't get me wrong; I recognize its utility. It has helped me write code faster and saved me a lot of time.
+
+But I have noticed that it has made me lazy. I have stopped thinking deeply about the code I am writing. I know what's been written, and I understand the logic behind it, but if you have tried writing code, you will understand that every keystroke matters.
+As a developer, it is my job to think deeply and make deliberate choices when writing code.
+
+Every excellent developer I’ve met during my professional experience has one thing in common: They think deeply about the code they write and understand what it does.
+It's like comparing a developer who only learned one framework of a specific language to a developer who knows the language inside out and can create a complicated and scalable system from scratch.
+
+The latter is more likely to be a stronger developer. I would compare this to the difference between a technician and an engineer. There is nothing wrong with being a technician, and if that's what you want, go for it. But I see myself as an engineer, not just a technician.
+
+I want to be the latter. If Copilot had done everything for me, I would never have learned anything new, and my abilities would have stagnated and deteriorated over time.
+It's a well-known phenomenon in cognitive science that humans tend to forget skills or knowledge they don't regularly use, often called "decay theory."
+Just as muscles weaken without exercise, cognitive skills like analytical and algorithmic thinking require continuous practice to stay sharp.
+Regular reinforcement is necessary to prevent these abilities from fading and to maintain high-level performance.
+
+Furthermore, I am looking to massively upscale my engineering skills, i.e. coding, system design and behavioural skills.
+One essential skill for becoming a better developer is being able to solve problems by putting algorithms on a whiteboard, without relying on type checks, error lookups, or intellisense.
+It's pure, deep analytical thinking with a pinch of dry-running capability.
+
+Why it's essential to learn how to put an algorithm on a whiteboard is an entirely different topic, so I'll digress from that for now.
+Just understand that my goal is to have a command of one programming language as I do of my native human language.
+I should be able to use it with extreme precision, without relying on a "tutor" correcting me or giving me hints every two seconds (I have chosen Python, by the way).
+
+## Why not disable it altogether?
+I have considered it, but I have decided to keep it around. It's a great tool when doing a repetitive task like creating data—it's an automation tool, after all. But I will use it deliberately and not let it take over my thought process.
+The goal is to look at the suggestions, understand why it's suggesting that, and then implement every line of code myself.
+
+This way, I will still be able to leverage the copilot's suggestions and keep my analytical thinking sharp. Each time I use it, it will be a deliberate, conscious choice.
