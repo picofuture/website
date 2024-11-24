@@ -1,0 +1,361 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+
+export const meta = {
+    author: BLOG_AUTHOR_ANFAL,
+    date: '2024-11-23',
+    title: 'A Practical Guide to System Design Thinking',
+    description: 'Learn system design through the lens of a lead engineer - from problem analysis to implementation.',
+    slug: 'a-practical-guide-to-system-design-thinking',
+    image: "blog/2024-11-23-practical-guide-to-system-design-thinking/practical-guide-to-system-design.jpg"
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage
+    src='blog/2024-11-23-practical-guide-to-system-design-thinking/practical-guide-to-system-design.jpg'
+    alt="A Practical Guide to System Design Thinking" />
+
+## Not Your Traditional System Design Blog
+I'll be honest - there are tons of system design resources out there. That's not what we're doing today.
+Instead, I want to share how I think about system design - the mental model I've developed from building startups from scratch and scaling systems at enterprises.
+
+Don't worry, it's not just theory. I've included detailed resources from an actual system design case study that I recently did to show these principles in action.
+
+## A Quick Disclaimer
+Rather than preaching a fixed method, I want to encourage critical thinking. I'm constantly evolving my approach, and I hope you'll do the same.
+Take my methods with a grain of salt, understand them, and improve upon them.
+If you discover something interesting along the way, shoot me an email at hello@anfalmushtaq.com. Let's keep this fountain of knowledge flowing.
+
+## Setting the Stage
+Before we dive in, let's get one thing straight: technology decisions should always follow stakeholder needs, not lead them.
+Yes, you'll drive the technical choices, but they should be rooted in actual problems we're trying to solve.
+
+Let's see this approach in action by designing a real system.
+
+## Define the Problem
+Let's start with our goal: design a sales forecasting system that helps customers see their sales forecast on weekly, monthly, and yearly bases. The service needs to be highly available, accurate, and consistent.
+
+That's it - that's all we know. I've intentionally kept this vague to show you how to approach system design when requirements aren't crystal clear.
+
+## Starting with Why
+Before jumping into how to build it, let's ask the most important question: why do our stakeholders need this? We're qualified enough to design this system, so we should be critical enough to validate its value.
+
+Here's a principle I always remember: If you asked a businessman 100 years ago what they wanted, they'd probably say "a faster horse." As problem solvers, it's our job to recognize that what they really need is a car.
+
+For our sales forecasting system, here's why it matters:
+- Help businesses forecast future sales
+- Enable understanding of customer spending patterns
+- Support informed inventory decisions
+- Guide budget planning based on predicted revenue
+
+## Technical Analysis
+Let's get specific about what we're building. This isn't theoretical - in a real scenario, these numbers would come from your company's data. For now, I'm making informed assumptions.
+
+We're looking at:
+- A time-series ML model resistant to overfitting and vanishing gradients
+- ~250 million daily records (I'll share the napkin math shortly)
+- 7 years of data retention for compliance
+- High availability with strong consistency (yes, we'll tackle the CAP theorem trade-offs)
+- 7% YoY growth, leading to terabytes of data
+
+All of this will run on AWS - not because it's the only choice, but because it offers the complete solution we need for this case study.
+
+## Requirements Breakdown
+Let's break this into clear, actionable requirements. I'm dividing these into functional and non-functional requirements because these will drive our technical decisions.
+
+### Functional Requirements
+Straightforward stuff - our system needs to:
+- Show sales predictions by product category
+- Support different time frames (week/month/year)
+
+### Non-functional Requirements
+Here's where it gets interesting:
+
+1. Performance
+    - Handle 2,800+ writes/second (normal)
+    - Scale to 14,000+ writes/second (peak)
+    - Keep prediction response time under 100ms
+
+2. High Availability
+    - 99.99% uptime
+    - Multi-region deployment
+    - Automated failover mechanisms
+
+3. Consistency
+    - Strong consistency for sales data
+    - Eventual consistency for ML models
+    - Cross-region data sync
+
+4. Accuracy & Quality
+    - 90%+ prediction accuracy
+    - Data quality validation in pipeline
+    - Model performance monitoring
+
+5. Scalability
+    - Support 5M MAU, 500K DAU with 7% YoY growth
+    - Handle 365TB before archival
+    - Maintain 7 years of cold storage
+
+### Special Considerations
+Here's a crucial point that's easy to miss: new businesses won't have historical data. Our ML model typically needs 3 years of data to identify patterns effectively.
+We'll need an alternative strategy for these new users - something we'll address in our design.
+
+## The Math Behind It
+You might wonder why we're doing math before architecture. Here's why: these calculations drive everything from capacity planning to cost estimates.
+They help us make informed decisions about infrastructure choices and validate our architecture can handle real-world load.
+
+Let's break down our assumptions and calculations. I've documented my detailed napkin math <a href="https://docs.google.com/spreadsheets/d/1lLUAAIMQCw2c60i49MN3cSfZBSAEua_9Fndl9a4Urtc/edit?usp=sharing" target="_blank">here</a>.
+In a real-world scenario, you'd get these numbers from your analytics team, but for our case study, I've researched industry standards to make realistic assumptions.
+
+## Understanding User Interactions
+Before diving into the technical architecture, we need to understand how different users will interact with our system.
+I've created a use-case <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/use-case-diagram.svg" target="blank">diagram</a> that maps out these interactions.
+This diagram isn't just for documentation - it helps us validate that our technical requirements align with actual user needs and ensures we're not over-engineering or missing critical functionality.
+
+## Data Model Design
+Before diving into architecture, let's understand our data model. While we'll use DynamoDB for hot storage, let's first look at the logical relationships between our entities: <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/erd-2.svg" target="_blank">view diagram</a>.
+
+### Logical Relationships
+- Business to Categories (1:N): Each business can have multiple product categories
+- Sales Records: Track transactions with necessary metadata
+- ML-specific entities: Track model versions and performance metrics
+
+### DynamoDB Implementation
+In DynamoDB, we denormalize these relationships for performance and durability. Here's how:
+
+1. Sales Records Table
+    - Partition Key: `business_id`
+    - Sort Key: `timestamp`
+    - Global Secondary Index on `category_id` and `timestamp` for category-specific queries
+    - Instead of foreign keys, we replicate essential product data:
+    - Product name, category, price at time of sale
+    - Protects against data loss if product is deleted
+    - Preserves historical accuracy of sales records
+
+2. Products Table
+    - Partition Key: `business_id`
+    - Sort Key: `product_id`
+    - Maintains current product catalog
+    - Changes don't affect historical sales data
+
+3. Business Metadata Table
+    - Partition Key: `business_id`
+    - Contains business details and active categories
+
+4. ML Model Tables
+    - Separate tables for model versions and metrics
+    - Keeps ML operations isolated from transactional data
+
+This denormalized structure provides:
+- Sub-millisecond query performance for recent sales
+- Data durability (no broken foreign key references)
+- Historical accuracy for sales analysis
+- Efficient category-based querying for ML features
+
+Understanding these relationships helps us make better decisions about:
+- Data integrity in our application layer
+- Feature engineering for ML
+- Data archival strategy in S3
+
+## System Architecture Deep Dive
+Let's get into the meat of our design. I've created a high-level architecture diagram that you can find <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/high-level-architecture.svg" target="_blank">here</a>. Don't get overwhelmed - we'll break it down piece by piece.
+
+### Technology Choices
+We chose AWS/DynamoDB/SageMaker because:
+- Complete solution for our needs
+- Strong ML integration
+- Global presence for multi-region
+- Managed services reduce operational overhead
+
+Alternative stacks considered:
+- GCP: Good ML capabilities but more complex setup
+- Azure: Strong in ML but less mature in NoSQL offerings
+
+## Storage Strategy
+Let's start with how we handle data - it's the foundation of our system.
+
+### Hot Storage (First 90 Days)
+- Using DynamoDB for recent data with strong consistency
+- Handling ~2.9K sales/hour normally, scaling to ~15K during peaks
+- Why DynamoDB? It gives us the strong consistency we need for sales data
+- 90-day TTL to optimize costs (DynamoDB is expensive!)
+
+### Data Archival (90+ Days)
+- DynamoDB Streams trigger archival process through Kinesis
+- Data moves to S3 with lifecycle policies:
+ - S3 Standard (90 days - 6 months)
+ - S3 IA (6 months - 18 months)
+ - Glacier (18 months - 7 years)
+
+If you're interested in the technical details of this archival process, check out AWS's guide <a href="https://aws.amazon.com/blogs/database/archive-data-from-amazon-dynamodb-to-amazon-s3-using-ttl-and-amazon-kinesis-integration/" target="_blank">here</a>.
+
+## ML Pipeline: The Brain
+Here's where it gets interesting. After evaluating several options, I chose Amazon's <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/deepar.html" target="_blank">DeepAR model</a> on SageMaker for our time-series forecasting. SageMaker was the natural choice given our AWS stack and need for scalability. The DeepAR model handles:
+- Rolling window training with 3-year context
+- Seasonal patterns (think Black Friday, holidays)
+- Multiple time series (different businesses/categories)
+
+We retrain our models weekly to maintain prediction accuracy, with continuous monitoring for performance degradation. I've documented the complete training flow in this sequence <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/ml-training-sequence-diagram-3.svg" target="_blank">diagram</a>.
+
+### Handling New Businesses
+Remember our earlier challenge with new businesses? Here's how we solve it:
+1. Business Size Bucketing: Group similar businesses together
+2. Aggregate predictions based on bucket patterns
+3. Fallback to naive forecasting (weekly averages) for very new businesses
+
+For hands-on implementation details, check out this DeepAR tutorial <a href="https://sagemaker-examples.readthedocs.io/en/latest/introduction_to_amazon_algorithms/deepar_electricity/DeepAR-Electricity.html" target="_blank">here</a>.
+
+## Data Flow
+To tie it all together, I've created a detailed data flow <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/data-flow-diagram.svg" target="_blank">diagram</a>. Pay special attention to how data moves through different storage tiers and how the ML pipeline interacts with our archival system. This visualization shows the complete journey from initial sale to final prediction.
+
+## Security & Compliance Considerations
+When you're handling business sales data, security isn't optional. Here's our comprehensive approach:
+
+### Authentication & Authorization
+- Cognito for user authentication
+- IAM roles for service-to-service communication
+- RBAC for different user types (businesses, admins, data scientists)
+
+### Data Security
+- KMS for encryption at rest
+- TLS for data in transit
+- PII handling compliance for sensitive business data
+
+### API Security
+- WAF rules for DDoS protection
+- Rate limiting to prevent abuse
+- API key management for service access
+
+## The Business Reality Check
+Here's where we need to take off our engineering hat and think business. I've crunched the numbers, and here's what we're looking at:
+
+### Infrastructure Costs
+- Estimated monthly cost: ~155K USD
+- Full breakdown available <a href="https://calculator.aws/#/estimate?id=35ff756bbafb8b6fdab00c243f451bb0d8ea4d88" target="_blank">here</a>
+- Includes replication costs and buffer for services like Route53
+
+### Cost Per User
+- Breaking even would require ~$32.25/user/month (typical SaaS analytics tools range from $20-100/month)
+- And that's before adding profit margins or considering other business costs
+- Pretty steep for what might be just one feature in a larger product
+
+### Cost Optimization Strategies
+I've identified several ways to optimize:
+
+Technical Optimizations:
+1. Use spot/reserved instances
+2. Refine lifecycle policies
+3. Reconsider hot storage duration
+4. Optimize batch job timing
+5. Implement async predictions
+
+Business Strategies:
+1. Tiered pricing (AI vs non-AI predictions)
+2. Consider using LLMs for simpler predictions (<a href="https://arxiv.org/pdf/2310.07820v1" target="_blank">research link</a>)
+3. Bundle with other high-value, lower-cost features
+4. Selective data processing based on business categories
+
+### Future Cost Projections
+With our 7% YoY growth rate:
+- Storage costs will increase significantly
+- ML training costs will grow with data volume
+- Consider reserved capacity planning
+
+## Monitoring & Deployment
+Let's talk about keeping this system running smoothly in production.
+
+### Monitoring Strategy
+We monitor three key areas:
+- Infrastructure metrics (CPU, memory, network)
+- Business metrics (sales volume, prediction accuracy)
+- User experience metrics (API latency, error rates)
+
+Key monitoring points:
+1. DynamoDB consumed capacity
+2. ML model drift detection
+3. Cross-region replication lag
+4. API gateway 4xx/5xx rates
+
+We use CloudWatch alarms with SNS topics for immediate alerts on critical issues.
+
+### Testing & Deployment
+We follow a blue-green deployment strategy:
+1. Deploy to secondary region
+2. Run smoke tests and performance checks
+3. Gradually shift traffic using Route53 weighted routing
+4. Monitor error rates during transition
+5. Roll back if needed using DNS failover
+
+For testing, we maintain:
+- Integration test suite using production-like data
+- Load tests simulating peak traffic (14K writes/sec)
+- Chaos testing for failover scenarios
+- A/B testing framework for ML model updates
+
+This approach lets us:
+- Deploy without downtime
+- Test thoroughly in production-like conditions
+- Fail fast and recover quickly
+- Validate ML model changes safely
+
+## System Limitations and Future Improvements
+Let's be honest about our system's challenges:
+
+1. Cost Structure
+    - High infrastructure costs might limit market accessibility
+    - Needs careful pricing strategy to remain competitive
+
+2. New Business Predictions
+    - Initial predictions may be less accurate
+    - Requires time to build reliable historical data
+    - Current solutions are workable but not perfect
+
+3. Future Improvements
+    - Explore cheaper prediction alternatives for smaller businesses
+    - Investigate industry-specific prediction models
+    - Consider hybrid approaches combining statistical and ML methods
+
+## Common Questions
+Q: What if we need to support more than 25-30 categories per business?
+A: The current design can handle it, but prediction accuracy might decrease. Consider hierarchical categories.
+
+Q: How do we handle seasonal businesses?
+A: DeepAR model inherently handles seasonality, but we might need longer training windows.
+
+Q: What about international businesses with different peak times?
+A: Our multi-region setup handles this. Each region processes its local peak independently.
+
+## Wrapping Up: Beyond Just Design
+This wasn't just another system design walkthrough. I wanted to show you how I approach designing systems that actually work in the real world. Here are the key principles I follow:
+
+1. Start with Why
+    - Question the problem before jumping to solutions
+    - Understand stakeholder needs deeply
+    - Validate the business impact
+
+2. Numbers Matter
+    - Base decisions on concrete calculations
+    - Consider business viability alongside technical feasibility
+    - Be ready to optimize when costs don't make sense
+
+3. Think Holistically
+    - Balance technical excellence with business reality
+    - Consider security from the start
+    - Plan for edge cases (like new businesses)
+
+## What's Next?
+I'm constantly evolving my approach to system design, and I'd love to hear your thoughts. Have you tackled similar challenges differently? Found better ways to optimize costs? Drop me a line at hello@anfalmushtaq.com.
+
+Remember: no system is perfect - it's all about making informed trade-offs. The key is understanding why you're making each decision and being ready to adapt as requirements change.
+
+## Resources
+For your reference, here are all the detailed resources mentioned in this article:
+- <a href="https://docs.google.com/spreadsheets/d/1lLUAAIMQCw2c60i49MN3cSfZBSAEua_9Fndl9a4Urtc/edit?usp=sharing" target="_blank">Napkin Math Calculations</a>
+- <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/erd-2.svg" target="_blank">Entity Relationship Diagram</a>
+- <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/use-case-diagram.svg" target="blank">Use Case Diagram</a>
+- <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/high-level-architecture.svg" target="_blank">System Architecture</a>
+- <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/ml-training-sequence-diagram-3.svg" target="_blank">ML Training Flow</a>
+- <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/data-flow-diagram.svg" target="_blank">Data Flow Diagram</a>
+- <a href="https://calculator.aws/#/estimate?id=35ff756bbafb8b6fdab00c243f451bb0d8ea4d88" target="_blank">AWS Cost Calculator</a>
