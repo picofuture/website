@@ -1,0 +1,158 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+
+export const meta = {
+    author: BLOG_AUTHOR_ANFAL,
+    date: '2024-11-23',
+    title: 'A Practical Guide to System Design Thinking',
+    description: 'System design from the POV of a lead engineer.',
+    slug: 'a-practical-guide-to-system-design-thinking',
+    image: "blog/2024-11-23-practical-guide-to-system-design-thinking/practical-guide-to-system-design.jpg"
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage
+    src='blog/2024-11-23-practical-guide-to-system-design-thinking/practical-guide-to-system-design.jpg'
+    alt="A Practical Guide to System Design Thinking" />
+
+## Not your traditional system design blog
+I will be honest, there are tons of resources you can find online that will help you understand system design better. That's not what we are here to do today.
+Instead, I want us to focus on grasping the mental model of how one should think when they are looking to design a system. The things you have to consider and
+the process you can follow from the start to finish to start designing your own systems.
+
+I believe I am uniquely positioned to address this scenario because I have built my own startups from the ground up, worked at startups and enterprises. Therefore, I have
+a very wide exposure towards creating systems that people will actually use.
+
+Don't worry, it's not just all talk. I will be putting all the detailed resources of the system design case study I have done.
+
+## Disclaimer
+More than preaching the how of system design or the method that I usually follow, I would like to preach critical thinking. I myself am in a constantly evolving
+phase. I want you to do the same. Take my methods with a grain of salt, understand it and then improve upon it. While doing so, if you happen to stumble upon something
+interesting, please share them with me at hello@anfalmushtaq.com. Let's keep this fountain of knowledge flowing.
+
+## Before we begin
+Before we design this system, I would like to set the stage. Whenever we build a system, we always keep the stakeholders in mind.
+We will try to see through their POV and what they might want to see in the system. We are not going to make functional decisions in a vacuum.
+
+Technology is always wholly dependent on the problem we are trying to solve. Therefore, start thinking of stakeholders first instead of technology first.
+You will still be responsible for driving the technology decisions, but they will be based on stakeholders' needs.
+
+## Define the problem
+We are going to assume a system design goal first.
+
+We will design a sales forecasting system that will help our customers see their sales forecast on a weekly, monthly, and yearly basis.
+The service will ensure high availability, accuracy and consistency.
+
+That's it, that's all we know. I have intentionally kept this problem vague so that I can show you in detail on what it looks like to design
+a system in the highest difficulty where you are not given enough details.
+
+Now that we have defined our goal let's start building the system.
+
+## Identify the stakeholders
+Before we do anything, we have to identify the primary stakeholder of this system. The one who is going to influence a lot of the decisions we will be making.
+We are going to have a lot of stakeholders of the system, i.e. data scientists, PMs, engineers etc. but they are all secondary to this system.
+
+Our key stakeholder in our case is the business customer. They are the ones who will be using our system to see the predictions for top sales by category.
+
+## Is this the highest impact item for your key stakeholder?
+It's not a traditional question one asks to themselves, people usually understand the problem and jump right into building the system. We are not going to do that.
+We have to remember, we were qualified enough to design this system. Therefore, we should also be the ones critical enough to drive the value of this system and justify it.
+
+I like to ask the why of of the system before I jump into the how of the system. It not only helps me visualize the problem that our stakeholder is facing but also
+helps the team and I in understanding whether this is the most important problem we should be solving right now in terms of the impact we will make or not.
+
+I like to always remember this saying whenever I am asking these questions.
+
+If you have asked a businessman 100 years ago what they want, they would've probably told you they want a very fast running horse to take them from point A to point B.
+But as the problem solvers, it's our job to identify that the horse has it's limitations and what that businessman actually wants is a car.
+
+Let's define the why before we jump into the how of our system problem.
+
+Why do we want to solve this problem?
+- Help stakeholders forecast their future sales.
+- Help stakeholders understand the spending patterns of their customers.
+- Help stakeholders make informed inventory and business decisions.
+- Help stakeholders plan their budgets based on predicted revenue.
+
+## Product requirements
+### Problem statement technical analysis
+The technical analysis is usually data driven. You as the architect of this system are going to be responsible for talking to the relevant teams in the company to effectively
+do this step. You will also be required to do online RnD, studying existing systems and the learnings from other people in the world so you can avoid the same mistakes and create
+a robust system. While reading below, you will notice some numbers. These numbers are pure assumptions in my case since this system is hypothetical but in a real-world scenario,
+it will most probably driven by the data your company has collected over the years.
+
+The system under discussion needs to enable the primary stakeholders to predict the future sales per category. Sales forecast is a time-series problem.
+We will need to build a time-series machine learning model that will learn from the existing sales data and make predictions in the future. This model will need
+to be resistant to over-fitting, vanishing gradients and other anomalies since we will be training it on a set cadence to keep it upto-date. It will also need
+the ability to understand different sales patterns. i.e. Black Fridays, Christmas and other seasonalities.
+
+Furthermore, the system needs to be highly available and consistent. Since according to the CAP theorem, a system has to make a compromise between strong consistency and
+high availability, we will have to somehow ensure our system adheres to both requirements.
+
+The system is write heavy, I will share the napkin maths below but for now, just assume that we will be writing roughly 250 million records every day
+and since it's a sales system, it needs to be highly accurate, consistent, available and resilient to failures.
+
+The system will also need to store the sales data for 7 years. This requirement is there to serve the legal compliance requirement. In case any business requests their data
+for auditing purposes. Since we will be writing a lot of records, we will be storing a lot of data in our database. Given that we will expect a positive 7% YoY growth in customers,
+this data will amount to terabytes and we will have to be smart about our choices on how we store this data to optimize costs.
+
+We are going to build our infrastructure on AWS. It boasts an end-to-end infrastructure solution. We could distribute our infra in multiple services, but for our case study,
+AWS offers us a complete solution.
+
+We also have to consider that new businesses joining us will not have sales data immediately. Our ML model will require 3 years of data before we can figure out sales patterns
+for that business. We will have to devise an alternate strategy for these new businesses. We will discuss them later.
+
+### Functional
+1. View sales predictions by product category for different time frames, week/month/year.
+
+### Non functional
+1. Performance
+    - Handle 2,800+ writes/second (normal).
+    - Scale to 14,000+ writes/second (peak).
+    - Response time < 100ms for predictions.
+2. High Availability
+    - Service uptime: 99.99%.
+    - Multi-region deployment.
+    - Automated fail-over mechanism.
+3. Consistency
+    - Eventual consistency for model
+    - Strong consistency for sales data
+    - Cross-region data sync
+4. Accuracy & Quality
+    - Prediction accuracy ≥ 90%
+    - Data quality validation in processing pipeline
+    - Model performance monitoring
+5. Scalability
+    - Support 5M MAU, 500K DAU with 7% YoY growth.
+    - Store 365TB of data before it’s moved through the archival pipeline
+    - Supports 7 year of cold storage for compliance purposes
+
+## Napkin maths
+Usually this step is completely data driven and you have a lot of data points to look at but sometimes, you are tasked with building a brand new system.
+In this case, do your best. Go do online RnD, talk to relevant people, do case studies and make the best guess of what an ideal system like yours can expect in terms of users,
+growth and data.
+
+I have made a lot of assumptions in my case. You can find my napkin maths <a href="https://docs.google.com/spreadsheets/d/1lLUAAIMQCw2c60i49MN3cSfZBSAEua_9Fndl9a4Urtc/edit?usp=sharing" target="_blank">here</a>.
+
+## High level system architecture
+You can find the high level architecture of the system <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/high-level-architecture.svg" target="_blank">here</a>.
+It might seem a bit overwhelming but don't worry I am going quickly explain every part in this system so you are able to grasp what this diagram is describing.
+
+### Recording sales
+We are going to be recording ~2.9K sales/hour during normal operations and ~15K sales during peak hours in dynamo DB. Dynamo DB supports <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html" target="_blank">strong consistency</a>.
+We need this to satisfy our requirement for a highly consistent system. We are going to save our data with a TTL of 90 days in the hot storage. This is going to reduce our dynamo db cost since it's one of the most expensive services in our system.
+We are going to fire a deletion stream event through Amazon kinesis to archive our data once the deletion is fired. You can read more on this archival process <a href="https://aws.amazon.com/blogs/database/archive-data-from-amazon-dynamodb-to-amazon-s3-using-ttl-and-amazon-kinesis-integration/" target="_blank">here</a>.
+Once our data is sent to S3, we are going to place multiple lifecycle policies to slowly move our data to glacier for long-term archival purposes.
+
+### Processing the data for ML job
+
+#### Model selection
+For our case-study, I have chosen <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/deepar.html" target="_blank">Amazon's deepar model</a>.
+It is an RNN model specializing in time-series forecasting. It can be trained over a rolling window with a set context length (in our case it's going to be 3 years).
+Before we discuss our ML training pipeline, we have to discuss the exploratory data analysis and feature engineering. Also, if you are more interested in seeing a more hands-on
+documentation on how to train deepar, feel free to read it <a href="https://sagemaker-examples.readthedocs.io/en/latest/introduction_to_amazon_algorithms/deepar_electricity/DeepAR-Electricity.html" targe="_blank">here</a>.
+
+#### Exploratory data analysis
+
