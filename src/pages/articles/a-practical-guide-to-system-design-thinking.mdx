@@ -136,12 +136,12 @@ Let's start with how we handle data - it's the foundation of our system.
 If you're interested in the technical details of this archival process, check out AWS's guide <a href="https://aws.amazon.com/blogs/database/archive-data-from-amazon-dynamodb-to-amazon-s3-using-ttl-and-amazon-kinesis-integration/" target="_blank">here</a>.
 
 ## ML Pipeline: The Brain
-Here's where it gets interesting. After evaluating several options, I chose Amazon's <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/deepar.html" target="_blank">DeepAR model</a> for our time-series forecasting. Why? It handles:
+Here's where it gets interesting. After evaluating several options, I chose Amazon's <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/deepar.html" target="_blank">DeepAR model</a> on SageMaker for our time-series forecasting. SageMaker was the natural choice given our AWS stack and need for scalability. The DeepAR model handles:
 - Rolling window training with 3-year context
 - Seasonal patterns (think Black Friday, holidays)
 - Multiple time series (different businesses/categories)
 
-I've documented the complete training flow in this sequence <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/ml-training-sequence-diagram-3.svg" target="_blank">diagram</a>.
+We retrain our models weekly to maintain prediction accuracy, with continuous monitoring for performance degradation. I've documented the complete training flow in this sequence <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/ml-training-sequence-diagram-3.svg" target="_blank">diagram</a>.
 
 ### Handling New Businesses
 Remember our earlier challenge with new businesses? Here's how we solve it:
@@ -152,7 +152,7 @@ Remember our earlier challenge with new businesses? Here's how we solve it:
 For hands-on implementation details, check out this DeepAR tutorial <a href="https://sagemaker-examples.readthedocs.io/en/latest/introduction_to_amazon_algorithms/deepar_electricity/DeepAR-Electricity.html" target="_blank">here</a>.
 
 ## Data Flow
-To tie it all together, I've created a detailed data flow <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/data-flow-diagram.svg" target="_blank">diagram</a>. This visualizes how data moves from initial sale to final prediction, including all the processing steps in between.
+To tie it all together, I've created a detailed data flow <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/data-flow-diagram.svg" target="_blank">diagram</a>. Pay special attention to how data moves through different storage tiers and how the ML pipeline interacts with our archival system. This visualization shows the complete journey from initial sale to final prediction.
 
 ## Security & Compliance Considerations
 When you're handling business sales data, security isn't optional. Here's our comprehensive approach:
@@ -181,7 +181,7 @@ Here's where we need to take off our engineering hat and think business. I've cr
 - Includes replication costs and buffer for services like Route53
 
 ### Cost Per User
-- Breaking even would require ~$32.25/user/month
+- Breaking even would require ~$32.25/user/month (typical SaaS analytics tools range from $20-100/month)
 - And that's before adding profit margins or considering other business costs
 - Pretty steep for what might be just one feature in a larger product
 
