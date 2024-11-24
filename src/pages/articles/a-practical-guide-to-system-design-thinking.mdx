@@ -114,8 +114,64 @@ Before diving into the technical architecture, we need to understand how differe
 I've created a use-case <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/use-case-diagram.svg" target="blank">diagram</a> that maps out these interactions.
 This diagram isn't just for documentation - it helps us validate that our technical requirements align with actual user needs and ensures we're not over-engineering or missing critical functionality.
 
+## Data Model Design
+Before diving into architecture, let's understand our data model. While we'll use DynamoDB for hot storage, let's first look at the logical relationships between our entities: <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/erd-2.svg" target="_blank">view diagram</a>.
+
+### Logical Relationships
+- Business to Categories (1:N): Each business can have multiple product categories
+- Sales Records: Track transactions with necessary metadata
+- ML-specific entities: Track model versions and performance metrics
+
+### DynamoDB Implementation
+In DynamoDB, we denormalize these relationships for performance and durability. Here's how:
+
+1. Sales Records Table
+    - Partition Key: `business_id`
+    - Sort Key: `timestamp`
+    - Global Secondary Index on `category_id` and `timestamp` for category-specific queries
+    - Instead of foreign keys, we replicate essential product data:
+    - Product name, category, price at time of sale
+    - Protects against data loss if product is deleted
+    - Preserves historical accuracy of sales records
+
+2. Products Table
+    - Partition Key: `business_id`
+    - Sort Key: `product_id`
+    - Maintains current product catalog
+    - Changes don't affect historical sales data
+
+3. Business Metadata Table
+    - Partition Key: `business_id`
+    - Contains business details and active categories
+
+4. ML Model Tables
+    - Separate tables for model versions and metrics
+    - Keeps ML operations isolated from transactional data
+
+This denormalized structure provides:
+- Sub-millisecond query performance for recent sales
+- Data durability (no broken foreign key references)
+- Historical accuracy for sales analysis
+- Efficient category-based querying for ML features
+
+Understanding these relationships helps us make better decisions about:
+- Data integrity in our application layer
+- Feature engineering for ML
+- Data archival strategy in S3
+
 ## System Architecture Deep Dive
 Let's get into the meat of our design. I've created a high-level architecture diagram that you can find <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/high-level-architecture.svg" target="_blank">here</a>. Don't get overwhelmed - we'll break it down piece by piece.
+
+### Technology Choices
+We chose AWS/DynamoDB/SageMaker because:
+- Complete solution for our needs
+- Strong ML integration
+- Global presence for multi-region
+- Managed services reduce operational overhead
+
+Alternative stacks considered:
+- GCP: Good ML capabilities but more complex setup
+- Azure: Strong in ML but less mature in NoSQL offerings
 
 ## Storage Strategy
 Let's start with how we handle data - it's the foundation of our system.
@@ -201,6 +257,49 @@ Business Strategies:
 3. Bundle with other high-value, lower-cost features
 4. Selective data processing based on business categories
 
+### Future Cost Projections
+With our 7% YoY growth rate:
+- Storage costs will increase significantly
+- ML training costs will grow with data volume
+- Consider reserved capacity planning
+
+## Monitoring & Deployment
+Let's talk about keeping this system running smoothly in production.
+
+### Monitoring Strategy
+We monitor three key areas:
+- Infrastructure metrics (CPU, memory, network)
+- Business metrics (sales volume, prediction accuracy)
+- User experience metrics (API latency, error rates)
+
+Key monitoring points:
+1. DynamoDB consumed capacity
+2. ML model drift detection
+3. Cross-region replication lag
+4. API gateway 4xx/5xx rates
+
+We use CloudWatch alarms with SNS topics for immediate alerts on critical issues.
+
+### Testing & Deployment
+We follow a blue-green deployment strategy:
+1. Deploy to secondary region
+2. Run smoke tests and performance checks
+3. Gradually shift traffic using Route53 weighted routing
+4. Monitor error rates during transition
+5. Roll back if needed using DNS failover
+
+For testing, we maintain:
+- Integration test suite using production-like data
+- Load tests simulating peak traffic (14K writes/sec)
+- Chaos testing for failover scenarios
+- A/B testing framework for ML model updates
+
+This approach lets us:
+- Deploy without downtime
+- Test thoroughly in production-like conditions
+- Fail fast and recover quickly
+- Validate ML model changes safely
+
 ## System Limitations and Future Improvements
 Let's be honest about our system's challenges:
 
@@ -217,6 +316,16 @@ Let's be honest about our system's challenges:
     - Explore cheaper prediction alternatives for smaller businesses
     - Investigate industry-specific prediction models
     - Consider hybrid approaches combining statistical and ML methods
+
+## Common Questions
+Q: What if we need to support more than 25-30 categories per business?
+A: The current design can handle it, but prediction accuracy might decrease. Consider hierarchical categories.
+
+Q: How do we handle seasonal businesses?
+A: DeepAR model inherently handles seasonality, but we might need longer training windows.
+
+Q: What about international businesses with different peak times?
+A: Our multi-region setup handles this. Each region processes its local peak independently.
 
 ## Wrapping Up: Beyond Just Design
 This wasn't just another system design walkthrough. I wanted to show you how I approach designing systems that actually work in the real world. Here are the key principles I follow:
@@ -244,6 +353,7 @@ Remember: no system is perfect - it's all about making informed trade-offs. The 
 ## Resources
 For your reference, here are all the detailed resources mentioned in this article:
 - <a href="https://docs.google.com/spreadsheets/d/1lLUAAIMQCw2c60i49MN3cSfZBSAEua_9Fndl9a4Urtc/edit?usp=sharing" target="_blank">Napkin Math Calculations</a>
+- <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/erd-2.svg" target="_blank">Entity Relationship Diagram</a>
 - <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/use-case-diagram.svg" target="blank">Use Case Diagram</a>
 - <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/high-level-architecture.svg" target="_blank">System Architecture</a>
 - <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/ml-training-sequence-diagram-3.svg" target="_blank">ML Training Flow</a>
