@@ -136,23 +136,107 @@ growth and data.
 
 I have made a lot of assumptions in my case. You can find my napkin maths <a href="https://docs.google.com/spreadsheets/d/1lLUAAIMQCw2c60i49MN3cSfZBSAEua_9Fndl9a4Urtc/edit?usp=sharing" target="_blank">here</a>.
 
+## Building a use case diagram
+A good use-case diagram can help you understand how different actors will use your system. It's going to help you understand what kinda of requirements you should be looking after while designing your system.
+I have created a good use-case <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/use-case-diagram.svg" target="blank">diagram</a> that I thought encompasses this system.
+
 ## High level system architecture
 You can find the high level architecture of the system <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/high-level-architecture.svg" target="_blank">here</a>.
 It might seem a bit overwhelming but don't worry I am going quickly explain every part in this system so you are able to grasp what this diagram is describing.
 
-### Recording sales
+## Recording sales
 We are going to be recording ~2.9K sales/hour during normal operations and ~15K sales during peak hours in dynamo DB. Dynamo DB supports <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html" target="_blank">strong consistency</a>.
 We need this to satisfy our requirement for a highly consistent system. We are going to save our data with a TTL of 90 days in the hot storage. This is going to reduce our dynamo db cost since it's one of the most expensive services in our system.
 We are going to fire a deletion stream event through Amazon kinesis to archive our data once the deletion is fired. You can read more on this archival process <a href="https://aws.amazon.com/blogs/database/archive-data-from-amazon-dynamodb-to-amazon-s3-using-ttl-and-amazon-kinesis-integration/" target="_blank">here</a>.
 Once our data is sent to S3, we are going to place multiple lifecycle policies to slowly move our data to glacier for long-term archival purposes.
 
-### Processing the data for ML job
+## Processing the data for ML job
 
-#### Model selection
+### Model selection
 For our case-study, I have chosen <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/deepar.html" target="_blank">Amazon's deepar model</a>.
 It is an RNN model specializing in time-series forecasting. It can be trained over a rolling window with a set context length (in our case it's going to be 3 years).
 Before we discuss our ML training pipeline, we have to discuss the exploratory data analysis and feature engineering. Also, if you are more interested in seeing a more hands-on
 documentation on how to train deepar, feel free to read it <a href="https://sagemaker-examples.readthedocs.io/en/latest/introduction_to_amazon_algorithms/deepar_electricity/DeepAR-Electricity.html" targe="_blank">here</a>.
 
-#### Exploratory data analysis
+### Exploratory data analysis & Feature engineering
+The purpose of this type of analysis is to take a few random sample sets of the data you have coming in, for example, you could have data of businesses around black fridays and normal days and
+just observe different patterns. This is more of a technical analysis so I won't go into a lot of details here but you will have to work closely with the data science team to understand the metrics
+that matters the most to them and use them to train the model.
 
+### Building the ML job pipeline
+Since we are building a sales prediction system, we will need a continuous training pipeline that keeps itself upto date with the recent trends. The first few issues we have to look into are as follows.
+1. Gradients don't vanish over time.
+2. Model can be kept upto date with recent trends.
+3. Model is able to understand individual businesses and categories and how they are performing over time.
+
+Keeping all of the requirements in mind, I have created a nice sequence diagram to explain the model training process. You can find it <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/ml-training-sequence-diagram-3.svg" target="_blank">here</a>.
+Keep in mind that our data flow for the model is not going to follow the traditional archival process we are going to follow for the sales records. We need a 3 years worth of rolling data aggregated on weekly basis to be available at all times to retrain our model.
+We will not archive the data after 90 days and since it's stored on S3, our final cost is not going to be as high as Dynamo DB.
+
+Once the model is trained, we will also like to continuously evaluate it to understand it's performance. The following could be a valid strategy to make sure our model is not drifting too far away from the goals set by the ML team.
+
+1. Model Testing
+    1. Backtesting on historical data
+    2. A/B testing new models (10% traffic)
+    3. Accuracy thresholds for deployment
+2. Service Testing
+    1. Integration tests with staging data
+    2. Load testing prediction endpoints
+3. Validation
+    1. Data quality checks
+    2. Schema validation
+    3. Business rule validation
+
+## Data flow
+If you are looking to understand the data flow in our system a bit more in-depth, feel free to check out this data flow <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2024-11-01-sales-prediction-system-design/data-flow-diagram.svg" target="_blank">diagram</a>.
+
+## Security & Compliance
+While you are designing your system, do keep security in mind. Some time there are several compliance requirements that you might need to cater and sometimes you have to define your own. I have come up with a list of requirements
+that might be interesting to consider for this system.
+
+1. Authentication & Authorization
+    1. Cognito for user auth
+    2. IAM roles for service-to-service
+    3. RBAC for different user types
+2. Data Security
+    1. Encryption at rest (KMS)
+    2. TLS for data in transit
+    3. PII handling compliance
+3. API Security
+    1. WAF rules
+    2. Rate limiting
+    3. API key management
+
+## Cost analysis
+Keep in mind that the cost of the system isn't just the infrastructure cost. You have a lot of non-technical elements that needs to be considered during this phase. Most of the times, your job will be to
+come up with the technical part of the cost, which is usually the infrastructure to run the system on. You can however be proactive and be an active part of the conversation with the other teams. This exercise
+will actually help you be a better engineer. It's when you think about the bigger picture is when you understand the eventual impact of your decisions on the customer and that's literally what matters the most.
+Once you find out that the system you've built cost a lot of money, you may start looking into optimizing it so the end-user doesn't have to pay a lot of money.
+
+For our case, I have created the infrastructure bill. You can find it <a href="https://calculator.aws/#/estimate?id=35ff756bbafb8b6fdab00c243f451bb0d8ea4d88" target="_blank">here</a>. I extrapolated it to roughly 155K USD/month
+because I had to consider the replication cost + a buffer for things like route53. If we take this cost into account and divide it equally on our 5 million users, we can see that every customer will be liable to pay roughly
+32.25 USD/month + taxes. This is just to break even. If the company wants to turn up a profit, it'll need to charge the users more. This is a very steep cost and once you'll look at it, you'll start to see why you would want to optimize it.
+
+Once you have decided that the cost is too high, you would want to look into ways on either providing more value for the same price to the customers or charge them less. Here are a few suggestions that I came up with.
+
+### Price reduction suggestions
+1. Spot/reserved instances
+2. Updated lifecycle policies
+3. Updated definition of hot storage
+4. Increase the duration of batch jobs
+5. Async predictions using sagemaker
+6. Offer tiered pricing (non AI pricing vs AI pricing), maybe use <a href="https://arxiv.org/pdf/2310.07820v1" target="_blank">LLMs</a> for a cheaper prediction
+7. Rework ML pipeline to not train on the entire timeseries data-set by maybe performing some EDA to figure out most important categories. This will reduce the data size we’ll store (not very impactful)
+8. Since this is one of the heaviest pipeline, we can package other important features with it that will cost us less but add more value.
+
+## Shortcomings of the system
+So since we have discussed the system in detail, it's also our job to stay aware of it's shortcomings. This is going to help us either create a small prototype that we can use to clear out any confusions
+or we can talk to people, do some more RnD and see if we can create a better system. Knowing the weaknesses of your system is just as important as building a system. No system is perfect, it's an aggregation
+of trade-offs and as the lead of the project, it's your job to stay aware of them and make informed decision.
+
+1. The cost
+2. ML pipeline not catering to brand-new businesses.
+
+To cater for new businesses not having enough data, we can actually try to approach our ML pipeline in a different way. Instead of training the model individually for every business, maybe we can put businesses
+into different bucket sizes, aggregate the sales to represent buckets and then use them to return back a prediction. Other ways we can achieve a prediction is by using a naive forecasting. Meaning we can try to
+average the value of sales in the past week and use it as the prediction for the next week.
