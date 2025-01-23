@@ -307,7 +307,7 @@ export default function Home({ articles }) {
         </title>
         <meta
           name="description"
-          content="I’m Anfal Mushtaq, a software designer and entrepreneur based in Vancouver, Canada. I’m the founder of Pico Future, where I explore and design the future."
+          content="I am Anfal Mushtaq, a software designer and entrepreneur based in Vancouver, Canada. I am the founder of Pico Future, where I explore and design the future."
         />
       </Head>
       <Container className="mt-9">
@@ -316,8 +316,8 @@ export default function Home({ articles }) {
             Software Engineer, Entrepreneur, and Tinkerer
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            I&apos;m Anfal Mushtaq, a software designer and entrepreneur based in Vancouver, Canada.
-            I&apos;m the founder of Pico Future, where I explore and design the future.
+            I am Anfal Mushtaq, a software designer and entrepreneur based in Vancouver, Canada.
+            I am the founder of <a href='https://www.picofuture.com' target='_blank'>Pico Future</a>, where I explore and design the future.
           </p>
           <div className="mt-6 flex gap-6">
             <SocialLink
