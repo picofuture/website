@@ -267,6 +267,8 @@ function Resume() {
 }
 
 function Photos() {
+  return null;
+  
   let rotations = ['rotate-2', '-rotate-2', 'rotate-2', 'rotate-2', '-rotate-2']
 
   return (
