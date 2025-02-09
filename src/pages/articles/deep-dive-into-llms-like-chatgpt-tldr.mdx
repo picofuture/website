@@ -19,20 +19,20 @@ export default (props) => <ArticleLayout meta={meta} {...props} />
 
 ## Who is this deep dive for?
 
-A few days ago, <a href="https://x.com/karpathy" target="_blank">Andrej Karpathy</a> released a <a href="https://www.youtube.com/watch?v=7xTGNNLPyMI" target="_blank">video</a> titled "Deep dive into LLMs like ChatGPT." It’s packed with useful stuff, but it’s also 3 hours and 31 minutes long. 
+A few days ago, <a href="https://x.com/karpathy" target="_blank">Andrej Karpathy</a> released a <a href="https://www.youtube.com/watch?v=7xTGNNLPyMI" target="_blank">video</a> titled "Deep dive into LLMs like ChatGPT." It’s a goldmine of information, but it’s also 3 hours and 31 minutes long. 
 I watched the whole thing and took a bunch of notes, so I figured why not put together a TL;DR version for anyone who wants the essential takeaways without the large time commitment.
 
 If any of this sounds like you, this post (and the original video) is worth checking out:
 
 - **You want to understand how LLMs actually work** not just at the surface level.
-- **You're trying to fine-tune your own LLM** but keep running into confusing stuff like `chat_template` and `ChatML` (especially if you're using <a href="https://axolotl-ai-cloud.github.io/axolotl/docs/dataset-formats/conversation.html" target="_blank">Axolotl</a>).
+- **You want to understand confusing fine-tuning terms** like `chat_template` and `ChatML` (especially if you're using <a href="https://axolotl-ai-cloud.github.io/axolotl/docs/dataset-formats/conversation.html" target="_blank">Axolotl</a>).
 - **You want to get better at prompt engineering** by understanding why some prompts work better than others.
 - **You’re trying to reduce hallucinations** and want to know how to keep LLMs from making things up.
 - **You want to understand why DeepSeek-R1 is such a big deal right now**.
 
 I won’t be covering *everything* in the video, so if you have time, definitely watch the whole thing. But if you don’t, this post will give you the key takeaways.
 
-Note: If you are looking for the excalidraw diagram that Andrej made for the video, you can download it <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/LLMIntro-2024-07-22-1743.excalidraw" target="_blank">here</a>. He shared it through Google Drive and it invalidates the link after a certain time. That's why I have decided to host it on my CDN.
+Note: If you are looking for the excalidraw diagram that Andrej made for the video, you can download it <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/LLMIntro-2024-07-22-1743.excalidraw" target="_blank">here</a>. He shared it through Google Drive and it invalidates the link after a certain time. That's why I have decided to host it on my CDN as well.
 
 ## Pretraining Data
 
@@ -50,7 +50,7 @@ Once cleaned, the data still needs to be compressed into something usable. Inste
 Tokenization is how models break text into smaller pieces (tokens) before processing it. Instead of storing raw words, the model converts them into IDs that represent repeating patterns.
 
 - A popular technique for this is <a href="https://en.wikipedia.org/wiki/Byte_pair_encoding" target="_blank">Byte Pair Encoding (BPE)</a>.
-- There’s an optimal number of symbols (tokens) for compression. For example, GPT-4 uses **100,277** tokens.
+- There’s an optimal number of symbols (tokens) for compression. For example, GPT-4 uses **100,277** tokens. It is totally dependent on the discretion of the model creator.
 - You can visualize how this works using tools like <a href="https://tiktokenizer.vercel.app/?model=cl100k_base" target="_blank">Tiktokenizer</a>.
 
 ### Neural Network I/O
@@ -107,7 +107,7 @@ Some companies train massive LLMs and **release the base models for free**. A ba
 - Meta open-sourced **<a href="https://arxiv.org/pdf/2407.21783" target="_blank">Llama 3.1 (405B parameters)</a>** which is a rather new LLM base model as compared to GPT-2.
 
 In order to fully open-source a base model, two things are required:
-  - **<a href="https://github.com/openai/gpt-2/blob/master/src/model.py">The code</a>** (e.g., a few hundred lines in Python that defines the steps the model will take to generate the prediction).
+  - **<a href="https://github.com/openai/gpt-2/blob/master/src/model.py" target="_blank">The code</a>** (e.g., a few hundred lines in Python that defines the steps the model will take to generate the prediction).
   - **<a href="https://www.kaggle.com/datasets/xhlulu/openai-gpt2-weights" target="_blank">The parameters</a>** (e.g., billions of tuned weights that define the model).
 
 ### How Base Models Work
@@ -150,7 +150,6 @@ You can read more about them <a href="https://huggingface.co/docs/transformers/m
 <|im_start|>system<|im_sep|>You are a helpful assistant<|im_end|>
 <|im_start|>user<|im_sep|>What is 4 + 4?<|im_end|>
 <|im_start|>assistant<|im_sep|>4 + 4 = 8<|im_end|>
-<|im_start|>assistant<|im_sep|>
 ```
 
 - `<|im_start|>` and `<|im_end|>` are **special tokens** that help structure conversations.
@@ -159,7 +158,7 @@ You can read more about them <a href="https://huggingface.co/docs/transformers/m
 
 To visualize this, go to <a href="https://tiktokenizer.vercel.app/" target="_blank">tiktokenizer</a>.
 
-One such dataset is <a href="https://huggingface.co/datasets/OpenAssistant/oasst1" target="_blank">OASST1</a>. Early post-training datasets were **hand-curated by humans**. 
+One such post-training dataset is <a href="https://huggingface.co/datasets/OpenAssistant/oasst1" target="_blank">OASST1</a>. Early post-training datasets were **hand-curated by humans**. 
 Now, models like <a href="https://github.com/thunlp/UltraChat" target="_blank">UltraChat</a> can generate **synthetic conversations**, allowing models to improve without as much human input. 
 You can visualize these mostly synthetic datasets <a href="https://atlas.nomic.ai/map/0ce65783-c3a9-40b5-895d-384933f50081/a7b46301-022f-45d8-bbf4-98107eabdbac" target="_blank">here</a>.
 
@@ -219,18 +218,19 @@ LLMs **don’t reason like humans**. They generate tokens **sequentially**, mean
 Human: Emily buys 3 apples and 2 oranges. Each orange costs $2. The total cost of all the fruit is $13. What is the cost of apples?
 Assistant: The answer is $3.
 ```
-- The model **jumps to the answer** without breaking it down.
+The model **jumps to the answer** without breaking it down.
 
 **Good Prompt:**
 ```text
 Human: Emily buys 3 apples and 2 oranges. Each orange costs $2. The total cost of all the fruit is $13. What is the cost of apples?
 Assistant: The total cost of the oranges is $4. 13 - 4 = 9, so the cost of the 3 apples is $9. 9/3 = 3, so each apple costs $3.
 ```
-- Here, the model **works through the reasoning step-by-step**.
+Here, the model **works through the reasoning step-by-step**.
 
 #### Why This Matters
 - If a model **jumps straight to an answer**, it might just be guessing.
 - If it **walks through the solution step-by-step**, it’s more reliable.
+- The model **breaks down the problem into smaller steps**. Since there are finite layers in the model, one token output cannot be processed indefinitely. Breaking down the problem into smaller steps allows the model to process the problem in a way that is more likely to yield the correct answer.
 
 For **math and logic tasks**, it’s best to ask the model to **use external tools** rather than relying on its own reasoning.
 
@@ -301,40 +301,44 @@ Once that is done, you can use the reward model to judge the quality of the resp
 <BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/rlhf-2.png" alt="Reinforcement Learning from Human Feedback" />
 
 #### RLHF Upside
-We can run RL in arbitrary domains! (even the unverifiable ones)
-This (empirically) improves the performance of the model, possibly due to the "discriminator - generator gap":
-
-In many cases, it is much easier to discriminate than to generate.
-
-E.g., "Write a poem" vs. "Which of these 5 poems is best?"
+- Enables RL in **unverifiable domains** like joke-writing or summarization.
+- Often improves models **by reducing hallucinations** and making responses more human-like.
+- Exploits the "**discriminator-generator gap**"—humans find it easier to evaluate an answer than generate one.
+  - Example: "Write a poem" vs. "Which of these 5 poems is best?"
 
 #### RLHF Downside
-We are doing RL with respect to a lossy simulation of humans. We NEED a reward model that is close to real human preferences, but it's still a simulation—not the real thing. It might be misleading!
+- The **reward model is just a simulation of human preferences**, not an actual human. This can be misleading.
+- RL can **game the system**, producing adversarial examples that exploit weaknesses in the reward model.
+  - Example: After 1,000 updates, the model’s "top joke about pelicans" might be complete nonsense (e.g., *"the the the the the the the the"*).
+- This is known as <a href="https://en.wikipedia.org/wiki/Adversarial_machine_learning" target="_blank">Adversarial Machine Learning</a>. Since there are infinite ways to game the system, filtering out bad responses isn’t straightforward.
+- To prevent this, reward model training is **capped at a few hundred iterations**—beyond that, models start over-optimizing and performance declines.
 
-Even more subtle:
-RL discovers ways to "game" the model.
-It discovers "adversarial examples" of the reward model.
+---
 
-E.g., after 1,000 updates, the top joke about pelicans is not the banger you want, but something totally non-sensical like "the the the the the the the the".
+## Preview of Things to Come
+Future LLMs will expand in several key areas:
 
-This bad example that goes through the NN of the model and basically sabotages the whole process is called <a href="https://en.wikipedia.org/wiki/Adversarial_machine_learning" target="_blank">Adversarial Examples</a>.
+- **Multimodal Capabilities** → Not just text, but also understanding and generating images, audio, and video.
+- **Agent-Based Models** → Moving beyond single tasks to long-term memory, reasoning, and correction of mistakes.
+- **Pervasive & Invisible AI** → AI will be integrated into workflows in a way that becomes second nature.
+- **Computer-Using AI** → AI models that interact with software and take actions beyond just text generation.
+- **Test-Time Training** → AI adapting itself in real-time to improve accuracy on the fly.
 
-The ideal strategy for training the reward model is to train it for a few hundred iterations and stop there. If you train it further, it will start to game the system, and performance will decline.
+---
 
-## Preview of things to come
-- multimodal (not just text but audio, images, video, natural conversations)
-- tasks -> agents (long, coherent, error-correcting contexts)
-- pervasive, invisible
-- computer-using
-- test-time training?, etc.
+## Keeping Track of LLMs
+If you're interested in following developments in this space, here are some great resources:
 
-## Keeping track of LLMs
-- <a href="https://lmarena.ai" target="_blank">LM Arena</a>.
-- <a href="https://buttondown.com/ainews" target="_blank">AI News</a>.
-- <a href="https://x.com" target="_blank">X</a> (Twitter).
+- <a href="https://lmarena.ai" target="_blank">LM Arena</a> → Benchmarking new language models.
+- <a href="https://buttondown.com/ainews" target="_blank">AI News</a> → A newsletter covering AI research.
+- <a href="https://x.com" target="_blank">X (Twitter)</a> → Many researchers share updates here.
 
-## Where to find them
-- Proprietary: OpenAI, Google, Anthropic, etc.
-- Open weight models (DeepSeek, Meta, etc.): An inference provider i.e. <a href="https://together.ai" target="_blank">Together</a>.
-- Run them locally: <a href="https://ollama.com/" target="_blank">Ollama</a>, <a href="https://lmstudio.ai/" target="_blank">LM Studio</a>, etc.
-- Base models: <a href="https://app.hyperbolic.xyz" target="_blank">Hyperbolic</a>.
+---
+
+## Where to Find LLMs
+Want to try different LLMs? Here’s where to find them:
+
+- **Proprietary Models** → OpenAI (GPT-4), Google (Gemini), Anthropic (Claude), etc.
+- **Open-Weight Models** → DeepSeek, Meta (Llama), etc. Try them via <a href="https://together.ai" target="_blank">Together.ai</a>.
+- **Run Locally** → Use <a href="https://ollama.com/" target="_blank">Ollama</a> or <a href="https://lmstudio.ai/" target="_blank">LM Studio</a>.
+- **Base Models** → Explore <a href="https://app.hyperbolic.xyz" target="_blank">Hyperbolic</a>.
