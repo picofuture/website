@@ -8,7 +8,7 @@ export const meta = {
   date: '2025-02-08',
   title: 'Deep dive into LLMs like ChatGPT by Andrej Karpathy (TL;DR)',
   description: 'In this age when AI is exponentially growing and poses some serious questions. Is it possible for humans to stay relevant?',
-  draft: true,
+  draft: false,
   slug: 'deep-dive-into-llms-like-chatgpt-tldr',
   image: "blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/llm-chatgpt-tldr.png"
 }
@@ -18,251 +18,245 @@ export default (props) => <ArticleLayout meta={meta} {...props} />
 <BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/deep-dive.png" alt="LLM ChatGPT TL;DR" />
 
 ## Who is this deep dive for?
-A few days ago, <a href="https://x.com/karpathy" target="_blank">Andrej Karpaty</a> released a new <a href="https://www.youtube.com/watch?v=7xTGNNLPyMI" target="_blank">video</a> titled "Deep dive into LLMs like ChatGPT".
-I watched the entire video and as always, it was a gold mine of information. The only issue is that it's 3 hours and 31 minutes long!
-Therefore, I decided to summarize the entire video and create a TL;DR version of the notes I took from it. So anyone who is in a hurry can get the gist of the video.
 
-In my opinion if you fall into any of the following categories, this post/video is highly recommended for you:
+A few days ago, <a href="https://x.com/karpathy" target="_blank">Andrej Karpathy</a> released a <a href="https://www.youtube.com/watch?v=7xTGNNLPyMI" target="_blank">video</a> titled "Deep dive into LLMs like ChatGPT." It’s packed with useful stuff, but it’s also 3 hours and 31 minutes long. 
+I watched the whole thing and took a bunch of notes, so I figured why not put together a TL;DR version for anyone who wants the essential takeaways without the large time commitment.
 
-1. Anyone who want to understand the internal workings of an LLM like ChatGPT.
-2. Anyone who is looking to fine-tune their own LLM but is getting confused with terms like `chat_template` and `ChatML` while using software like <a href="https://axolotl-ai-cloud.github.io/axolotl/docs/dataset-formats/conversation.html" target="_blank">Axolotl</a>.
-3. Anyone who wants to become better at prompt engineering (you will get an intuitive understand of how LLMs work and why certain prompts work better than others).
-4. Anyone who is looking to tackle Hallucinations.
+If any of this sounds like you, this post (and the original video) is worth checking out:
 
-I do not claim to cover everything in the video. I highly recommend that if you have time to watch the entire video, please do so. But if you don't, this post is for you.
+- **You want to understand how LLMs actually work** not just at the surface level.
+- **You're trying to fine-tune your own LLM** but keep running into confusing stuff like `chat_template` and `ChatML` (especially if you're using <a href="https://axolotl-ai-cloud.github.io/axolotl/docs/dataset-formats/conversation.html" target="_blank">Axolotl</a>).
+- **You want to get better at prompt engineering** by understanding why some prompts work better than others.
+- **You’re trying to reduce hallucinations** and want to know how to keep LLMs from making things up.
+- **You want to understand why DeepSeek-R1 is such a big deal right now**.
 
-## Pretraining data 
+I won’t be covering *everything* in the video, so if you have time, definitely watch the whole thing. But if you don’t, this post will give you the key takeaways.
+
+Note: If you are looking for the excalidraw diagram that Andrej made for the video, you can download it <a href="https://cdn.anfalmushtaq.com/static/imgs/blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/LLMIntro-2024-07-22-1743.excalidraw" target="_blank">here</a>. He shared it through Google Drive and it invalidates the link after a certain time. That's why I have decided to host it on my CDN.
+
+## Pretraining Data
 
 ### Internet
 <BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/ct.png" alt="equation" />
 
-You recursively crawl the internet to build up a corpus of text. Usually this is where things start.
+LLMs start by crawling the internet to build a massive text dataset. The problem? Raw data is noisy and full of duplicate content, low-quality text, and irrelevant information. Before training, it needs heavy filtering.
 
-The crawled data will be quite raw and messy. It will have a lot of noise and is not very useful for training.
+- If you're building an English only model, you'll need a heuristic to filter out non-English text (e.g., only keeping text with a high probability of being English).
+- One example dataset is <a href="https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1" target="_blank">FineWeb</a>, which contains over 1.2 billion web pages.
 
-It needs to be filtered in many many ways based on the requirements of the model under training.
+Once cleaned, the data still needs to be compressed into something usable. Instead of feeding raw text into the model, it gets converted into tokens: a structured, numerical representation.
 
-For example, you could train a model to just respond for English text. In that case, you will need to run some sort of heuristic to filter out non-English text and only use
-text that has a > N% probability of being English.
+### Tokenization
+Tokenization is how models break text into smaller pieces (tokens) before processing it. Instead of storing raw words, the model converts them into IDs that represent repeating patterns.
 
-One good example is <a href="https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1" target="_blank">FineWeb</a> which is a dataset of 1.2B+ web pages.
-You can read more about the entire process of how they build the dataset in the blog.
+- A popular technique for this is <a href="https://en.wikipedia.org/wiki/Byte_pair_encoding" target="_blank">Byte Pair Encoding (BPE)</a>.
+- There’s an optimal number of symbols (tokens) for compression. For example, GPT-4 uses **100,277** tokens.
+- You can visualize how this works using tools like <a href="https://tiktokenizer.vercel.app/?model=cl100k_base" target="_blank">Tiktokenizer</a>.
 
-Once the data is extracted and you are ready to train the neural network, you will have a massive amount of data. Using it as is will be massively resource intensive.
-What you want to do is to sample it down to a more manageable size. Something that is a 1-dimensional sequence containing finite set of symbols. The goal here is to compress the sequence of characters into identifiable patterns, giving these patterns a semantic ID and then using that ID to represent the character sequence.
-This technique is called <a href="https://en.wikipedia.org/wiki/Byte_pair_encoding" target="_blank">byte-pair encoding (BPE)</a>. There is an ideal number of symbols that you can compress the data set into. For example, GPT-4 uses 100,277 symbols/tokens. You may have heard of this process as tokenization. 
-One website that can help you visualize this is <a href="https://tiktokenizer.vercel.app/?model=cl100k_base" target="_blank">tiktokenizer</a>.
-
-### Neural network I/O
+### Neural Network I/O
 <BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/nn-io.png" alt="Neural Network I/O" />
 
-In order for us to train the model, we need to train it on the patterns found in the data we collected. How we do it is we randomly pick a window of tokens and use them as input to the model.
-In the feed forward direction, we use the tokenized data as input to the model. Since the weights are initialized randomly, the output probability distribution will be random. In case of GPT-4, the output distribution will have 100,277 possible tokens.
-Based on the loss function, we can compute the gradient of the loss with respect to the model parameters. And during backpropagation, we update the model parameters in the direction that reduces the loss.
+Once the data is tokenized, it’s fed into the neural network. Here’s how that process works:
 
-The length of the window a.k.a context length is completely arbitrary and based on our discretion. For example, we can say it's going to be 8000 tokens long. We have to make it a reasonable number because computing a higher context length will be highly resource intensive.
-As models become more powerful, we can increase the context length. For example, GPT-4 has a context window of 128k tokens with a max output token of 16,384 tokens.
+1. The model takes in a **context window**, a set number of tokens (e.g., 8,000 for some models, up to 128k for GPT-4).
+2. It predicts the **next token** based on the patterns it has learned.
+3. The weights in the model are adjusted using **backpropagation** to reduce errors.
+4. Over time, the model learns to make better predictions.
 
-### Neural network internals
+A longer context window means the model can "remember" more from the input, but it also increases computational cost.
+
+### Neural Network Internals
 <BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/nn-internal-math-eq.png" alt="equation" />
 
-The neural networks usually pass the input context window (decided by us) + the weights of the model (usually in billions) and pass them through complex mathematical equations to get the probability distribution of the next token.
+Inside the model, billions of parameters interact with the input tokens to generate a probability distribution for the next token.
 
-One example of such an equation is given below:
-
-It is a subject of neural network architecture research to design mathematical expressions that have a lot of convenient properties like expressive, optimizable, parallelizable, etc.
-
-You can find an actual production grade example of a LLM architecture <a href="https://bbycroft.net/llm" target="_blank">here</a>.
+- This process is defined by complex mathematical equations optimized for efficiency.
+- Model architectures are designed to balance speed, accuracy, and parallelization.
+- You can see a production-grade LLM architecture example <a href="https://bbycroft.net/llm" target="_blank">here</a>.
 
 ### Inference
 <BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/inference.png" alt="Inference" />
 
-One thing to keep in mind about the LLMs is they are stochastic. This means that the output is a random variable. Sometimes it can exactly represent the sequence we trained it on but most of the time it will not. You basically flip a biased coin to decide the next token.
-Statistically, speaking the output will be similar properties to the training data but it will not be exactly the same. They are kind of like inspired by the training data.
+LLMs don’t generate deterministic outputs, they are **stochastic**. This means the output varies slightly every time you run the model.
 
-### GPT-2: Training and inference
-GPT-2 was published by OpenAI in 2019. You can find it's research paper <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank">here</a>. Some of it's highlights were as follows:
+- The model doesn’t just repeat what it was trained on, it generates responses based on probabilities.
+- In some cases, the response will match something in the training data exactly, but most of the time, it will generate something new that follows similar patterns.
 
-Transformer neural network with
-1. 1.6B parameters
-2. Maximum context length of 1024 tokens
-3. Trained on about 100 billion tokens
+This randomness is why LLMs can be creative, but also why they sometimes **hallucinate** incorrect information.
 
-Modern transformers have more than a trillion or atleast several hundred million parameters. 
+### GPT-2
+<a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank">GPT-2</a>, released by OpenAI in 2019, was an early example of a transformer-based LLM.  
+Here’s what it looked like:
 
-Andrej reproduced GPT-2 as an experiment using llm.c. You can find his post <a href="https://github.com/karpathy/llm.c/discussions/677" target="_blank">here</a>.
+- **1.6 billion parameters**
+- **1024-token context length**
+- **Trained on ~100 billion tokens**  
+- The original GPT-2 training cost was **\$40,000**.
 
-It originally took 40000 dollars to train GPT-2, based on Andrej's post, he spent around 672 dollars replicating it. Nowadays, it can be brought down even further to maybe 100 dollars.
+Since then, efficiency has improved dramatically. Andrej Karpathy managed to **reproduce GPT-2** using <a href="https://github.com/karpathy/llm.c/discussions/677" target="_blank">llm.c</a> for just **\$672**. With optimized pipelines, training costs could drop even further to **around \$100**.
 
-The reason for that is, the techniques to extract pre-training data has improved a lot. The way we filter them extract them and prepare them has gotten a lot more refined so the data set is higher quality. Furthermore, our computers have gotten much more powerful in terms of hardware and software.
+Why is it so much cheaper now?  
+- **Better pre-training data extraction techniques** → Cleaner datasets mean models learn faster.
+- **Stronger hardware and optimized software** → Less computation needed for the same results.
 
-### Llama 3.1 base model inference
-A few companies spend millions of dollars to train their models and some of them even release the base model for free. The base model is not usually very desirable because it's the step 1 of the pipeline. They are essentially internet dream engines. You need to do a lot more work to
-take them to the stage of usefulness for the end-user like ChatGPT. However, a few of these have been released i.e. <a href="https://github.com/openai/gpt-2" target="_blank">GPT-2</a>. What does it mean to release the base model is to basically release the steps the model will take to generate the prediction.
-For example, <a href="https://github.com/openai/gpt-2/blob/master/src/model.py">GPT-2 model.py</a> is the file that contains the steps needed to generate the prediction. Other than the code steps, you also need the weights of the model. In case of GPT-2, roughly 1.5B parameters.
+### Open Source Base Models
+Some companies train massive LLMs and **release the base models for free**. A base model is essentially **the raw, unrefined LLM**, it still needs tuning to be useful.
 
-Another good and more modern open source model with 405B parameters is Llama 3, you can read more about it in this <a href="https://arxiv.org/pdf/2407.21783" target="_blank">paper</a>.
+- Base models are trained on **raw internet text**, meaning they generate completions but don’t understand human intent.
+- OpenAI open-sourced <a href="https://github.com/openai/gpt-2" target="_blank">GPT-2</a>. 
+- Meta open-sourced **<a href="https://arxiv.org/pdf/2407.21783" target="_blank">Llama 3.1 (405B parameters)</a>** which is a rather new LLM base model as compared to GPT-2.
 
-The base model contains 2 components:
-1) The code for running the Transformer  (e.g. 200 lines of code in Python)
-2) The parameters of the Transformer      (e.g. 1.6 billion numbers)
+In order to fully open-source a base model, two things are required:
+  - **<a href="https://github.com/openai/gpt-2/blob/master/src/model.py">The code</a>** (e.g., a few hundred lines in Python that defines the steps the model will take to generate the prediction).
+  - **<a href="https://www.kaggle.com/datasets/xhlulu/openai-gpt2-weights" target="_blank">The parameters</a>** (e.g., billions of tuned weights that define the model).
 
-Here is a physocology of a base model:
-- It is a token-level internet document simulator
-- It is stochastic / probabilistic - you're going to get something else each time you run
-- It "dreams" internet documents
-- It can also recite some training documents verbatim from memory ("regurgitation")
-- The parameters of the model are kind of like a lossy zip file of the internet
-    => a lot of useful world knowledge is stored in the parameters of the network
-- You can already use it for applications (e.g. translation) by being clever with your prompts
-    - e.g. English:Korean translator app by constructing a "few-shot" prompt and leveraging "in-context learning" ability
-    - e.g. an Assistant that answers questions using a prompt that looks like a conversation
+### How Base Models Work
+- They generate **token-level** internet-style text.
+- Every run produces **a slightly different output** (stochastic behavior).
+- They can **regurgitate** parts of their training data.
+- The parameters are like **a lossy zip file** of internet knowledge.
+- You can already use them for applications like:
+  - **Translation** → Using in-context examples.
+  - **Basic assistants** → Prompting them in a structured way.
 
-You can play with llama 3 405B base model <a href="https://app.hyperbolic.xyz/models/llama31-405b-base-bf-16" target="_blank">here</a>.
+Want to experiment with one? Try the **Llama 3 (405B base model)** <a href="https://app.hyperbolic.xyz/models/llama31-405b-base-bf-16" target="_blank">here</a>.
 
-The base model is usually a glorified very expensive auto-complete. You may recall using the GPT-2 completion model back in 2019 through OpenAI's playground.
+At its core, a base model is **just an expensive autocomplete**. It still needs fine-tuning.
 
-## Pre-training to post-training
-As we have understood that base model is glorified auto-complete, we can use it to generate text but it halucinates a lot. We need to pass it through a process called post-training. The goal here is to get a model that we can ask questions and get a good answer. Like an assistant.
-There are a few ways to do this training, but these post-training techniques are much less computationally intensive than the pre-training.
+---
 
-## Post-training 
+## Pre-Training to Post-Training
+So far, we’ve looked at **base models**, which are just pre-trained text generators. But **to make an actual assistant**, you need **post-training**.
 
-### Data conversations
-How this works is we take the base model which was trained on internet documents, we throw the internet documents away, substitute the dataset with human/assistant conversations and then train the model on that again. This conversation dataset is created and curatedby humans. 
-The pre-training is usually very fast. 
-For example, if pretraining took 3 months, post-training will take 3 hours as an example. We don't change the algorithm or any other process during this step. We basically further fine-tune the based model parameters to make it more conversational.
+- **Base models hallucinate a lot** → They generate text, but it’s not always useful.
+- **Post-training fixes this** by fine-tuning the model to respond better.
+- The good news? **Post-training is way cheaper than pre-training** (e.g., months vs. hours).
 
-One must ask, how do you let a completion model know it's doing a 2-turn conversation? The way to encode the conversations into a completion model is by using a template structure. You can read more about them <a href="https://huggingface.co/docs/transformers/main/en/chat_templating" target="_blank">here</a>.
-To visualize this, go to <a href="https://tiktokenizer.vercel.app/" target="_blank">tiktokenizer</a>.
+---
 
-Example of a template:
+## Supervised Fine-Tuning (SFT)
 
-```
+### Data Conversations
+Once the base model is trained on internet data, the next step is **post-training**. This is where we replace the internet dataset with **human/assistant conversations** to make the model more conversational and useful.
+
+- **Pre-training takes months**, but **post-training is much faster**. It can take as little as a few hours.
+- The **model's algorithm stays the same**, we’re just fine-tuning the existing parameters.
+
+To teach a model how to handle back-and-forth conversations, we use **chat templates**. These define the structure of a conversation and let the model know which part is user input and which part is an assistant response. 
+You can read more about them <a href="https://huggingface.co/docs/transformers/main/en/chat_templating" target="_blank">here</a>.
+
+#### Example template:
+```text
 <|im_start|>system<|im_sep|>You are a helpful assistant<|im_end|>
 <|im_start|>user<|im_sep|>What is 4 + 4?<|im_end|>
 <|im_start|>assistant<|im_sep|>4 + 4 = 8<|im_end|>
 <|im_start|>assistant<|im_sep|>
 ```
 
-One thing to note here is `<|im_start|>` and `<|im_end|>` are special tokens that are used to indicate the start and end of a message. They are introduced at the post-training stage. The model never learned them in the pre-training stage. The purpose of doing so is to teach the model that these
-tokens are not part of the vocabulary and should be treated as such.
+- `<|im_start|>` and `<|im_end|>` are **special tokens** that help structure conversations.
+- The model **didn’t see these new tokens during pre-training**, they’re introduced during post-training.
+- OpenAI has discussed fine-tuning LLMs for conversation in the <a href="https://arxiv.org/pdf/2203.02155" target="_blank">InstructGPT paper</a>.
 
-OpenAI has talked about how you can take language models and fine-tune them for conversations in this <a href="https://arxiv.org/pdf/2203.02155" target="_blank">paper for InstructGPT</a> released in 2022. OpenAI didn't release the dataset they generated for InstructGPT. But there are some open source efforts
-that we can look at. For example, here is one <a href="https://huggingface.co/datasets/OpenAssistant/oasst1" target="_blank">dataset</a> that we can use to train our own assistant. This is one of many examples.
+To visualize this, go to <a href="https://tiktokenizer.vercel.app/" target="_blank">tiktokenizer</a>.
 
-One thing to note here is that humans are not as heavily involved in creating the post-training dataset as they used to be when InstructGPT was released. Now, we have specially tuned models like <a href="https://github.com/thunlp/UltraChat" target="_blank">UltraChat</a> that can generate a dataset of high quality.
-It's called synthetic data. It's one of many examples. UltraChat has millions of conversations now that are mostly synthetic. You can visualize them <a href="https://atlas.nomic.ai/map/0ce65783-c3a9-40b5-895d-384933f50081/a7b46301-022f-45d8-bbf4-98107eabdbac" target="_blank">here</a>.
+One such dataset is <a href="https://huggingface.co/datasets/OpenAssistant/oasst1" target="_blank">OASST1</a>. Early post-training datasets were **hand-curated by humans**. 
+Now, models like <a href="https://github.com/thunlp/UltraChat" target="_blank">UltraChat</a> can generate **synthetic conversations**, allowing models to improve without as much human input. 
+You can visualize these mostly synthetic datasets <a href="https://atlas.nomic.ai/map/0ce65783-c3a9-40b5-895d-384933f50081/a7b46301-022f-45d8-bbf4-98107eabdbac" target="_blank">here</a>.
 
-### Hallucinations, tool use, knowledge/working memory
-Let's understand a little bit about LLM psychology.
+### Hallucinations, Tool Use, and Memory
+One major issue with LLMs is **hallucination**, where the model confidently generates incorrect or made-up information.
 
-When we give LLMs a convresation for post-training, we are essentially showing them that no matter what is asked, there will always be a confident answer. So even if the question we asked does not make sense, like asking about a person who doesn't exist, the model will try to immitate the training conversation style.
-If it was always given an answer, it will always try to come up with an answer. This is why you see the model hallucinating a lot.
+#### Why does this happen?
+- During **post-training**, models learn that they must **always** give an answer.
+- Even if the question doesn’t make sense, the model **tries to generate a response** instead of saying, “I don’t know.”
 
-How do we know what the model knows and doesn't know? we can try empirically probing the model.
+#### How Meta Deals with Hallucinations
+Meta’s research on **factuality** (from their <a href="https://arxiv.org/pdf/2407.21783" target="_blank">Llama 3 paper</a>) describes a way to improve this:
 
-How meta deals with Hallucinations, they describe it under the heading "factuality" in this  <a href="https://arxiv.org/pdf/2407.21783" target="_blank">paper</a>. Here is what they say:
+1. Extract a snippet of training data.
+2. Generate a factual question about it using Llama 3.
+3. Have Llama 3 generate an answer.
+4. Score the response against the original data.
+5. If incorrect, train the model to recognize and refuse incorrect responses.
 
-1. Extract a data snippet from the pre-training data.
-2. Generate a factual question about these snippets (context) by prompting Llama 3.
-3. Sample responses from Llama 3 to the question.
-4. Score the correctness of the generations using the original context as a reference and Llama 3 as a judge.
-5. Score the informativeness of the generations using Llama 3 as a judge.
-6. Generate a refusal for responses which are consistently informative and incorrect across the generations, using Llama 3.
+Essentially, this process **teaches models to recognize their own knowledge limits**.
 
-The summary of it is, you interrogate the model to find it's knowledge boundary, then you train it to basically say "I don't know" when it's out of it's knowledge boundary. One way of automatically doing it is to build an LLM as a judge.
+#### Using Tools to Reduce Hallucinations
+One way to fix hallucinations is to **train models to use tools** when they don’t know the answer. This approach follows the pattern:
 
-A better way of mitigating it is to introduce tool use. For example, if you detect a hallucination, you can create a conversation like the following:
-
-```
+```text
 <|im_start|>user<|im_sep|>Who is Orson Kovacs?<|im_end|>
 <|im_start|>assistant<|im_sep|><SEARCH_START>Who is Orson Kovacs?<SEARCH_END><|im_end|>
 
-[...search results...] -> An example of RAG using tools
+[...search results...]
 
 <|im_start|>assistant<|im_sep|>Orson Kovacs is ....<|im_end|>
 ```
 
-By training on such conversations, the model will start learning that if it doesn't know the answer, it can use the search tool to find the answer over time.
+With repeated training, models learn that **if they don’t know something, they should look it up** instead of making things up.
 
-"Vague recollection" vs. "Working memory"
-Knowledge in the parameters == Vague recollection (e.g. of something you read 1 month ago)
-Knowledge in the tokens of the context window == Working memory
+#### "Vague Recollection" vs. "Working Memory"
+- **Model parameters store vague recollections** (like remembering something from a month ago).
+- **Context tokens function as working memory**, giving models access to **fresh information**.
 
-Working memory is always better. If you can and you need accurate answers, try supplementing the model with the relevant information. This is usually done by using RAG (Retrieval Augmented Generation). Since the model has direct access to the information, it doesn't have to recall it,
-thus reducing the chance of hallucination.
+This is why **retrieval-augmented generation (RAG)** works so well: if the model has direct access to relevant documents, it **doesn’t need to guess**.
 
-### Knowledge of self
-If you prompt a raw model for who it is or who it's creator is, it's going to hallucinate. The reason for this is the model isn't a real person. It was trained on internet documents and not necessarily given enough context to know who it's creator is or who it is.
-A non OpenAI model might hallucinate and say it's created by OpenAI, not because people ripped of the OpenAI models (it's closed-source anyways) but because the model was trained on the internet documents and they contain quite a lot of information about OpenAI and it's LLMs. That's
-why it will confidently say it's created by OpenAI.
+### Knowledge of Self
+If you prompt an **untuned base model** about who it is, it will likely hallucinate. For example, a non-OpenAI model might still say it was created by OpenAI simply because most internet data links AI models to OpenAI.
 
-One way to solve this is to exclusively give it conversations to train on. For example, <a href="https://huggingface.co/datasets/allenai/tulu-3-sft-olmo-2-mixture" target="_blank">Olmo-2</a> does it by training the model on a set 
-of <a href="https://huggingface.co/datasets/allenai/olmo-2-hard-coded" target="_blank">hard-coded conversations</a>.
+#### How to Fix This
+- **<a href="https://huggingface.co/datasets/allenai/olmo-2-hard-coded" target="_blank">Hardcode self-identity into training data</a>** → Example: <a href="https://huggingface.co/datasets/allenai/tulu-3-sft-olmo-2-mixture" target="_blank">Olmo-2 dataset</a>.
+- **Use system messages** → At the start of every conversation, include a reminder of its identity.
 
-Another way of doing it to give it the proper context in the system message. 
+**By default, LLMs have no real knowledge of themselves.** Without specific training, they default to generic AI responses.
 
-Summary:
-The LLM has no knowledge of self "out of the box"
-If you do nothing, it will probably think it is ChatGPT, developed by OpenAI.
-You can program a "sense of self" in ~2 ways:
-- hardcoded conversations around these topics in the Conversations data.
-- "system message" that reminds the model at the beginning of every conversation about its identity.
+### Models Need Tokens to Think
+LLMs **don’t reason like humans**. They generate tokens **sequentially**, meaning they need structured prompts to think properly.
 
-### Models need tokens to think
-The type of examples you give to the model is very important. Think about it this way, the model is a token generator at best. It is only good at predicting the next token in a sequence. It's not supposed to work with random thoughts.
-It goes from left to right, during each pass, it takes the previous tokens and generates the next one. During a single pass, there isn't much computation that happens, there are finite number of layers that the input goes through so we cannot make too big of a leap. 
-We cannot make big jumps like 3*3 + 4*4 = 25. We have to break it into smaller steps, hence the concept of "Think step by step".
+#### Example: Bad vs. Good Prompting
+**Bad Prompt:**
+```text
+Human: Emily buys 3 apples and 2 oranges. Each orange costs $2. The total cost of all the fruit is $13. What is the cost of apples?
+Assistant: The answer is $3.
+```
+- The model **jumps to the answer** without breaking it down.
 
-You can visualize all the layers of computation <a href="https://bbycroft.net/llm" target="_blank">here</a>. 
+**Good Prompt:**
+```text
+Human: Emily buys 3 apples and 2 oranges. Each orange costs $2. The total cost of all the fruit is $13. What is the cost of apples?
+Assistant: The total cost of the oranges is $4. 13 - 4 = 9, so the cost of the 3 apples is $9. 9/3 = 3, so each apple costs $3.
+```
+- Here, the model **works through the reasoning step-by-step**.
 
-Let's take a few examples.
+#### Why This Matters
+- If a model **jumps straight to an answer**, it might just be guessing.
+- If it **walks through the solution step-by-step**, it’s more reliable.
 
-Example 1: BAD Example
-Human: "Emily buys 3 apples and 2 oranges. Each orange costs $2. The total cost of all the fruit is $13. What is the cost of apples?"
-Assistant: "The answer is $3. This is because 2 oranges at $2 are $4 total. So the 3 apples cost $9, and therefore each apple is 9/3 = $3".
+For **math and logic tasks**, it’s best to ask the model to **use external tools** rather than relying on its own reasoning.
 
-Example 2: GOOD Example
-Human: "Emily buys 3 apples and 2 oranges. Each orange costs $2. The total cost of all the fruit is $13. What is the cost of apples?"
-Assistant: "The total cost of the oranges is $4. 13 - 4 = 9, the cost of the 3 apples is $9. 9/3 = 3, so each apple costs $3. The answer is $3".
+---
 
-Now, in the bad example, you can see that the answer 3 is present in the first sentence. It did not go through the process of thinking. It just spit out the answer. Which is good but we have to remember, the model is not really a calculator. It's a stochastic token generator.
-If it somehow magically landed on the answer 3, then it's just a fluke and can very well land on some other answer.
-
-The second example is a good example because the entire reasoning is spread across multiple tokens and the model is going through the tokens in a sequential manner to come to the conclusion. Furthermore, what model has already gone through from left to right, will stay in it's working memory.
-As we have discussed earlier, the working memory is better than the vague recollection. The model doesn't have to guess or hallucinate, it knows exactly what needs to be done.
-
-If the examples are not presented in a good way, the output of the model can get greatly affected.
-
-If you have to do arithmetics, it's always better to ask the model to use some coding tool to do it. Remember, the model is a token generator at best. It's not a calculator. It can just give you it's best guess at best.
-
-Furthermore, the models are not even very good at spellings. The reason for this is a model sees words/sentences as tokens not characters. The most famous example of this is the post that went viral where the model was incorrectly counting the number of r's in 
-the word "strawberry" as 2. It just comes down to 2 deficiencies: the model is not very good at counting and the model is not very good at spellings.
-
-Another example is the comparison whether 9.11 is greater than 9.9. To us it makes sense but since the model is not good at counting and can only be stochastic at best, it sometimes output 9.9 to be greater than 9.11.
-Researchers found out that when this question was asked to the model, sometimes a few neurons related to Bible verses were activated. And somehow 9.11 comes before 9.9 in terms of verses in the Bible. Even though the model will try to justify it's reasoning with maths,
-it will still give the wrong answer.
-
-## Supervised fine-tuning
-
-### Reinforcement learning
+## Reinforcement Learning
 <BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/rl.png" alt="Reinforcement Learning" />
 
-During pre-training, the model is trained on the background knowledge of the internet. But the model doesn't know how to use it. We need to teach it how to use it.
+Once a model is trained on internet data, **it still doesn’t know how to use its knowledge effectively**. 
 
-During post-training, the model is shown how to use the background knowledge by an expert. This is called supervised fine-tuning. We saw this in the previous section when the humans created the conversations for the model to learn.
+- **Supervised fine-tuning** teaches it to mimic human responses.
+- **Reinforcement learning (RL)** helps it improve by trial and error.
 
-Now in reinforcement learning, we are going to allow the model to practice on the problems it has not seen before. 
-
-The issue is we fundamentally don't know what the right way of doing it is. For example, if we asked the LLM to solve a mathematical problem without tools, we don't know what's the best way of representing the solution is. What seems easy and step by step to us might not be that 
-straightforward for the model. On the same time, if we give it way too many steps, it might be very trivial for the model and waste the available tokens. So you can feel how this can be a very tricky problem.
-
-Long story short, we are not in a position to create a good dataset for such token sequences. It might help in initializing the model but eventually, we want to allow the LLM to discover what works the best for it. This usually happens through the process of reinforcement learning and trial and error.
-
-Reinforcement learning is very simple, we have to try many different solutions and see which one works the best.
-
+### How RL Works
 <BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/rl-1.png" alt="Reinforcement Learning Process" />
+
+Instead of relying on human-created datasets, RL lets the model **experiment with different solutions** and figure out what works best.
+
+Example Process:
+```text
+We generated 15 solutions.
+Only 4 of them got the right answer.
+Take the top solution (each right and short).
+Train on it.
+Repeat many, many times.
+```
 
 No human is involved in this process. The model generates different solutions to the same problem, sometimes they are in millions. Then it compares them to pick the ones that reached the correct answer and then trains on the winning solutions.
 
@@ -285,7 +279,7 @@ You can see that the model has this "aha" moment here, it's not something that y
 better at reasoning but the con is it's consuming more and more tokens to do so.
 
 One thing we can learn from the research paper on <a href="https://discovery.ucl.ac.uk/id/eprint/10045895/1/agz_unformatted_nature.pdf" target="_blank">matering the game of Go</a> is that RL actually helps the model become better at reasoning than their human counterparts.
-The model isn't just training to immitate the human but it's coming up with it's own strategies through trial and error to win the game.
+The model isn't just trying to immitate the human but it's coming up with it's own strategies through trial and error to win the game.
 
 <BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/rl-3.png" alt="Reinforcement Learning Process" />
 
@@ -293,7 +287,66 @@ One very unique thing noted during the AlphaGo's game was a move called <a href=
 It's a move that was not part of the training data but the model came up with it's own strategy to win the game. The researchers predicted that the chance of it being played
 by a human would be 1 in 10000. So you can see how the model is capable of coming up with it's own strategies.
 
-## Conclusion
+RL is still heavily unexplored and there is a lot of research going on in this area. It is entirely possible if given the chance, the LLM might come up with a language
+of it's own to express it's thoughts and ideas because it disovered that it's the best way to express it's thoughts and ideas.
 
+### Learning on unverifiable domains a.k.a Reinforcement Learning from Human Feedback (RLHF)
+It is very easy to exclude humans from the RL process in verifiable domains. LLMs can act as a judge for it's own performance.
 
+However, in unverifiable domains, we need to include humans in the loop.
 
+For example, for a prompt `Write a joke about pelicans`, it is not very easy to find a way to automatically judge the quality of the joke. 
+The LLM will generate the jokes without issues, but judging their quality at is not possible.
+
+Furthermore, including humans in this process at scale is not feasible. This is where RLHF comes in. You can read more about it in <a href="https://arxiv.org/pdf/1909.08593" target="_blank">this paper</a>.
+
+<BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/rlhf-1.png" alt="Reinforcement Learning from Human Feedback" />
+
+In order for doing RLHF at scale, you basically train a separate reward model which could be a transformer without the extra layers surrounding it. 
+You use humans to judge the rank it is giving to the responses and then you use that to train the reward model until you are satisfied with the results.
+Once that is done, you can use the reward model to judge the quality of the responses generated by the LLM at scale.
+
+<BlogImage src="blog/2025-02-08-deep-dive-into-llms-like-chatgpt-tldr/rlhf-2.png" alt="Reinforcement Learning from Human Feedback" />
+
+#### RLHF Upside
+We can run RL, in arbitrary domains! (even the unverifiable ones)
+This (empirically) improves the performance of the model, possibly due to the "discriminator - generator gap":
+
+In many cases, it is much easier to discriminate than to generate.
+
+e.g. "Write a poem" vs. "Which of these 5 poems is best?"
+
+#### RLHF Downside
+We are doing RL with respect to a lossy simulation of humans. We NEED a reward model that is close to the real human preferences but it's still a simulation not the real thing. It might be misleading!
+
+Even more subtle:
+RL discovers ways to "game" the model.
+It discovers "adversarial examples" of the reward model.
+
+E.g. after 1,000 updates, the top joke about pelicans is not the banger you want, but something totally non-sensical like "the the the the the the the the".
+
+This bad example that goes through the NN of the model and basically sabotages the whole process is called <a href="https://en.wikipedia.org/wiki/Adversarial_machine_learning" target="_blank">Adversarial Examples</a>.
+
+You cannot really take these examples and give them a low score in the training data because there are infinite number of examples that the system can produce.
+
+The ideal of training the reward model is to train it for a few 100 iterations then crop it there. If you train it further, it will start to game the system and the performance will start to decrease.
+
+RLHF can be considered RL in the systems with deterministic outputs. Like the game of Go. But if there is a way to game the system, like in LLMs, it's not exactly RL but rather a way to further fine-tune the model.
+
+## Preview of things to come
+- multimodal (not just text but audio, images, video, natural conversations)
+- tasks -> agents (long, coherent, error-correcting contexts)
+- pervasive, invisible
+- computer-using
+- test-time training?, etc.
+
+## Keeping track of LLMs
+- <a href="https://lmarena.ai" target="_blank">LM Arena</a>.
+- <a href="https://buttondown.com/ainews" target="_blank">AI News</a>.
+- <a href="https://x.com" target="_blank">X</a> (Twitter).
+
+## Where to find them
+- Proprietary: OpenAI, Google, Anthropic, etc.
+- Open weight models (DeepSeek, Meta, etc.): An inference provider i.e. <a href="https://together.ai" target="_blank">Together</a>.
+- Run them locally: <a href="https://ollama.com/" target="_blank">Ollama</a>, <a href="https://lmstudio.ai/" target="_blank">LM Studio</a>, etc.
+- Base models: <a href="https://app.hyperbolic.xyz" target="_blank">Hyperbolic</a>.
