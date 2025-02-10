@@ -213,14 +213,14 @@ If you prompt an **untuned base model** about who it is, it will likely hallucin
 LLMs **don’t reason like humans**. They generate tokens **sequentially**, meaning they need structured prompts to think properly.
 
 #### Example: Bad vs. Good Prompting
-**Bad Prompt:**
+**Bad Model Output:**
 ```text
 Human: Emily buys 3 apples and 2 oranges. Each orange costs $2. The total cost of all the fruit is $13. What is the cost of apples?
 Assistant: The answer is $3.
 ```
 The model **jumps to the answer** without breaking it down.
 
-**Good Prompt:**
+**Good Model Output:**
 ```text
 Human: Emily buys 3 apples and 2 oranges. Each orange costs $2. The total cost of all the fruit is $13. What is the cost of apples?
 Assistant: The total cost of the oranges is $4. 13 - 4 = 9, so the cost of the 3 apples is $9. 9/3 = 3, so each apple costs $3.
