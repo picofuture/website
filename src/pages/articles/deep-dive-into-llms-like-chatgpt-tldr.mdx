@@ -100,16 +100,16 @@ Why is it so much cheaper now?
 - **Stronger hardware and optimized software** → Less computation needed for the same results.
 
 ### Open Base Models  
-**Disclaimer:** The models under discussion **do not strictly follow** the Open Source Initiative (**OSI**) definitions of open-source AI (<a href="https://opensource.org/ai" target="_blank">OSI AI Definition</a>). 
-Instead, we use the term **open base models** to describe models where the weights are publicly accessible, but training data and full reproducibility may not be provided.
+**Disclaimer:** The models under discussion **do not strictly follow** the Open Source Initiative (**OSI**) definitions of open-source AI (<a href="https://opensource.org/ai" target="_blank">OSI AI Definition</a>).  
+Instead, we use the term **open base models** to describe models where the **weights are publicly accessible**, but **training data and full reproducibility** may not be provided.
 
 Some companies train massive **language models (LMs)** and **release the base models for free**. A **base model** is essentially a **raw, pre-trained LM**—it still requires **fine-tuning** or **alignment** to be practically useful.
 
 - Base models are trained on **unfiltered internet-scale data**, meaning they generate **raw** completions but **lack alignment with human intent**.
-- OpenAI released **<a href="https://github.com/openai/gpt-2" target="_blank">GPT-2</a>**, a fully open-source model.
+- OpenAI released **<a href="https://github.com/openai/gpt-2" target="_blank">GPT-2</a>**, an **open-weight and source-available** model, but **not fully open-source** under OSI’s definition since its training data was not released.
 - Meta released **<a href="https://arxiv.org/pdf/2407.21783" target="_blank">Llama 3.1 (405B parameters)</a>**, an **open-weight** but **not open-source** model.
 
-To release a **base model**, two key components are mandatory:
+To release a **base model**, two key components are required:
 1. **<a href="https://github.com/openai/gpt-2/blob/master/src/model.py" target="_blank">Inference code</a>** → Defines the steps the model follows to generate text. Typically written in Python.
 2. **<a href="https://www.kaggle.com/datasets/xhlulu/openai-gpt2-weights" target="_blank">Model weights</a>** → The billions of parameters that encode the model’s knowledge.
 
