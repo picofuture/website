@@ -99,15 +99,17 @@ Why is it so much cheaper now?
 - **Better pre-training data extraction techniques** → Cleaner datasets mean models learn faster.
 - **Stronger hardware and optimized software** → Less computation needed for the same results.
 
-### Open Source Base Models
-Some companies train massive LLMs and **release the base models for free**. A base model is essentially **the raw, unrefined LLM**, it still needs tuning to be useful.
+### Open Base Models
+**Disclaimer:** The models under discussion do not strictly follow the definitions of open source models as defined by <a href="https://opensource.org/ai" target="_blank">OSI</a>. That's why the term **open base models** is being used instead of **open source base models**.
+
+Some companies train massive LMs and **release the base models for free**. A base model is essentially **the raw, unrefined LM**, it still needs tuning to be useful.
 
 - Base models are trained on **raw internet text**, meaning they generate completions but don’t understand human intent.
-- OpenAI open-sourced <a href="https://github.com/openai/gpt-2" target="_blank">GPT-2</a>. 
-- Meta open-sourced **<a href="https://arxiv.org/pdf/2407.21783" target="_blank">Llama 3.1 (405B parameters)</a>** which is a rather new LLM base model as compared to GPT-2.
+- OpenAI released <a href="https://github.com/openai/gpt-2" target="_blank">GPT-2</a>. 
+- Meta released **<a href="https://arxiv.org/pdf/2407.21783" target="_blank">Llama 3.1 (405B parameters)</a>** which is a rather new LM base model as compared to GPT-2.
 
-In order to fully open-source a base model, two things are required:
-  - **<a href="https://github.com/openai/gpt-2/blob/master/src/model.py" target="_blank">The code</a>** (e.g., a few hundred lines in Python that defines the steps the model will take to generate the prediction).
+In order to release a base model, two things are mandatory:
+  - **<a href="https://github.com/openai/gpt-2/blob/master/src/model.py" target="_blank">The inference code</a>** (e.g., a few hundred lines in Python that defines the steps the model will take to generate the prediction).
   - **<a href="https://www.kaggle.com/datasets/xhlulu/openai-gpt2-weights" target="_blank">The parameters</a>** (e.g., billions of tuned weights that define the model).
 
 ### How Base Models Work
