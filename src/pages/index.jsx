@@ -190,10 +190,7 @@ function Resume() {
       title: 'Engineering Lead',
       logo: formatCDNURl('logos/durable-logo.svg'),
       start: '2023',
-      end: {
-        label: 'Present',
-        dateTime: new Date().getFullYear(),
-      },
+      end: '2025',
     },
     {
       company: 'Logitech',
