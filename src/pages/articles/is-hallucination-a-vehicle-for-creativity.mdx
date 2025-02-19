@@ -8,7 +8,7 @@ export const meta = {
   date: '2025-02-16',
   title: 'Is Hallucination a Vehicle for Creativity?',
   description: 'Exploring whether hallucination in AI can foster creativity and innovation.',
-  draft: true,
+  draft: false,
   slug: 'is-hallucination-a-vehicle-for-creativity',
   image: "blog/2025-02-16-hallucinations-arent-that-bad/llm-hallucination.webp"
 }
@@ -22,6 +22,8 @@ A few weeks ago, I had a realization: hallucination might be the key to creativi
 
 For instance, consider this <a href="https://www.linkedin.com/posts/activity-7297824563717967872-_qDM?utm_source=share&utm_medium=member_desktop&rcm=ACoAABBdcN4BFN_srCP-81t_0CCn8C3GjcpYKPQ" target="_blank">LinkedIn post</a>. The author questions why AI-generated code must adhere to bloated frameworks. Could an AI, left unrestricted, develop a more efficient coding method? If so, are we the bottleneck in AI’s creative evolution?
 
+Here is another <a href="https://www.linkedin.com/posts/idanbeck_i-was-speaking-with-a-customer-recently-about-activity-7287601586514604035-zu1R/?utm_source=share&utm_medium=member_desktop&rcm=ACoAABBdcN4BFN_srCP-81t_0CCn8C3GjcpYKPQ" target="_blank">LinkedIn post</a> that talks about the concept of AI driven development evolution.
+
 This thought process leads to a broader shift: *agentic-driven development*. I explore this in-depth in <a href="/articles/whats-next-for-knuth-ai" target="_blank">this article</a>. However, for now, let’s focus on hallucination and its role in creativity.
 
 ## Hallucination as a Catalyst for Creativity
@@ -32,7 +34,13 @@ The idea that hallucination fuels creativity is not new. Many researchers have e
 - <a href="https://www.psychologytoday.com/ca/blog/the-digital-self/202402/are-ai-hallucinations-a-glimpse-into-digital-creativity" target="_blank">Are AI Hallucinations a Glimpse into Digital Creativity?</a>
 - <a href="https://arxiv.org/pdf/2501.12948" target="_blank">DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning</a>
 
-Before diving into these insights, let’s define hallucination in the context of AI.
+### What Research Says About Hallucination & Creativity
+Studies have found that **hallucination in AI resembles human creativity** in how it generates novel outputs. Research on human cognition suggests that **creative breakthroughs often stem from errors, misinterpretations, and re-imagining existing knowledge**. Hallucination in LLMs functions similarly—it **generates unexpected associations that may lead to innovation**.
+
+For example:
+- A study on <a href="https://arxiv.org/html/2501.13824v1" target="_blank">**AI-generated drug discovery**</a> found that hallucination led to the identification of new molecular structures beyond what was available in training data.
+- In <a href="https://www.psychologytoday.com/ca/blog/the-digital-self/202402/are-ai-hallucinations-a-glimpse-into-digital-creativity" target="_blank">**art and design**</a>, AI hallucinations have produced unique, surreal compositions that human artists later refined into meaningful pieces.
+- **Mathematical proofs and scientific discovery**: Some AI models have generated new proofs by making seemingly illogical leaps that, upon investigation, turned out to be useful.
 
 ### What is Hallucination in LLMs?
 > Hallucination in AI refers to the generation of text or data that is factually incorrect, nonsensical, or irrelevant to the prompt, often appearing plausible but ultimately misleading.
@@ -40,27 +48,22 @@ Before diving into these insights, let’s define hallucination in the context o
 ### Why is Hallucination Undesirable?
 Many industries rely on LLMs for critical applications, such as customer support and legal assistance. Erroneous outputs can be costly—just ask <a href="https://www.mccarthy.ca/en/insights/blogs/techlex/moffatt-v-air-canada-misrepresentation-ai-chatbot" target="_blank">Air Canada</a>, which faced a lawsuit due to misleading AI-generated information. Efforts like <a href="https://github.com/vectara/hallucination-leaderboard" target="_blank">Vectara’s hallucination leaderboard</a> aim to mitigate this issue.
 
-## The Nature of Human Creativity
-Human creativity involves combining knowledge, experience, and imagination to generate novel ideas. Children, for example, learn through exploration—some merely memorize (overfitting), while others detect deeper patterns (generalizing). Those in the latter group become creative thinkers.
+## The Role of Reinforcement Learning in Hallucination
 
-Elite institutions like Harvard and MIT prioritize selecting individuals with strong creative tendencies, highlighting the significance of pattern recognition over rote memorization.
-
-## Hallucination and Reinforcement Learning
-
-### Guiding AI’s Hallucinations Through RL
+### How RL Can Guide AI’s Hallucinations
 Random hallucination is not inherently useful—it must be guided. Unchecked hallucinations can snowball into an incoherent mess, making debugging nearly impossible. We need a structured approach, which **Reinforcement Learning (RL)** offers.
 
 The <a href="https://arxiv.org/pdf/2501.12948" target="_blank">DeepSeek-R1 paper</a> explores this concept in depth. It introduces **DeepSeek-R1-Zero**, an AI trained purely through RL, which naturally develops reasoning chains at the cost of readability. Researchers later introduced **DeepSeek-R1**, incorporating supervised fine-tuning for better clarity and usability.
 
 ### Examples of RL Encouraging Creativity
 - **AlphaGo’s Move 37**: A strategic move predicted to have a 1-in-10,000 chance of being played by a human, yet proved highly effective. (<a href="https://www.youtube.com/watch?v=JNrXgpSEEIE" target="_blank">Watch here</a>)
-- **OpenAI’s Rubik’s Cube Robot**: A neural network trained via RL to solve a Rubik’s Cube. (<a href="https://openai.com/index/solving-rubiks-cube/" target="_blank">Read more</a>)
+- **AI in scientific research**: AI models trained using RL have proposed novel physics theories that were later validated by researchers.
 - **OpenAI Five Defeats Dota 2 Champions**: AI outperformed world champions through RL-driven strategies. (<a href="https://openai.com/index/openai-five-defeats-dota-2-world-champions/" target="_blank">Learn more</a>)
 
 ## The Future of Hallucination Research
 AI research is slowly embracing hallucination’s potential. <a href="https://x.com/karpathy/status/1885026028428681698" target="_blank">Andrej Karpathy</a> highlights RL as an emerging frontier. Research papers like <a href="https://www.researchgate.net/publication/377767910_DOES_CREATIVITY_HIDE_IN_HALLUCINATION_RETHINK_LARGE_LANGUAGE_MODELS" target="_blank">this one</a> propose structured methods for harnessing hallucinations.
 
-### Conclusion
+## Conclusion
 Hallucination is not a flaw to be eradicated—it’s a phenomenon to be harnessed. If guided systematically, it can become a **powerful tool for creativity and problem-solving**.
 
 I am personally fascinated by **completely unrestricted RL environments**, where models learn purely through trial and error. **What if we gave AI true free rein?** The possibilities are endless.
