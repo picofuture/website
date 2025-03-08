@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabaseClient';
+import { getSupabaseClient } from '@/lib/supabaseClient';
 import { buildResponse } from "@/lib/apiResponseBuilder";
 import { EMAIL_SUBSCRIPTIONS } from "@/lib/sharedConsts";
 
@@ -17,6 +17,8 @@ export default async function handler(req) {
     if (!email) {
       return buildResponse(null, 400, "Bad Request");
     }
+
+    const supabase = getSupabaseClient();
 
     const selectResponse = await supabase.from(EMAIL_SUBSCRIPTIONS)
       .select('*')
