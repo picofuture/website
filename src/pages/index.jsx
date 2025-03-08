@@ -320,10 +320,10 @@ export default function Home({ articles }) {
             Anfal Mushtaq - AI Consultant, Entrepreneur
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            I’m Anfal, a seasoned entrepreneur and AI consultant based in Vancouver, Canada. As the founder of <a href='https://www.picofuture.com' target='_blank' className='text-teal-500'>Pico Future</a>, I help companies build and scale AI-driven products.
+            I&apos;m Anfal, a seasoned entrepreneur and AI consultant based in Vancouver, Canada. As the founder of <a href='https://www.picofuture.com' target='_blank' className='text-teal-500'>Pico Future</a>, I help companies build and scale AI-driven products.
           </p>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            I specialize in <b>taking AI startups from zero to one</b>, <b>building MVPs</b>, and <b>scaling products into successful businesses</b>. Whether you're looking to integrate AI into your existing operations or launch an AI-driven startup, I can help.
+            I specialize in <b>taking AI startups from zero to one</b>, <b>building MVPs</b>, and <b>scaling products into successful businesses</b>. Whether you&apos;re looking to integrate AI into your existing operations or launch an AI-driven startup, I can help.
           </p>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
             Let&apos;s connect – reach out at <a href='mailto:hello@anfalmushtaq.com' className='text-teal-500'>hello@anfalmushtaq.com</a>.
