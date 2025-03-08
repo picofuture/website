@@ -307,7 +307,7 @@ export default function Home({ articles }) {
     <>
       <Head>
         <title>
-          Anfal Mushtaq - AI Consultant, Entrepreneur
+          Anfal - AI Consultant, Entrepreneur
         </title>
         <meta
           name="description"
@@ -317,7 +317,7 @@ export default function Home({ articles }) {
       <Container className="mt-9">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            Anfal Mushtaq - AI Consultant, Entrepreneur
+            Anfal - AI Consultant, Entrepreneur
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
             I&apos;m Anfal, a seasoned entrepreneur and AI consultant based in Vancouver, Canada. As the founder of <a href='https://www.picofuture.com' target='_blank' className='text-teal-500'>Pico Future</a>, I help companies build and scale AI-driven products.
