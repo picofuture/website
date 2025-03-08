@@ -1,9 +1,9 @@
-import {supabase} from '@/lib/supabaseClient';
-import {buildResponse} from "@/lib/apiResponseBuilder";
-import {EMAIL_SUBSCRIPTIONS} from "@/lib/sharedConsts";
+import { supabase } from '@/lib/supabaseClient';
+import { buildResponse } from "@/lib/apiResponseBuilder";
+import { EMAIL_SUBSCRIPTIONS } from "@/lib/sharedConsts";
 
 export const config = {
-  runtime: 'experimental-edge',
+  runtime: 'edge',
 }
 
 export default async function handler(req) {
