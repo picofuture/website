@@ -17,10 +17,10 @@ import {
 import { formatDate } from '@/lib/formatDate'
 import { generateRssFeed } from '@/lib/generateRssFeed'
 import { getAllArticles } from '@/lib/getAllArticles'
-import cloudflareLoader, {formatCDNURl} from "@/lib/cloudflareImageLoader";
-import {GITHUB_LINK, INSTAGRAM_LINK, LINKEDIN_LINK, TWITTER_LINK} from "@/lib/sharedConsts";
-import {useState} from "react";
-import {useRouter} from "next/router";
+import cloudflareLoader, { formatCDNURl } from "@/lib/cloudflareImageLoader";
+import { GITHUB_LINK, INSTAGRAM_LINK, LINKEDIN_LINK, TWITTER_LINK } from "@/lib/sharedConsts";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 function MailIcon(props) {
   return (
@@ -167,14 +167,14 @@ function Newsletter() {
           className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-teal-400 dark:focus:ring-teal-400/10 sm:text-sm"
           disabled={formSubmissionState}
           onChange={(e) => { setEmail(e.target.value) }}
-          onKeyDown={ async (e) => { if (e.key === 'Enter') { await emailSubmitHandler(e); } } }
+          onKeyDown={async (e) => { if (e.key === 'Enter') { await emailSubmitHandler(e); } }}
           value={email}
         />
         <Button
           type="submit"
           className="ml-4 flex-none"
           disabled={formSubmissionState}
-          onClick={ async (e) => { await emailSubmitHandler(e) } }
+          onClick={async (e) => { await emailSubmitHandler(e) }}
         >
           Join
         </Button>
@@ -186,8 +186,16 @@ function Newsletter() {
 function Resume() {
   let resume = [
     {
+      company: 'Pico Future',
+      title: 'Founder, AI Consultant',
+      logo: formatCDNURl('logos/robot.png'),
+      start: '2023',
+      end: 'Present',
+      borderRadius: 'rounded-full',
+    },
+    {
       company: 'Durable',
-      title: 'Engineering Lead',
+      title: 'Engineering Lead, AI',
       logo: formatCDNURl('logos/durable-logo.svg'),
       start: '2023',
       end: '2025',
@@ -206,13 +214,6 @@ function Resume() {
       start: '2019',
       end: '2021',
     },
-    {
-      company: 'Streamlabs',
-      title: 'Senior Software Engineer',
-      logo: formatCDNURl('logos/streamlabs.svg'),
-      start: '2019',
-      end: '2019',
-    },
   ]
 
   return (
@@ -225,7 +226,14 @@ function Resume() {
         {resume.map((role, roleIndex) => (
           <li key={roleIndex} className="flex gap-4">
             <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
-              <Image src={role.logo} width={640} height={640} alt="" className="h-7 w-7" unoptimized />
+              <Image
+                src={role.logo}
+                width={640}
+                height={640}
+                alt=""
+                className={`h-7 w-7 ${role?.borderRadius ? `${role.borderRadius}` : ''}`}
+                unoptimized
+              />
             </div>
             <dl className="flex flex-auto flex-wrap gap-x-2">
               <dt className="sr-only">Company</dt>
@@ -239,9 +247,8 @@ function Resume() {
               <dt className="sr-only">Date</dt>
               <dd
                 className="ml-auto text-xs text-zinc-400 dark:text-zinc-500"
-                aria-label={`${role.start.label ?? role.start} until ${
-                  role.end.label ?? role.end
-                }`}
+                aria-label={`${role.start.label ?? role.start} until ${role.end.label ?? role.end
+                  }`}
               >
                 <time dateTime={role.start.dateTime ?? role.start}>
                   {role.start.label ?? role.start}
@@ -265,7 +272,7 @@ function Resume() {
 
 function Photos() {
   return null;
-  
+
   let rotations = ['rotate-2', '-rotate-2', 'rotate-2', 'rotate-2', '-rotate-2']
 
   return (
@@ -300,21 +307,26 @@ export default function Home({ articles }) {
     <>
       <Head>
         <title>
-          Anfal Mushtaq - Software Engineer, Entrepreneur, and Tinkerer
+          Anfal Mushtaq - AI Consultant, Entrepreneur
         </title>
         <meta
           name="description"
-          content="I am Anfal Mushtaq, a software designer and entrepreneur based in Vancouver, Canada. I am the founder of Pico Future, where I explore and design the future."
+          content="I’m Anfal, a seasoned entrepreneur and AI consultant based in Vancouver, Canada. As the founder of Pico Future, I help companies build and scale AI-driven products."
         />
       </Head>
       <Container className="mt-9">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            Software Engineer, Entrepreneur, and Tinkerer
+            Anfal Mushtaq - AI Consultant, Entrepreneur
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            I am Anfal Mushtaq, a software designer and entrepreneur based in Vancouver, Canada.
-            I am the founder of <a href='https://www.picofuture.com' target='_blank'>Pico Future</a>, where I explore and design the future.
+            I’m Anfal, a seasoned entrepreneur and AI consultant based in Vancouver, Canada. As the founder of <a href='https://www.picofuture.com' target='_blank' className='text-teal-500'>Pico Future</a>, I help companies build and scale AI-driven products.
+          </p>
+          <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+            I specialize in <b>taking AI startups from zero to one</b>, <b>building MVPs</b>, and <b>scaling products into successful businesses</b>. Whether you're looking to integrate AI into your existing operations or launch an AI-driven startup, I can help.
+          </p>
+          <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+            Let’s connect – reach out at <a href='mailto:hello@anfalmushtaq.com' className='text-teal-500'>hello@anfalmushtaq.com</a>.
           </p>
           <div className="mt-6 flex gap-6">
             <SocialLink
