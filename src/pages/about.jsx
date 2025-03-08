@@ -71,13 +71,13 @@ export default function About() {
             </h1>
             <div className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
               <p>
-                I specialize in taking ideas from zero to one—whether it’s optimizing business operations, integrating AI-driven solutions, or tackling moonshot projects that redefine industries.
+                I specialize in taking ideas from zero to one—whether it&apos;s optimizing business operations, integrating AI-driven solutions, or tackling moonshot projects that redefine industries.
               </p>
               <p>
                 My strength lies in breaking things down to understand how they work, then reassembling them into something better. From enhancing user experiences to conceptualizing large-scale innovations, my approach blends practical execution with long-term vision.
               </p>
               <p>
-                I don’t just think about the future—I design it. If you're looking for someone who can bridge the gap between ambitious ideas and real-world impact, let’s build something transformative.
+                I don&apos;t just think about the future—I design it. If you&apos;re looking for someone who can bridge the gap between ambitious ideas and real-world impact, let&apos;s build something transformative.
               </p>
             </div>
           </div>
