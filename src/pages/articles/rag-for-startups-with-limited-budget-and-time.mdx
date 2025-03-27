@@ -1,0 +1,205 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2025-03-24',
+  title: 'RAG for Startups with Limited Budget and Time',
+  description: 'How to implement RAG for startups with limited budget and time.',
+  slug: 'rag-for-startups-with-limited-budget-and-time',
+  image: "blog/2025-03-23-rag-for-startups-with-limited-budget-and-time/cover.jpg"
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage
+  src='blog/2025-03-23-rag-for-startups-with-limited-budget-and-time/cover.jpg'
+  alt="RAG for Startups with Limited Budget and Time"/>
+
+## Who is this article for?
+
+RAG isn't simple. Building a good pipeline involves navigating countless variables, especially when you're dealing with unstructured data—media files, languages, formats, and more. The complexity alone is daunting.
+
+But it becomes even more challenging when you're a startup or indie hacker juggling two major constraints:
+
+- Limited budget
+- Limited time
+
+In this article, I’ll share my hands-on experience building a RAG pipeline under these constraints—the challenges I encountered, the experiments I ran, and how I solved the puzzle piece by piece. My goal: cut through the fluff and give you actionable insights, fast.
+
+## What is RAG?
+
+RAG stands for Retrieval-Augmented Generation. It’s a technique that enhances LLM output by injecting relevant context retrieved from a vector database.
+
+Here’s the basic flow:
+
+1. A user asks a question.
+2. The question is converted into a vector.
+3. The system searches for similar vectors in a database.
+4. The top matches are retrieved.
+5. These matches are fed into the LLM to generate an answer.
+
+To build this, you'll need:
+
+- **Embedding model** (e.g., <a href="https://platform.openai.com/docs/models/text-embedding-3-small" target="_blank">OpenAI's text-embedding-3-small</a>)
+- **Vector database** (e.g., <a href="https://milvus.io/" target="_blank">Milvus</a>)
+- **LLM** (e.g., <a href="https://platform.openai.com/docs/models/gpt-4o" target="_blank">GPT-4o</a>)
+- **ETL pipeline** (e.g., <a href="https://unstructured.io/" target="_blank">Unstructured</a>)
+
+Let’s break down the complexity of each part, starting with ETL.
+
+## ETL (Extract, Transform, Load)
+
+<BlogImage
+  src='blog/2025-03-23-rag-for-startups-with-limited-budget-and-time/etl-pipeline.png'
+  alt="ETL pipeline"/>
+
+### Data Types
+
+You’ll deal with two major categories:
+
+- **Structured data** (e.g., CSV, JSON, tables)
+- **Unstructured data** (e.g., PDFs, images, videos, raw text)
+
+If it’s structured—great! The format helps you understand and split the data easily.
+
+Unstructured? Welcome to chaos. You’ll encounter varying formats and quality, with 80% being junk. Isolating the valuable 20% is tough but essential.
+
+Let’s tackle each ETL step:
+
+### Extract
+
+You'll need to pull data from different storage types:
+
+- Local storage
+- Cloud storage (Google Drive, Dropbox)
+- Databases (MySQL, PostgreSQL)
+- CDNs (Cloudflare R2)
+- Web scraping
+- APIs
+
+And from various media formats:
+
+- PDFs
+- Images
+- Videos
+- Audio
+- Text files
+
+To simplify, you could either force users to upload to a common system or use a third-party service to unify data ingestion.
+
+### Transform
+
+The goal: turn raw data into high-quality, semantically rich chunks.
+
+With structured data, transformation is easy. But with unstructured data, you’ll need smart decisions:
+
+- For PDFs: extract text + structure
+- For images: detect text, diagrams, or tables
+- For videos: transcribe with STT (Speech-to-Text) and then chunk
+
+Once you extract the content, clean the noise:
+
+- Use LLMs for summarization
+- Apply NLP methods (e.g., TF-IDF, relevance scoring)
+
+Then, split the text meaningfully:
+
+- Token/sentence-length chunking
+- Semantic chunking
+- Chunk overlap for context retention
+
+You can explore more advanced RAG techniques <a href="https://milvus.io/docs/how_to_enhance_your_rag.md" target="_blank">here</a>. 
+
+Tools like <a href="https://www.llamaindex.ai/llamaparse" target="_blank">LlamaParse</a> (or <a href="https://github.com/run-llama/llama_index" target="_blank">open source LlamaIndex</a>), <a href="https://github.com/Unstructured-IO/unstructured" target="_blank">Unstructured</a>, <a href="https://docs.chonkie.ai/getting-started/introduction" target="_blank">Chonkie</a>, and <a href="https://github.com/langchain-ai/langchain" target="_blank">LangChain</a> can help you with the entire ETL process for both structured and unstructured data.
+
+Note: open-source tools save money but often require significant time and effort. They also severely lag behind the paid services to the point that some paid options that started as open-source think of their open-source counterparts as an afterthought now.
+
+### Load
+
+This step involves storing vectors in a database. Options include:
+
+- **Graph DB**: e.g., <a href="https://neo4j.com/generativeai/" target="_blank">Neo4j</a>
+- **Vector DB**: e.g., <a href="https://milvus.io/" target="_blank">Milvus</a>
+
+A few key metrics to consider when choosing a vector database:
+
+- Performance
+- Cost
+- Multi-tenancy
+
+For example, storing vectors for multiple users requires a different structure. Vector isolation plays a really important role in better recall.
+You can watch <a href="https://www.youtube.com/watch?v=n5EQL9FpCyU&t=1s" target="_blank">this talk by Anton Troynikov (ChromaDB)</a> on organizing data for multi-user queries to better understand how.
+
+If you were to choose a DB like <a href="https://www.pinecone.io/pricing/" target="_blank">Pinecone</a>, you might not be able to create unlimited pods and will have to rely on namespaces to isolate data and they are a virtual separation.
+
+## Retrieval
+
+<BlogImage
+  src='blog/2025-03-23-rag-for-startups-with-limited-budget-and-time/user-qa.png'
+  alt="User Query"/>
+
+Once the ETL pipeline is complete, your database is ready for action.
+
+### Relevant Data Retrieval
+
+- Convert the query into a vector.
+- Retrieve top-matching chunks.
+- Tune similarity functions.
+- Explore hybrid search (metadata + embeddings).
+- Consider <a href="https://haystack.deepset.ai/cookbook/hybrid_retrieval_bm42" target="_blank">BM42</a> for scoring.
+
+After retrieval, re-rank with tools like <a href="https://cohere.com/rerank" target="_blank">Cohere Rerank</a>. You might need to summarize data to stay within the LLM’s context window—adding more services, costs, and latency.
+
+### Augmentation + Generation
+
+This part is relatively easy—plug the retrieved content into your LLM prompt, and you're done.
+
+## Key Considerations for Startups
+
+When you're building with constraints, you need a smart strategy:
+
+- Understand each component.
+- Cut features that aren’t essential. While leaving enough room to grow in the future.
+- Focus on scalability, maintainability, and cost.
+
+### ETL Service
+
+Look for generous free tiers or startup credits. <a href="https://www.llamaindex.ai/llamaparse" target="_blank">LlamaParse</a> and <a href="https://unstructured.io/" target="_blank">Unstructured</a> are great but they don't offer a generous free tier. Their open-source versions can be good starting points but they will be limited and you will end up manually building a pipeline that works for you.
+
+### Vector DB
+
+This is the engine of your RAG system. I chose <a href="https://milvus.io/" target="_blank">Milvus</a> via <a href="https://zilliz.com/" target="_blank">Zilliz Cloud</a> for its speed, open-source nature, and generous free tier. I considered self-hosting but ruled it out due to time constraints.
+
+### LLM
+
+Start with <a href="https://platform.openai.com/docs/models/text-embedding-3-small" target="_blank">OpenAI’s text-embedding-3-small</a>—cheap and performant. Down the line, you can look into <a href="https://modal.com/blog/fine-tuning-embeddings" target="_blank">fine-tuning open-source models</a>.
+
+## Final Thoughts
+
+Here’s what I learned:
+
+- Messy unstructured data slowed down ETL.
+- Bad outputs forced me to tweak augmentation.
+- Low recall led me to rework retrieval.
+
+Each fix forced me back to square one. Eventually, I realized I needed a shortcut—a ready-made RAG pipeline I could later swap out.
+
+### My Requirements
+
+- Cheap
+- Fast with high recall
+- Easy to integrate
+- Supports unstructured data
+- Multi-tenant ready
+
+I chose <a href="https://www.sid.ai/" target="_blank">Sid.ai</a>. It passed my tests, worked out of the box, and only required minor pre-processing like converting video to text.
+
+If you’re in a similar spot—limited budget, limited time—consider doing the same. You can modularize your pipeline and swap it with your own once you have found traction.
+
+## One Last Thing
+
+This might sound like the most anti-climactic advice I’ve ever given—but honestly, just use a third-party RAG service. I know, it doesn’t feel very hacker-core or satisfying, but hear me out: it’s often the smartest move.
+
+Think of it like auth—you wouldn’t build your own authentication system from scratch before product-market fit, right? The same logic applies here. Until you know you need an in-house RAG solution (and can afford the time to build and maintain it), let the experts handle the heavy lifting so you can focus on shipping your actual product.
