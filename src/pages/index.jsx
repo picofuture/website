@@ -10,9 +10,8 @@ import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
 import {
   GitHubIcon,
-  InstagramIcon,
   LinkedInIcon,
-  TwitterIcon,
+  XIcon,
 } from '@/components/SocialIcons'
 import { formatDate } from '@/lib/formatDate'
 import { generateRssFeed } from '@/lib/generateRssFeed'
@@ -156,7 +155,10 @@ function Newsletter() {
         <span className="ml-3">Stay up to date</span>
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        Get notified when I publish something new, and unsubscribe at any time.
+        Understand the future without needing a PhD.
+      </p>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        I explain what’s happening in AI—and how it affects real people.
       </p>
       <div className="mt-6 flex">
         <input
@@ -270,60 +272,69 @@ function Resume() {
   )
 }
 
-function Photos() {
-  return null;
+// function Photos() {
+//   let rotations = ['rotate-2', '-rotate-2', 'rotate-2', 'rotate-2', '-rotate-2']
 
-  let rotations = ['rotate-2', '-rotate-2', 'rotate-2', 'rotate-2', '-rotate-2']
-
-  return (
-    <div className="mt-16 sm:mt-20">
-      <div className="-my-4 flex justify-center gap-5 overflow-hidden py-4 sm:gap-8">
-        {['image-1.jpg', 'image-2.jpg', 'image-3.jpg', 'image-4.jpg', 'image-5.jpg'].map((image, imageIndex) => (
-          <div
-            key={image}
-            className={clsx(
-              'relative aspect-[9/10] w-44 flex-none overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 sm:w-72 sm:rounded-2xl',
-              rotations[imageIndex % rotations.length]
-            )}
-          >
-            <Image
-              loader={cloudflareLoader}
-              src={`photos/${image}`}
-              alt=""
-              width={640}
-              height={640}
-              sizes="(min-width: 640px) 18rem, 11rem"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
+//   return (
+//     <div className="mt-16 sm:mt-20">
+//       <div className="-my-4 flex justify-center gap-5 overflow-hidden py-4 sm:gap-8">
+//         {['image-1.jpg', 'image-2.jpg', 'image-3.jpg', 'image-4.jpg', 'image-5.jpg'].map((image, imageIndex) => (
+//           <div
+//             key={image}
+//             className={clsx(
+//               'relative aspect-[9/10] w-44 flex-none overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 sm:w-72 sm:rounded-2xl',
+//               rotations[imageIndex % rotations.length]
+//             )}
+//           >
+//             <Image
+//               loader={cloudflareLoader}
+//               src={`photos/${image}`}
+//               alt=""
+//               width={640}
+//               height={640}
+//               sizes="(min-width: 640px) 18rem, 11rem"
+//               className="absolute inset-0 h-full w-full object-cover"
+//             />
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   )
+// }
 
 export default function Home({ articles }) {
   return (
     <>
       <Head>
-        <title>
-          Anfal - AI Consultant, Entrepreneur
-        </title>
+        <title>Anfal Mushtaq – Building AI-native tools with clarity, speed, and soul</title>
         <meta
           name="description"
-          content="I’m Anfal, a seasoned entrepreneur and AI consultant based in Vancouver, Canada. As the founder of Pico Future, I help companies build and scale AI-driven products."
+          content="I'm Anfal Mushtaq — a technical founder helping teams ship agentic, LLM-native products with clarity, speed, and soul. From 8 failed startups to scaling AI systems to 100K+ users, I now write, build, and consult from Vancouver."
         />
+        <meta property="og:title" content="Anfal Mushtaq – Building AI-native tools with clarity, speed, and soul" />
+        <meta property="og:description" content="Technical founder helping teams ship agentic, LLM-native products. Writing, building, and consulting from Vancouver." />
+        <meta property="og:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta property="og:url" content="https://anfalmushtaq.com" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Anfal Mushtaq – Building AI-native tools with clarity, speed, and soul" />
+        <meta name="twitter:description" content="Technical founder building agentic, LLM-native products. Writing, consulting, and building in public from Vancouver." />
+        <meta name="twitter:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta name="twitter:creator" content="@AnfalMushtaq" />
+
+        <meta name="author" content="Anfal Mushtaq" />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="keywords" content="Anfal Mushtaq, AI consultant, LLM, agentic systems, technical founder, AI product development, Vancouver, ChatVisible AI" />
       </Head>
+
       <Container className="mt-9">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            Anfal - AI Consultant, Entrepreneur
+            Building AI-native tools with clarity, speed, and soul.
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            I&apos;m Anfal, a seasoned entrepreneur and AI consultant based in Vancouver, Canada. As the founder of <a href='https://picofuture.com' target='_blank' className='text-teal-500'>Pico Future</a>, I help companies build and scale AI-driven products.
-          </p>
-          <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            I specialize in <b>taking AI startups from zero to one</b>, <b>building MVPs</b>, and <b>scaling products into successful businesses</b>. Whether you&apos;re looking to integrate AI into your existing operations or launch an AI-driven startup, I can help.
+            From 8 failed startups to building AI systems used by 100K+ users—now helping teams ship agentic products that actually work.
           </p>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
             Let&apos;s connect – reach out at <a href='mailto:hello@anfalmushtaq.com' className='text-teal-500'>hello@anfalmushtaq.com</a>
@@ -331,28 +342,23 @@ export default function Home({ articles }) {
           <div className="mt-6 flex gap-6">
             <SocialLink
               href={TWITTER_LINK}
-              aria-label="Follow on Twitter"
-              icon={TwitterIcon}
-            />
-            <SocialLink
-              href={INSTAGRAM_LINK}
-              aria-label="Follow on Instagram"
-              icon={InstagramIcon}
-            />
-            <SocialLink
-              href={GITHUB_LINK}
-              aria-label="Follow on GitHub"
-              icon={GitHubIcon}
+              aria-label="Follow on X"
+              icon={XIcon}
             />
             <SocialLink
               href={LINKEDIN_LINK}
               aria-label="Follow on LinkedIn"
               icon={LinkedInIcon}
             />
+            <SocialLink
+              href={GITHUB_LINK}
+              aria-label="Follow on GitHub"
+              icon={GitHubIcon}
+            />
           </div>
         </div>
       </Container>
-      <Photos />
+      {/* <Photos /> */}
       <Container className="mt-24 md:mt-28">
         <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
           <div className="flex flex-col gap-16">

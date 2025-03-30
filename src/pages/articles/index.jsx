@@ -4,7 +4,7 @@ import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { formatDate } from '@/lib/formatDate'
 import { getAllArticles } from '@/lib/getAllArticles'
-import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts";
+import { BLOG_AUTHOR_ANFAL } from "@/lib/sharedConsts";
 
 function Article({ article }) {
   return (
@@ -39,14 +39,22 @@ export default function ArticlesIndex({ articles }) {
   return (
     <>
       <Head>
-        <title>{`Articles - ${BLOG_AUTHOR_ANFAL}`}</title>
-        <meta
-          name="description"
-          content="All of my long-form thoughts on programming, leadership, philosophy, and more, collected in chronological order."
-        />
+        <title>Articles by Anfal Mushtaq – AI-native tools, LLMs & product insights</title>
+        <meta name="description" content="Technical insights and behind-the-scenes lessons on building AI-native tools, shipping agentic products, and navigating entrepreneurship—from 8 failed startups to 100K+ users." />
+
+        <meta property="og:title" content="Articles by Anfal Mushtaq – AI-native tools, LLMs & product insights" />
+        <meta property="og:description" content="Honest, actionable lessons from building AI-native tools, scaling agentic systems, and surviving the startup grind." />
+        <meta property="og:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta property="og:url" content="https://anfalmushtaq.com/articles" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Articles by Anfal Mushtaq – AI-native tools, LLMs & product insights" />
+        <meta name="twitter:description" content="Honest, actionable lessons from building AI-native tools, scaling agentic systems, and surviving the startup grind." />
+        <meta name="twitter:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta name="twitter:creator" content="@AnfalMushtaq" />
       </Head>
       <SimpleLayout
-        title="Writing on programming, philosophy, entrpreneurship, and more."
+        title="Writing on building agentic systems, shipping products, and staying human in the loop."
         intro="All of my long-form thoughts on programming, leadership, philosophy, and more, collected in chronological order."
       >
         <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">

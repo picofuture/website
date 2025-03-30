@@ -8,7 +8,7 @@ import {
   GitHubIcon,
   InstagramIcon,
   LinkedInIcon,
-  TwitterIcon,
+  XIcon,
 } from '@/components/SocialIcons'
 import cloudflareLoader from "@/lib/cloudflareImageLoader";
 import { EMAIL_LINK, GITHUB_LINK, INSTAGRAM_LINK, LINKEDIN_LINK, TWITTER_LINK } from "@/lib/sharedConsts";
@@ -45,10 +45,19 @@ export default function About() {
     <>
       <Head>
         <title>About - Anfal Mushtaq</title>
-        <meta
-          name="description"
-          content="I’m Anfal Mushtaq. I live in Vancouver, Canada, where I design the future."
-        />
+        <meta name="description" content="Technical founder building agentic, AI-native tools from Vancouver. From 8 failed startups to 100K+ users—this is the story behind the systems." />
+
+        <meta property="og:title" content="About Anfal Mushtaq – AI-native tools, LLM systems & startup lessons" />
+        <meta property="og:description" content="Technical founder. Builder of agentic products. Writing and shipping from Vancouver." />
+        <meta property="og:url" content="https://anfalmushtaq.com/about" />
+        <meta property="og:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta property="og:type" content="profile" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About Anfal Mushtaq – AI-native tools, LLM systems & startup lessons" />
+        <meta name="twitter:description" content="Technical founder. Builder of agentic products. Writing and shipping from Vancouver." />
+        <meta name="twitter:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta name="twitter:creator" content="@AnfalMushtaq" />
       </Head>
       <Container className="mt-16 sm:mt-32">
         <div className="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
@@ -59,7 +68,7 @@ export default function About() {
                 src="dp.jpg"
                 width={640}
                 height={640}
-                alt=""
+                alt="Anfal Mushtaq"
                 sizes="(min-width: 1024px) 32rem, 20rem"
                 className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
               />
@@ -67,27 +76,24 @@ export default function About() {
           </div>
           <div className="lg:order-first lg:row-span-2">
             <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-              I&apos;m Anfal, a builder, problem solver, and futurist.
+              I’m Anfal — a technical founder building AI-native tools with clarity, speed, and soul.
             </h1>
             <div className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
               <p>
-                I specialize in taking ideas from zero to one—whether it&apos;s optimizing business operations, integrating AI-driven solutions, or tackling moonshot projects that redefine industries.
+                I’m a technical founder based in Vancouver, focused on building AI-native products that actually work. After launching 8 startups and leading engineering at Logitech and Durable, I’ve learned how to move fast, scale systems, and still stay human in the loop.
               </p>
               <p>
-                My strength lies in breaking things down to understand how they work, then reassembling them into something better. From enhancing user experiences to conceptualizing large-scale innovations, my approach blends practical execution with long-term vision.
+                My strength lies in turning abstract problems into clear flows. Whether I’m integrating LLMs, shipping agentic workflows, or just cleaning up a spaghetti API—I bring structure to chaos.
               </p>
               <p>
-                I don&apos;t just think about the future—I design it. If you&apos;re looking for someone who can bridge the gap between ambitious ideas and real-world impact, let&apos;s build something transformative.
+                I’m not here to hype AI—I’m here to build with it. If you care about thoughtful systems, fast execution, and tools with soul, you’ll probably enjoy the work I share.
               </p>
             </div>
           </div>
           <div className="lg:pl-20">
             <ul role="list">
-              <SocialLink href={TWITTER_LINK} icon={TwitterIcon}>
-                Follow on Twitter
-              </SocialLink>
-              <SocialLink href={INSTAGRAM_LINK} icon={InstagramIcon} className="mt-4">
-                Follow on Instagram
+              <SocialLink href={TWITTER_LINK} icon={XIcon}>
+                Follow on X
               </SocialLink>
               <SocialLink href={GITHUB_LINK} icon={GitHubIcon} className="mt-4">
                 Follow on GitHub
