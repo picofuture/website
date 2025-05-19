@@ -1,0 +1,384 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import { BLOG_AUTHOR_ANFAL } from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2025-05-18',
+  title: 'Voice Agents: TL;DR of Week 2',
+  description: 'A TL;DR of the second week of the Voice Agents course, covering architecture, latency, infra, and telephony.',
+  draft: false,
+  slug: 'voice-agents-week2-tldr',
+  image: 'blog/2025-05-18-voice-agents-week2-tldr/cover.png'
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage src="blog/2025-05-18-voice-agents-week2-tldr/cover.png" alt="Voice AI Agents TL;DR" />
+
+## Who is this TL;DR for?
+If you're short on time but want to understand what goes into building production-grade voice AI agents, this post condenses the key insights from the second week of the <a href="https://maven.com/pipecat/voice-ai-and-voice-agents-a-technical-deep-dive" target="_blank">Voice AI course by Daily.co</a>.
+
+Ideal for:
+- Builders shipping voice-first agents
+- Devs optimizing real-time latency and infra
+- Anyone exploring telephony and WebRTC use cases in AI
+
+## Catching up from week 1
+In the <a href="/articles/voice-agents-week1-tldr" target='_blank'>week 1's TL;DR</a>, we discussed the basic components of a voice agents. This week, we will
+be discussing the architecture of a voice agent in depth. Building a voice agent for production that scales with demand is drastically different
+than building one for a demo or as a prototype. This is where week 2 will go deeper into what goes inside making a robust production ready voice agent.
+
+## The Four Layers of a Production Voice Agent
+Every voice agent worth anything lives or dies by four things: how well it listens, how clearly it thinks, how naturally it speaks, and how reliably it follows instructions.
+
+This isn't theory. It's battle-tested architecture. And if you get even one of these layers wrong, your agent will sound slow, dumb, or broken.
+
+Let's break down what each layer actually means—and what tools are built to handle it.
+
+### 1. **Listen** – The Art of Hearing in Real Time
+This is where everything starts: someone speaks.
+
+The question is, how fast can your system hear them and make sense of what they said? Not “after they finish,” but **as** they speak. This isn't post-processing podcast audio. This is real-time, high-stakes interaction. Milliseconds matter.
+
+The goal here is to start streaming the voice and transcribing it as it's being spoken. This is a key factor in the latency of the voice agent.
+
+**We have a few transcription options:**
+- `Whisper`: open-source, high quality, but slower.
+- `Deepgram`: commercial, fast, streaming-native.
+- `Vapi ASR`: already wired into Vapi's stack, solid defaults.
+
+**What you're solving for:**
+- Keep transcription latency under **200ms per chunk**.
+- Stream audio in as it's recorded. No full-sentence buffering.
+- Forget real-time factor benchmarks on paper—**optimize chunk time** in practice.
+
+Get this wrong, and your agent always sounds like it's half a second behind. That's the difference between “talking with” vs “talking at.”
+
+### 2. **Think** – What Happens Between the Words
+Once audio is transcribed, you've got text. Now what?
+
+This is where your LLM kicks in. It reads the latest transcript, current context, prior history, maybe some tools, and decides what to say or do.
+
+**But here's the trap:** bigger models are smarter, but slower. GPT-4 might be brilliant, but if it takes 800ms to respond, it doesn't matter. It *feels* slow. It breaks the rhythm.
+
+**Your options**:
+- `GPT-4`, `Claude`, `Gemini` → high-quality, but heavier.
+- `Quen`, `Mistral`, `Phi` → smaller, faster, perfect for short-form dialogue.
+- `Mamba (Cartesia)` → state space models built for ultra-fast audio processing. Ideal for short, high-throughput tasks. **Not well-suited for long-form dialogue**, as they trade exact recall for speed by compressing context differently than transformers.
+- `OpenPipe` → when you need a fine-tuned model trained on your actual agent conversations.
+
+**When should you fine-tune?**
+- Prompt engineering isn't cutting it. You have tried to engineer a prompt that works for your use case, but it's not working.
+- You've hit latency walls and want to use a smaller model to reduce latency.
+- You're paying too much per call and need cost control at scale.
+
+**Always start with prompting.** Fine-tuning is not a shortcut. It's a scalpel. Use it when everything else hits the wall.
+
+### 3. **Speak** – Don't Just Talk Back. Talk Like a Human.
+Once the agent figures out what to say, it has to say it. Not type it. **Say it.**
+
+Voice synthesis is what makes or breaks immersion. We're wired to pick up the slightest pause, weird intonation, or robotic cadence. And once we hear it? Trust evaporates.
+
+**TTS choices**:
+- `Orpheus TTS`: open, fast, good enough for most use cases.
+- `ElevenLabs`: dramatic, emotional, hyper-realistic.
+- `Vapi TTS`: production-grade, zero-config, easy.
+
+**What matters here**:
+- Time to first word. You should start speaking in **< 200ms**.
+- Stream the output. Don't wait for full sentences to finish rendering.
+- Support interruptions. If the user talks over the bot, **stop speaking** immediately.
+
+If you don't get this layer right, your agent becomes a one-way audiobook. No one wants that.
+
+### 4. **Control** – The Invisible Hand Behind Every Turn
+Now here's the layer most people ignore and it's where most real-world systems break.
+
+The LLM might be smart. But it's not consistent. It forgets. It improvises. It tries to please. And if you're not careful, it will say “yes” to things it has no right agreeing to.
+
+That's why you need structure. Logic. Scripting. Guardrails.
+
+**Two ways to build that:**
+- `PipeCat`: state machines, fully programmable, deterministic. You decide the flow.
+- `Vapi Workflows`: logic-first GUI/API combo—ideal if you want something fast, opinionated, and production-ready.
+
+**You'll use this layer to:**
+- Chain tools together.
+- Route logic flows based on user input.
+- Gate LLM behavior through AI and non-AI decision nodes.
+- Handle retries, fallbacks, transfers, or escalation flows.
+
+**Think of it like this**: the LLM is your actor. Control is your director. If you don't run the show, the actor will run your app into the ground.
+
+These four layers **Listen, Think, Speak, Control** form the backbone of every serious voice system.
+
+You can't skip one.  
+You can't fake one.  
+You can't patch one with more tokens.
+
+Together, they give you speed, clarity, immersion, and control. Miss even one? Your agent stumbles.
+
+But when they're in sync?  
+
+It feels like magic.
+
+## Evaluation Is Not Optional
+This is where hobby projects go to die and production systems begin to live.
+
+Because the truth is: your agent will work on day one. It just won't work on day ten, or day one thousand, **unless you test the hell out of it**.
+
+Voice agents aren't static. They're dynamic, multi-turn, probabilistic systems. They change behavior as prompts evolve, tools are added, or models are swapped. And without evaluation, you're flying blind.
+
+### Why Eval Matters in Voice AI
+In a normal software system, you write unit tests, run linters, catch regressions. You know when something breaks.
+
+In a voice agent?  
+The agent just says something slightly different.  
+Or skips a step.  
+Or hallucinates an API call.  
+And suddenly your agent goes from sounding helpful to sounding... insane.
+
+You need guardrails.  
+You need observability.  
+You need to know when your agent is off-script.
+
+### The Three Modes of Evaluation
+
+**1. Unit Tests for LLMs**
+Write explicit assertions:
+- Did the LLM call the right tool?
+- Did it respond with the correct intent?
+- Did it follow the workflow step?
+
+This is your first line of defense. It's brittle, but effective.
+
+**2. LLM-as-a-Judge**
+Use another model to score the output:
+- Was the answer helpful?
+- Did the tone sound natural?
+- Did it follow the instructions?
+
+This unlocks **qualitative evaluation at scale**. Use it to measure fluency, helpfulness, or emotional tone, things that can't be easily hardcoded.
+
+**3. A/B Testing with Real Users**
+Run experiments:
+- Compare two versions of your agent.
+- Measure success rate, user retention, call duration.
+- Use real conversations, real stakes.
+
+This is the final truth. Production feedback is the only evaluation that matters long-term.
+
+### Tooling to Help You Stay Sane
+- **LangSmith** → trace every interaction. Log inputs, outputs, tool calls, latencies.
+- **Phoenix** → visualize agent reasoning over time.
+- **Braintrust** → crowdsource model evals with real users.
+- **OpenPipe** → manage your fine-tuning dataset and test its quality.
+
+Use any of them. Use all of them.  
+
+What matters is that you don't treat your LLM as a black box.
+
+### Build the Eval Loop Early
+Here's what the feedback cycle should look like:
+
+**Log → Analyze → Curate → Test → Improve → Repeat**
+
+Even if you start with a spreadsheet.  
+
+Even if you're manually tagging conversations.  
+
+The earlier you start building this loop, the faster you'll iterate and the more stable your agent becomes.
+
+### Without Eval, You're Just Guessing
+And in production, guesses are expensive.  
+
+They cost you credibility.  
+They cost you users.  
+They cost you time you don't get back.
+
+So don't treat evals as a luxury.  
+
+Treat them like seatbelts. You won't always need them, but when you do, they're the only thing between you and a wreck.
+
+## Infrastructure: What Runs It All
+Voice agents aren't lightweight HTTP apps. They're persistent, streaming, stateful systems juggling audio, language, and logic in real time.
+
+This means infra isn't just an implementation detail, it's a competitive edge. The wrong infra will bottleneck your latency, destroy your UX, and bleed your margins dry.
+
+You need infra that's warm, responsive, GPU-aware, and battle-tested for low-latency pipelines.
+
+### The Two Axes That Matter
+There are dozens of platforms you *could* use. But they all fall somewhere along two critical axes:
+
+1. **Developer Experience vs Production Reliability**
+2. **Latency Tolerance vs Latency Criticality**
+
+### The Major Players
+**Modal – For Fast Iteration, With a Learning Curve**
+
+Modal is built for engineers who want to ship fast, experiment often, and don't mind wrapping their code in a new syntax.
+
+- Python-native, GPU-ready, zero-to-running in seconds.
+- Built around `@stub.function` decorators and Modal-specific config to define remote execution.
+- Great for: prototyping, experimenting with model training, trying out LLM workflows.
+
+**Where it shines**:  
+You're writing new systems from scratch and want tight control over how and where things run. Great for exploratory builds and reproducible pipelines.
+
+**Where it doesn't**:  
+If you're trying to productionize an existing codebase without rewriting it to fit Modal's patterns. Also not ideal for ultra-low-latency, multi-stage audio loops.
+
+---
+
+**Cerebrium – For Latency-Critical Workloads Without Code Lock-In**
+
+If Modal is the lab, Cerebrium is the production floor. It's made to run real-time agents fast.
+
+- Designed explicitly for high-concurrency, low-latency systems.
+- Supports streaming, interruption handling, multi-region routing, and co-locates ASR, LLM, and TTS in a single cluster to kill cross-service latency.
+- Critically: **no special syntax, decorators, or wrappers needed**. Your Python code runs as-is.
+
+**Where it shines**:  
+Production voice agents that need sub-500ms total round-trip latency. Ideal when you're scaling fast, optimizing hard, and want to keep your stack flexible.
+
+**Where it doesn't**:  
+If you're still in early-stage iteration mode or don't know your latency envelope yet, Cerebrium's infra may be more than you need.
+
+One plus point for Cerebrium is that they have a lot of partnerships. That means a lot of popular models are going to be colocalized in the same region giving you lower latency out of the box.
+
+---
+
+**Baseten – The Hybrid MLOps Middle Ground**
+
+Somewhere between Modal and Cerebrium sits Baseten.
+
+- Hosted MLOps platform for deploying and serving models.
+- Useful for hosting fine-tuned models, deterministic pipelines, or anything that doesn't need millisecond-level reactivity.
+
+**Where it shines**:  
+You've got a model that works, and you want to serve it reliably at moderate scale. Clean dashboard, easy deployment, and good observability.
+
+**Where it doesn't**:  
+Voice agents under heavy load with turn-based latency constraints. Baseten isn't built for streaming-first, multi-stage real-time systems.
+
+### What You're Solving For
+You want:
+
+- **Cold start times under 2s**
+- **Streaming support for audio in/out**
+- **Co-located services** (ASR, LLM, TTS should live together)
+- **Regional routing** for global calls
+- **GPU-aware orchestration** (don't waste cycles or pay for idle compute)
+
+### Rule of Thumb
+- **Use Modal** when you're building from scratch and want speed + flexibility.  
+- **Use Cerebrium** when you're scaling and need low-latency production infra that just works with your code without extra decorators or syntax.  
+- **Use Baseten** when you're serving a well-tuned model and want a stable, managed environment.
+
+This layer is invisible to your users, but it defines their experience.
+
+Good infra makes your agent feel alive.  
+Bad infra makes it feel like a clunky call center IVR from 2009.
+
+Choose wisely.
+
+## The System Blueprint: End-to-End Flow
+You've seen the parts. You've seen the tools. But how does it all come together?
+
+Here's the full picture; the lifecycle of a real-time voice agent, from napkin sketch to production system. This is the flow you follow if you want speed, clarity, and control.
+
+### 1. **Prototype the Agent**
+Start fast. Don't overthink it.
+
+- Use `Vapi` if you want the fastest way to build an agent with built-in tools, logic, and telephony.
+- Use `PipeCat` if you want full control over flow logic and behavior from day one.
+
+Pick one. Wire up a basic pipeline:
+
+- Transcription (`Whisper` or `Deepgram`)
+- LLM (`GPT-4`, `Claude`, or `Quen`)
+- TTS (`Orpheus`, `ElevenLabs`, or `Vapi TTS`)
+
+Test it. Talk to it. Break it. Iterate.
+
+### 2. **Add Tooling and Logic**
+Now that it speaks, give it something to *do*.
+
+- Add external tools: APIs, databases, CRMs, schedulers.
+- Script logic gates: "If user says X, do Y."
+- Inject fallback flows and interrupt handlers.
+
+If you're in Vapi, use **Workflows**.  
+If you're in PipeCat, define your **state transitions** manually.
+
+This is where you stop building a chatbot and start building a system.
+
+### 3. **Observe Everything**
+Your agent's behavior will drift. You need visibility.
+
+- Log all interactions with `LangSmith` or `Phoenix`
+- Track:
+  - Inputs
+  - Model responses
+  - Tool invocations
+  - Latency per turn
+- Watch for edge cases, regressions, or hallucinations.
+
+This is your black box flight recorder. Never skip this step.
+
+### 4. **Evaluate and Iterate**
+Now that you have logs, start building your evaluation loop.
+
+- Use LLM-as-a-judge to rate response quality.
+- Write unit tests for tool use, intent matching, instruction following.
+- Run A/B tests if you're already in production.
+
+Everything that's broken, **curate it into test cases**.  
+
+Every test case becomes a regression check.  
+
+Every regression check makes your agent stronger.
+
+### 5. **Hit Latency or Cost Ceilings? Upgrade Your Infra**
+If your agent is starting to feel slow or expensive:
+
+- Move from OpenAI to smaller hosted models (`Quen`, `Gemini Flash`, etc.)
+- Move your infra from `Vercel` or `Modal` to `Cerebrium` for < 500ms latency with ASR/LLM/TTS co-location.
+- Self-host transcription (e.g., Whisper) or TTS if pricing gets out of hand.
+
+This is the phase where you **cut fat, not muscle**.
+
+### 6. **Hit Quality Ceiling? Fine-Tune It**
+If your agent is still misbehaving after prompt engineering:
+
+- Use `OpenPipe` to fine-tune on real interaction data.
+- Capture failed turns and transform them into training examples.
+- Evaluate before and after tuning to confirm improvement.
+
+Fine-tuning is expensive. Use it when you *must*, not when you're *frustrated*.
+
+### 7. **Ship and Monitor**
+At this point:
+
+- Your logic is solid.
+- Your latency is low.
+- Your evals are running.
+- Your agent behaves like a professional.
+
+Now you scale. Roll out to real users. 
+
+Set up alerts, error tracking, and usage dashboards.  
+
+Build a feedback loop from production back into evaluation.
+
+### This is the Loop That Wins
+**Prototype → Script → Observe → Evaluate → Optimize → Scale**
+
+And you don't run through it once.  
+
+You live in it.  
+
+You keep the loop tight.  
+
+Because in voice AI, **chaos compounds**, but so does control.
