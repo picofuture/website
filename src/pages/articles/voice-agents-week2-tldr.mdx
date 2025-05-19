@@ -34,7 +34,7 @@ Every voice agent worth anything lives or dies by four things: how well it liste
 
 This isn't theory. It's battle-tested architecture. And if you get even one of these layers wrong, your agent will sound slow, dumb, or broken.
 
-Let's break down what each layer actually means—and what tools are built to handle it.
+Let's break down what each layer actually means and what tools are built to handle it.
 
 ### 1. **Listen** – The Art of Hearing in Real Time
 This is where everything starts: someone speaks.
@@ -51,7 +51,7 @@ The goal here is to start streaming the voice and transcribing it as it's being 
 **What you're solving for:**
 - Keep transcription latency under **200ms per chunk**.
 - Stream audio in as it's recorded. No full-sentence buffering.
-- Forget real-time factor benchmarks on paper—**optimize chunk time** in practice.
+- Forget real-time factor benchmarks on paper **optimize chunk time** in practice.
 
 Get this wrong, and your agent always sounds like it's half a second behind. That's the difference between “talking with” vs “talking at.”
 
@@ -101,7 +101,7 @@ That's why you need structure. Logic. Scripting. Guardrails.
 
 **Two ways to build that:**
 - `PipeCat`: state machines, fully programmable, deterministic. You decide the flow.
-- `Vapi Workflows`: logic-first GUI/API combo—ideal if you want something fast, opinionated, and production-ready.
+- `Vapi Workflows`: logic-first GUI/API combo. Ideal if you want something fast, opinionated, and production-ready.
 
 **You'll use this layer to:**
 - Chain tools together.
