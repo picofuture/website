@@ -20,24 +20,55 @@ export default (props) => <ArticleLayout meta={meta} {...props} />
 ## Before we begin
 This isn’t a hands-on git tutorial. If you want commands, go read <a href="https://git-scm.com/docs/gittutorial" target="_blank">Git’s official documentation</a> or try <a href="https://learngitbranching.js.org/" target="_blank">Learn Git Branching</a>.
 
-This guide is for people who build by feel. You’re not memorizing flags or syntax; you’re here to understand **how git works**, so your projects don’t get nuked when your editor crashes.
+This guide is for people who build by feel. You’re not memorizing flags or syntax; you’re here to understand **how git works** or what it even is. You want to understand how it will help you protect your projects so they don’t get nuked when your editor crashes.
 
 ---
 
 ## When do you actually need Git?
-If you’re coding inside <a href="https://bolt.new" target="_blank">Bolt</a>, <a href="https://lovable.dev" target="_blank">Lovable</a>, or <a href="https://replit.com" target="_blank">Replit</a> - you don’t.
+If you’re coding inside <a href="https://bolt.new" target="_blank">Bolt</a>, <a href="https://lovable.dev" target="_blank">Lovable</a>, or <a href="https://replit.com" target="_blank">Replit</a> - you don’t. Those services have built in automatic version control. 
 
-Those tools give you version control for free. You only need Git when you graduate to <a href="https://cursor.com" target="_blank">Cursor</a> or <a href="https://windsurf.com" target="_blank">Windsurf</a>. That’s when the training wheels come off.
+You only need Git when you graduate to <a href="https://cursor.com" target="_blank">Cursor</a> or <a href="https://windsurf.com" target="_blank">Windsurf</a>. That’s when the training wheels come off.
 
-The AI will run the commands for you. What you need to understand is **why** and **when** to use Git.
+You don't need to memorize commands. The AI will run the commands for you. What you need to understand is **why** and **when** to use Git.
 
 ---
 
-## Git vs GitHub
-- **Git** is local. It tracks changes to your code. Think of it as a personal time machine.
-- **GitHub** is remote. It backs up your snapshots to the cloud.
+## A bit about Git
 
-Git saves your project history. GitHub saves your Git history.
+### What is Git?
+Git is a **distributed version control system** designed to track changes in code over time. It is the current industry standard for version control.
+It's not only useful for coding, it's also useful for any other type of project where you want to track changes over time.
+
+### Why It Matters
+- 🛡️ **Protects Your Work**  
+  You can undo mistakes, revert to previous versions, and experiment safely.
+
+- 🤝 **Enables Collaboration**  
+  Multiple developers can work on the same project at the same time without overwriting each other.
+
+- 🧠 **Documents Progress**  
+  Each change is logged with a message, timestamp, and author; giving you a full history of the project.
+
+### Core Concepts
+- **Repository**: Your project folder tracked by Git.
+- **Commit**: A snapshot of your changes.
+- **Branch**: A parallel version of your codebase to test ideas or build features.
+- **Merge**: Combining branches together.
+- **Remote**: A version of the repository stored online (e.g., on GitHub).
+- **Push/Pull**: Sending or receiving changes between your local machine and a remote.
+
+### What is GitHub?
+GitHub is a **remote repository** that stores your git snapshots. It's like a cloud backup for your code.
+
+### What is a repository?
+It's the folder where your code lives and is tracked by Git.
+
+### What is a commit?
+A commit is a snapshot of your changes.
+
+### Key difference between Git and GitHub
+- **Git** is local. It tracks changes to your code. Think of it as a personal time machine.
+- **GitHub** is remote. It backs up your git snapshots to the cloud.
 
 ---
 
