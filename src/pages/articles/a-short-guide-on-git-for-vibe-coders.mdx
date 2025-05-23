@@ -18,64 +18,52 @@ export default (props) => <ArticleLayout meta={meta} {...props} />
 <BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/cover.png" alt="Git for Vibe Coders" />
 
 ## Before we begin
-This isn’t a hands-on git tutorial. If you want commands, go read <a href="https://git-scm.com/docs/gittutorial" target="_blank">Git’s official documentation</a> or try <a href="https://learngitbranching.js.org/" target="_blank">Learn Git Branching</a>.
+This isn't a hands-on git tutorial. If you want commands, go read <a href="https://git-scm.com/docs/gittutorial" target="_blank">Git's official documentation</a> or try <a href="https://learngitbranching.js.org/" target="_blank">Learn Git Branching</a>.
 
-This guide is for people who build by feel. You’re not memorizing flags or syntax; you’re here to understand **how git works** or what it even is. You want to understand how it will help you protect your projects so they don’t get nuked when your editor crashes.
+This guide is for people who build by feel. You're not memorizing flags or syntax; you're here to understand **how git works** or what it even is. You want to understand how it will help you protect your projects so they don't get nuked when your editor crashes.
 
 ---
 
 ## When do you actually need Git?
-If you’re coding inside <a href="https://bolt.new" target="_blank">Bolt</a>, <a href="https://lovable.dev" target="_blank">Lovable</a>, or <a href="https://replit.com" target="_blank">Replit</a> - you don’t. Those services have built in automatic version control. 
+If you're coding inside <a href="https://bolt.new" target="_blank">Bolt</a>, <a href="https://lovable.dev" target="_blank">Lovable</a>, or <a href="https://replit.com" target="_blank">Replit</a> - you don't. Those services have built-in automatic version control.
 
-You only need Git when you graduate to <a href="https://cursor.com" target="_blank">Cursor</a> or <a href="https://windsurf.com" target="_blank">Windsurf</a>. That’s when the training wheels come off.
+You only need Git when you graduate to <a href="https://cursor.com" target="_blank">Cursor</a> or <a href="https://windsurf.com" target="_blank">Windsurf</a>. That's when the training wheels come off.
 
-You don't need to memorize commands. The AI will run the commands for you. What you need to understand is **why** and **when** to use Git.
+You don't need to memorize commands. The AI will run them for you. What you need to understand is **why** and **when** to use Git.
 
 ---
 
 ## A bit about Git
 
 ### What is Git?
-Git is a **distributed version control system** designed to track changes in code over time. It is the current industry standard for version control.
-It's not only useful for coding, it's also useful for any other type of project where you want to track changes over time.
+Git is a **distributed version control system** designed to track changes in code over time. It's the current industry standard. Useful for code. Useful for any evolving project.
 
 ### Why It Matters
-- 🛡️ **Protects Your Work**  
-  You can undo mistakes, revert to previous versions, and experiment safely.
-
-- 🤝 **Enables Collaboration**  
-  Multiple developers can work on the same project at the same time without overwriting each other.
-
-- 🧠 **Documents Progress**  
-  Each change is logged with a message, timestamp, and author; giving you a full history of the project.
+- **Protects Your Work** - You can undo mistakes, revert to previous versions, and experiment safely.
+- **Enables Collaboration** - Multiple people can work on the same project without stepping on each other.
+- **Documents Progress** - Every change has a timestamp, a message, and an author. Like a project logbook.
 
 ### Core Concepts
 - **Repository**: Your project folder tracked by Git.
 - **Commit**: A snapshot of your changes.
-- **Branch**: A parallel version of your codebase to test ideas or build features.
-- **Merge**: Combining branches together.
-- **Remote**: A version of the repository stored online (e.g., on GitHub).
-- **Push/Pull**: Sending or receiving changes between your local machine and a remote.
+- **Branch**: A parallel version of your codebase to test ideas.
+- **Merge**: Combining branches.
+- **Remote**: The online version of your repo (e.g., GitHub).
+- **Push/Pull**: Sending or receiving changes between local and remote.
 
 ### What is GitHub?
-GitHub is a **remote repository** that stores your git snapshots. It's like a cloud backup for your code.
+GitHub is a **remote** that stores your Git history. Like a cloud backup.
 
-### What is a repository?
-It's the folder where your code lives and is tracked by Git.
-
-### What is a commit?
-A commit is a snapshot of your changes.
-
-### Key difference between Git and GitHub
-- **Git** is local. It tracks changes to your code. Think of it as a personal time machine.
-- **GitHub** is remote. It backs up your git snapshots to the cloud.
+### Key Difference
+- **Git** is local. Think of it as your time machine.
+- **GitHub** is remote. Think of it as your safety deposit box.
 
 ---
 
 ## What actually happens when you "init Git"
-You walk into a folder, ask your AI "is git initialized here?", and if it isn’t, you say "start it."
+You walk into a folder, ask your AI “is git initialized here?”, and if it isn't, you say “start it.”
 
-This creates a hidden `.git` folder and sets your current branch to `main`. That’s the default timeline of your project.
+This creates a hidden `.git` folder and sets your current branch to `main`. That's the default timeline of your project.
 
 <BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/vibe-git-init-1.png" alt="Git Init" />
 
@@ -84,20 +72,20 @@ This creates a hidden `.git` folder and sets your current branch to `main`. That
 ## Untracked → Staged → Committed
 This is the lifecycle of a file in Git.
 
-1. **Untracked** – Git doesn’t know this file exists.
-2. **Staged** – You tell Git “I want to include this in my next save point.”
-3. **Committed** – You save the snapshot.
+1. **Untracked** – Git doesn't know this file exists.
+2. **Staged** – You've selected it for the next snapshot.
+3. **Committed** – The snapshot is saved.
 
 <BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/vibe-git-tracking.png" alt="Git tracking" />
 
-Modified files go through the same process. Git doesn’t care if it’s new or edited, it just tracks state transitions.
+Modified files go through the same process. Git doesn't care if it's new or changed - it just tracks states.
 
 ---
 
 ## GitHub is just your offsite backup
-You create a repo on GitHub. You copy the HTTPS link. You set that link as your remote.
+Create a GitHub repo. Copy the HTTPS link. Set that link as your remote.
 
-From that point on, you can push your local snapshots to the cloud. That’s it.
+Now you can push your local snapshots to the cloud.
 
 <BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/vibe-github.png" alt="Github setup" />
 
@@ -106,44 +94,42 @@ From that point on, you can push your local snapshots to the cloud. That’s it.
 ## The power of branching
 This is where Git becomes a cheat code.
 
-You don’t need to commit to one timeline. You can branch off, explore an idea, and merge it back later.
+You don't need to commit to one timeline. You can branch off, explore, return.
 
 Use branches when:
-- You’re building a risky feature
+- You're building a risky feature
 - You need to fix an issue on the live environment
-- You want to test alternatives without wrecking main
+- You want to test ideas in isolation
 
 <BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/vib-branching.png" alt="Git branching" />
 
 ---
 
 ## Merge conflicts: when timelines collide
-Let’s say two branches change the same line. Git doesn’t guess.
+Let's say two branches touch the same line. Git won't guess.
 
-When you merge, Git shows you the conflict and makes you pick. You either:
+When you merge, it flags the conflict and asks you to choose:
 - Keep A
 - Keep B
-- Merge both manually
+- Combine both
 
-That’s it. It’s not magic. It’s version negotiation.
+It's not magic. It's merge arbitration.
 
 <BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/conflict.png" alt="Merge conflict" />
 
 ---
 
 ## What matters is **why**, not **how**
-You don’t need to remember commands. Let your AI editor handle them.
+You don't need to memorize anything.
 
 Just understand:
 - Git is for **saving states**
-- GitHub is for **backing them up**
-- Branches let you **experiment without risk**
-- Conflicts are **manual decisions**
-
-That’s enough to build without fear.
+- GitHub is for **backups**
+- Branches let you **explore freely**
+- Conflicts are just **decisions to make**
 
 <BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/final-thoughts.png" alt="Final thoughts" />
 
-Now go break things. You’ve got a time machine.
+Now go break things. You've got a time machine.
 
 Until next time, happy vibe coding.
