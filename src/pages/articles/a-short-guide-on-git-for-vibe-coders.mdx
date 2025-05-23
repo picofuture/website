@@ -1,0 +1,118 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+import BlogYoutubeVideoEmbed from "@/components/blog-components/BlogYoutubeVideoEmbed";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2025-05-21',
+  title: 'A Short Guide on Git for Vibe Coders',
+  description: 'A short guide on Git for Vibe Coders',
+  draft: false,
+  slug: 'a-short-guide-on-git-for-vibe-coders',
+  image: "blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/cover.png"
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/cover.png" alt="Git for Vibe Coders" />
+
+## Before we begin
+This isn’t a hands-on git tutorial. If you want commands, go read <a href="https://git-scm.com/docs/gittutorial" target="_blank">Git’s official documentation</a> or try <a href="https://learngitbranching.js.org/" target="_blank">Learn Git Branching</a>.
+
+This guide is for people who build by feel. You’re not memorizing flags or syntax; you’re here to understand **how git works**, so your projects don’t get nuked when your editor crashes.
+
+---
+
+## When do you actually need Git?
+If you’re coding inside <a href="https://bolt.new" target="_blank">Bolt</a>, <a href="https://lovable.dev" target="_blank">Lovable</a>, or <a href="https://replit.com" target="_blank">Replit</a> - you don’t.
+
+Those tools give you version control for free. You only need Git when you graduate to <a href="https://cursor.com" target="_blank">Cursor</a> or <a href="https://windsurf.com" target="_blank">Windsurf</a>. That’s when the training wheels come off.
+
+The AI will run the commands for you. What you need to understand is **why** and **when** to use Git.
+
+---
+
+## Git vs GitHub
+- **Git** is local. It tracks changes to your code. Think of it as a personal time machine.
+- **GitHub** is remote. It backs up your snapshots to the cloud.
+
+Git saves your project history. GitHub saves your Git history.
+
+---
+
+## What actually happens when you "init Git"
+You walk into a folder, ask your AI "is git initialized here?", and if it isn’t, you say "start it."
+
+This creates a hidden `.git` folder and sets your current branch to `main`. That’s the default timeline of your project.
+
+<BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/vibe-git-init-1.png" alt="Git Init" />
+
+---
+
+## Untracked → Staged → Committed
+This is the lifecycle of a file in Git.
+
+1. **Untracked** – Git doesn’t know this file exists.
+2. **Staged** – You tell Git “I want to include this in my next save point.”
+3. **Committed** – You save the snapshot.
+
+<BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/vibe-git-tracking.png" alt="Git tracking" />
+
+Modified files go through the same process. Git doesn’t care if it’s new or edited, it just tracks state transitions.
+
+---
+
+## GitHub is just your offsite backup
+You create a repo on GitHub. You copy the HTTPS link. You set that link as your remote.
+
+From that point on, you can push your local snapshots to the cloud. That’s it.
+
+<BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/vibe-github.png" alt="Github setup" />
+
+---
+
+## The power of branching
+This is where Git becomes a cheat code.
+
+You don’t need to commit to one timeline. You can branch off, explore an idea, and merge it back later.
+
+Use branches when:
+- You’re building a risky feature
+- You need to fix an issue on the live environment
+- You want to test alternatives without wrecking main
+
+<BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/vib-branching.png" alt="Git branching" />
+
+---
+
+## Merge conflicts: when timelines collide
+Let’s say two branches change the same line. Git doesn’t guess.
+
+When you merge, Git shows you the conflict and makes you pick. You either:
+- Keep A
+- Keep B
+- Merge both manually
+
+That’s it. It’s not magic. It’s version negotiation.
+
+<BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/conflict.png" alt="Merge conflict" />
+
+---
+
+## What matters is **why**, not **how**
+You don’t need to remember commands. Let your AI editor handle them.
+
+Just understand:
+- Git is for **saving states**
+- GitHub is for **backing them up**
+- Branches let you **experiment without risk**
+- Conflicts are **manual decisions**
+
+That’s enough to build without fear.
+
+<BlogImage src="blog/2025-05-21-a-short-guide-on-git-for-vibe-coders/final-thoughts.png" alt="Final thoughts" />
+
+Now go break things. You’ve got a time machine.
+
+Until next time, happy vibe coding.
