@@ -76,17 +76,17 @@ export default function About() {
           </div>
           <div className="lg:order-first lg:row-span-2">
             <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-              I’m Anfal — a technical founder building AI-native tools with clarity, speed, and soul.
+              I’m Anfal, a technical founder building AI tools that amplify humans, not replace them.
             </h1>
             <div className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
               <p>
-                I’m a technical founder based in Vancouver, focused on building AI-native products that actually work. After launching 8 startups and leading engineering at Logitech and Durable, I’ve learned how to move fast, scale systems, and still stay human in the loop.
+                I’m a technical founder based in Vancouver, focused on building AI-native products that actually work and amplify humans, not replace them. After launching 8 startups and leading engineering at Logitech and Durable, I’ve learned how to move fast and scale systems.
               </p>
               <p>
-                My strength lies in turning abstract problems into clear flows. Whether I’m integrating LLMs, shipping agentic workflows, or just cleaning up a spaghetti API—I bring structure to chaos.
+                My strength lies in turning abstract problems into clear flows. Whether I’m integrating AI, shipping agentic workflows, or just cleaning up a spaghetti API, I bring structure to chaos.
               </p>
               <p>
-                I’m not here to hype AI—I’m here to build with it. If you care about thoughtful systems, fast execution, and tools with soul, you’ll probably enjoy the work I share.
+                I’m not here to hype AI, I’m here to build with it. If you care about thoughtful systems, fast execution, and tools that amplify humans, not replace them, you’ll probably enjoy the work I share.
               </p>
             </div>
           </div>

@@ -39,7 +39,7 @@ export default function ArticlesIndex({ articles }) {
   return (
     <>
       <Head>
-        <title>Articles by Anfal Mushtaq – AI-native tools, LLMs & product insights</title>
+        <title>Articles - Anfal Mushtaq</title>
         <meta name="description" content="Technical insights and behind-the-scenes lessons on building AI-native tools, shipping agentic products, and navigating entrepreneurship—from 8 failed startups to 100K+ users." />
 
         <meta property="og:title" content="Articles by Anfal Mushtaq – AI-native tools, LLMs & product insights" />

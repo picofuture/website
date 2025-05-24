@@ -306,7 +306,7 @@ export default function Home({ articles }) {
   return (
     <>
       <Head>
-        <title>Anfal Mushtaq – Building AI-native tools with clarity, speed, and soul</title>
+        <title>Home - Anfal Mushtaq</title>
         <meta
           name="description"
           content="I'm Anfal Mushtaq — a technical founder helping teams ship agentic, LLM-native products with clarity, speed, and soul. From 8 failed startups to scaling AI systems to 100K+ users, I now write, build, and consult from Vancouver."
@@ -331,10 +331,10 @@ export default function Home({ articles }) {
       <Container className="mt-9">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            Building AI-native tools with clarity, speed, and soul.
+            Building AI to amplify humans, not replace them.
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            From 8 failed startups to building AI systems used by 100K+ users—now helping teams ship agentic products that actually work.
+            From 8 failed startups to building AI systems used by 100K+ users, now helping teams ship agentic products that actually work
           </p>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
             Let&apos;s connect – reach out at <a href='mailto:hello@anfalmushtaq.com' className='text-teal-500'>hello@anfalmushtaq.com</a>
@@ -367,7 +367,7 @@ export default function Home({ articles }) {
             ))}
           </div>
           <div className="space-y-10 lg:pl-16 xl:pl-24">
-            <Newsletter />
+            {/* <Newsletter /> */}
             <Resume />
           </div>
         </div>
