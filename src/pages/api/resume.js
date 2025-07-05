@@ -4,7 +4,7 @@ import { join } from 'path';
 import {formatCDNURl} from "@/lib/cloudflareImageLoader";
 
 export default async function handler(req, res) {
-  const resumeName = 'anfal_resume_03_25_2025.pdf';
+  const resumeName = '04_07_2025_resume_anfal.pdf';
   const fileUrl = formatCDNURl(resumeName, 'docs');
 
   // Fetch the PDF file from the CDN
