@@ -189,7 +189,7 @@ function Resume() {
   let resume = [
     {
       company: 'Pico Future',
-      title: 'Founder, AI Consultant',
+      title: 'Founder',
       logo: formatCDNURl('logos/robot.png'),
       start: '2023',
       end: 'Present',
@@ -325,7 +325,7 @@ export default function Home({ articles }) {
         <meta name="author" content="Anfal Mushtaq" />
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="keywords" content="Anfal Mushtaq, AI consultant, LLM, agentic systems, technical founder, AI product development, Vancouver, ChatVisible AI" />
+        <meta name="keywords" content="Anfal Mushtaq, LLM, agentic systems, technical founder, AI product development, Vancouver, ChatVisible AI" />
       </Head>
 
       <Container className="mt-9">
