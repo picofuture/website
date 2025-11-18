@@ -1,0 +1,16 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2025-11-17',
+  title: 'Presentation Material for VanJS talk on Vibe Code Like An Engineer',
+  description: 'Presentation Material for VanJS talk on Vibe Code Like An Engineer',
+  slug: 'vibe-code-like-an-engineer-material',
+  image: "blog/2025-11-17-presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer/presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer.jpg"
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage src='blog/2025-11-17-presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer/presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer.jpg' alt="Presentation Material for VanJS talk on Vibe Code Like An Engineer" />
