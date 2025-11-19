@@ -8,9 +8,44 @@ export const meta = {
   title: 'Presentation Material for VanJS talk on Vibe Code Like An Engineer',
   description: 'Presentation Material for VanJS talk on Vibe Code Like An Engineer',
   slug: 'vibe-code-like-an-engineer-material',
-  image: "blog/2025-11-17-presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer/presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer.jpg"
+  image: "blog/2025-11-17-presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer/cover.png"
 }
 
 export default (props) => <ArticleLayout meta={meta} {...props} />
 
-<BlogImage src='blog/2025-11-17-presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer/presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer.jpg' alt="Presentation Material for VanJS talk on Vibe Code Like An Engineer" />
+<BlogImage src='blog/2025-11-17-presentation-material-for-vanjs-talk-on-vibe-code-like-an-engineer/cover.png' alt="Presentation Material for VanJS talk on Vibe Code Like An Engineer" />
+
+## Presentation Material for VanJS Talk: Vibe Code Like an Engineer
+This page gathers everything related to the talk, including the slide deck and deeper reference material for the workflows demonstrated live.
+
+## Slides
+Use the following link to view the presentation: <a href="https://docs.google.com/presentation/d/1rV4qjChWYnRZuI-vHSGCm2vqUfT0zmFfqiwFshZ56fg/edit?usp=sharing" target="_blank">Google Slides</a>.
+
+## Supplementary Material
+The talk introduces a practical approach to AI‑augmented engineering. You can enhance your productivity by parallelizing your work using work trees and stacked PRs.
+
+### Git worktrees
+Git worktrees let you check out multiple branches of the same repository into separate directories so you can work on features in parallel without stashing or switching branches. 
+They give you isolated workspaces that share the same git history, which makes context switching cleaner, feature development safer, and code reviews easier. 
+Independent features shine in worktrees because each workspace stays focused and conflict-free, while dependent features work well when you use contract-first development: define interfaces and mocks upfront so both sides can progress without blocking each other. 
+Worktrees fit naturally into professional workflows since they support parallel development, clean isolation, smooth PR reviews, and predictable integration paths. 
+
+Read more about Git worktrees <a href="https://git-scm.com/docs/git-worktree" target="_blank">here</a>
+
+## Stacked PRs
+Stacked PRs let you split a large, interdependent feature into a series of small pull requests that build on one another, so each piece stays focused and reviewable while the whole feature moves forward in parallel. 
+Instead of waiting for one PR to merge before starting the next, you create a chain of branches where each branch depends on the previous one. 
+Reviewers can look at all PRs simultaneously, and you merge them sequentially once approved. 
+This approach works well for multi-week features, complex systems with layered dependencies, and teams that want cleaner histories and faster feedback. 
+Tools like git-town or Graphite automate stacking, syncing with main, rebasing dependent branches, and shipping merged PRs. 
+The workflow starts with creating the foundation PR, then appending new branches for backend, frontend, or other layers, each with its own PR based on the one before it. 
+When main updates, you sync the whole stack so every PR stays up to date. When a PR is approved, you ship it, which rebases the rest of the stack onto main and keeps everything clean. 
+Stacked PRs also power parallel agent workflows: one agent builds the schema, another builds the backend on top of it, another builds the UI, and all PRs go up together and merge in order. 
+They speed up development, maintain clear single-responsibility changes, keep reviews small and focused, and avoid blocking progress across dependent parts of a feature.
+
+Read more about stacked PRs <a href="https://www.stacking.dev/" target="_blank">here</a>
+
+## Link for the Github repo for KAI
+KAI (Knowledge Augmented Intelligence) is an open‑source meta‑framework focused on practical AI‑augmented engineering. The repository is available here: <a href="https://github.com/MAnfal/kai" target="_blank">github.com/MAnfal/kai</a>.
+
+This project is in progress. The repository currently contains a placeholder README, and code will be added as testing completes. If you find the project valuable, consider starring the repo to show your support!
