@@ -189,7 +189,7 @@ function Resume() {
   let resume = [
     {
       company: 'Luxury Presence',
-      title: 'Staff Software Engineer',
+      title: 'Staff Software Engineer, AI',
       logo: formatCDNURl('logos/luxury-presence.jpeg'),
       start: '2025',
       end: 'Present',
