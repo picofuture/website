@@ -188,11 +188,19 @@ function Newsletter() {
 function Resume() {
   let resume = [
     {
+      company: 'Luxury Presence',
+      title: 'Staff Software Engineer',
+      logo: formatCDNURl('logos/luxury-presence.jpeg'),
+      start: '2025',
+      end: 'Present',
+      borderRadius: 'rounded-full',
+    },
+    {
       company: 'Pico Future',
       title: 'Founder',
       logo: formatCDNURl('logos/robot.png'),
-      start: '2023',
-      end: 'Present',
+      start: '2025',
+      end: '2025',
       borderRadius: 'rounded-full',
     },
     {
@@ -208,13 +216,6 @@ function Resume() {
       logo: formatCDNURl('logos/logitech.svg'),
       start: '2021',
       end: '2023'
-    },
-    {
-      company: 'Logitech',
-      title: 'Senior Software Engineer',
-      logo: formatCDNURl('logos/logitech.svg'),
-      start: '2019',
-      end: '2021',
     },
   ]
 
