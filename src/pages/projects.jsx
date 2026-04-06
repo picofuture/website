@@ -1,56 +1,90 @@
 import Head from 'next/head'
-import Image from 'next/image'
 
-import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
-import {formatCDNURl} from "@/lib/cloudflareImageLoader";
 
-const projects = [
+const work = [
   {
-    name: 'Laravel SSE',
-    description:
-      'A wrapper on top of LibSSE customized for Laravel',
-    link: { href: 'https://github.com/MAnfal/sse', label: 'github.com' },
-    logo: formatCDNURl('logos/robot.png'),
+    company: 'Luxury Presence',
+    role: 'Staff Software Engineer, Applied AI',
+    period: '2025 — Present',
+    summary:
+      'Architecting the AI website generation platform from the ground up. Luxury Presence is a Series C proptech company serving 80,000+ real estate professionals, and every generated site has to be indistinguishable from human-designed work — which means the hard problem is making non-deterministic systems produce deterministic-quality output at scale.',
+    highlights: [
+      'Designed and built the end-to-end AI site generation pipeline, replacing a multi-week manual workflow with an automated system that ships production-ready sites in hours.',
+      'Own prompt orchestration, output evaluation, layout consistency, and brand-fidelity controls across the generation pipeline.',
+      'Built and run a spec-driven development framework for the platform — treating specifications as the source of truth and using AI agents to execute against them — before the industry converged on the term.',
+      'Set technical direction for every AI-powered web experience the company ships. Collaborate directly with executives and product leadership on the AI roadmap.',
+    ],
   },
   {
-    name: 'Crypto Investment Overview',
-    description:
-      'Tool to help you keep track of your crypto investments and applicable taxes',
-    link: { href: 'https://github.com/MAnfal/crypto-investment-overview', label: 'github.com' },
-    logo: formatCDNURl('logos/robot.png'),
+    company: 'Durable',
+    role: 'Engineering Lead, AI',
+    period: '2023 — 2025',
+    summary:
+      'Led AI engineering at Durable, an AI-powered small business platform serving 100,000+ SMBs. Owned the AI infrastructure, customer-facing AI agents, and engineering team growth — at a moment when the entire AI infrastructure stack was brand new and providers were going down daily from timeouts, rate limits, and outages.',
+    highlights: [
+      'Designed and built an AI service processing 1B+ tokens per month when the industry had no playbook for operating LLM workloads at that scale. Engineered the retries, fallbacks, queueing, and provider failover that kept it reliable while the underlying APIs were still wobbling.',
+      'Built an internal agent development framework on top of the AI infrastructure — the abstraction layer the rest of the engineering team used to ship customer-facing AI agents without reinventing the plumbing. Everything shipped after that was built on top of it.',
+      'Cut annual infrastructure spend by $375K (75%) through architecture redesign and CDN optimization, freeing budget for product investment.',
+      'Scaled AI services to 100,000+ active small businesses at 99.99% uptime — through the rockiest year of commercial LLM infrastructure.',
+      'Shipped customer-facing AI agents for SEO optimization, content generation, and site improvement — expanding product capability and revenue per account.',
+      'Cut support ticket volume 40% through automated triage and resolution workflows.',
+      'Grew the engineering team from 4 to 11. Built the hiring pipeline, mentorship program, and security practice, including a bug bounty initiative.',
+    ],
   },
   {
-    name: 'Lean Validator',
-    description:
-      'Javascript validation library built on top of approve JS to provide blazing fast validation.',
-    link: { href: 'https://github.com/MAnfal/lean_validator', label: 'github.com' },
-    logo: formatCDNURl('logos/robot.png'),
+    company: 'Streamlabs (Logitech)',
+    role: 'Principal Software Engineer',
+    period: '2019 — 2023',
+    summary:
+      'Led core services and GenAI R&D at Streamlabs, one of the largest platforms for live streamers. Shipped products used by 5M+ creators, pioneered the company’s first generative-AI products before the current AI wave was mainstream, and drove platform-wide reliability, identity, and security initiatives.',
+    highlights: [
+      'Directed GenAI research and development for Streamlabs and shipped the company’s first generative-AI products — including Logo Maker and AI-powered creator tooling — in the early days of the current AI wave.',
+      'Pioneered new products adopted by 5M+ streamers, including Campaign Manager, Alert Box V2, and a suite of widgets and tools that became core to the creator workflow.',
+      'Led the Streamlabs Identity initiative, unifying authentication across the platform for 5M+ users and eliminating fragmented identity systems.',
+      'Rebuilt the real-time event alert pipeline processing millions of events per day. Reduced P99 backend latency by 65%.',
+      'Replaced the legacy jQuery and iframe widget system with a modern Vue.js architecture, cutting feature development cycle time by 50%.',
+      'Led the core services team responsible for global platform reliability, performance, and availability. Ran the company-wide bug bounty program.',
+    ],
   },
   {
-    name: 'Tailwind Jekyll Starter Code',
-    description:
-      'SSG starter code using tailwind CSS and Jekyll.',
-    link: { href: 'https://github.com/MAnfal/tailwind-jekyll-starter-code', label: 'github.com' },
-    logo: formatCDNURl('logos/robot.png'),
-  },
-  {
-    name: 'Reverse Clock',
-    description:
-      'A web UI that fetches global data on mortality rates, applies statistics to subtract major human activities and give back an overview of free time to be productive.',
-    link: { href: 'https://github.com/MAnfal/reverse-clock', label: 'github.com' },
-    logo: formatCDNURl('logos/robot.png'),
+    company: 'Pico Future',
+    role: 'Founder and Technical Consultant',
+    period: '2025',
+    summary:
+      'Independent build and consulting practice. Partnered with early-stage founders and SaaS teams to take AI-native products from 0 → 1, shipping across mobile, voice, and developer tooling.',
+    highlights: [
+      'Designed and launched an AI debugging agent targeting the emerging AI-assisted development segment. Secured 100+ beta signups and converted paid pilot conversations within 8 weeks.',
+      'Partnered with a health-tech founder to build a cross-platform iOS and Android application for postpartum support, integrating AI across the core user experience — from scoping the product with the founder to shipping the AI-powered features.',
+      'Delivered a low-latency voice AI system for a small-business SaaS client, achieving sub-500ms response times and enabling a new real-time customer interaction revenue line.',
+    ],
   },
 ]
 
-function LinkIcon(props) {
+function WorkItem({ entry }) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
-      <path
-        d="M15.712 11.823a.75.75 0 1 0 1.06 1.06l-1.06-1.06Zm-4.95 1.768a.75.75 0 0 0 1.06-1.06l-1.06 1.06Zm-2.475-1.414a.75.75 0 1 0-1.06-1.06l1.06 1.06Zm4.95-1.768a.75.75 0 1 0-1.06 1.06l1.06-1.06Zm3.359.53-.884.884 1.06 1.06.885-.883-1.061-1.06Zm-4.95-2.12 1.414-1.415L12 6.344l-1.415 1.413 1.061 1.061Zm0 3.535a2.5 2.5 0 0 1 0-3.536l-1.06-1.06a4 4 0 0 0 0 5.656l1.06-1.06Zm4.95-4.95a2.5 2.5 0 0 1 0 3.535L17.656 12a4 4 0 0 0 0-5.657l-1.06 1.06Zm1.06-1.06a4 4 0 0 0-5.656 0l1.06 1.06a2.5 2.5 0 0 1 3.536 0l1.06-1.06Zm-7.07 7.07.176.177 1.06-1.06-.176-.177-1.06 1.06Zm-3.183-.353.884-.884-1.06-1.06-.884.883 1.06 1.06Zm4.95 2.121-1.414 1.414 1.06 1.06 1.415-1.413-1.06-1.061Zm0-3.536a2.5 2.5 0 0 1 0 3.536l1.06 1.06a4 4 0 0 0 0-5.656l-1.06 1.06Zm-4.95 4.95a2.5 2.5 0 0 1 0-3.535L6.344 12a4 4 0 0 0 0 5.656l1.06-1.06Zm-1.06 1.06a4 4 0 0 0 5.657 0l-1.061-1.06a2.5 2.5 0 0 1-3.535 0l-1.061 1.06Zm7.07-7.07-.176-.177-1.06 1.06.176.178 1.06-1.061Z"
-        fill="currentColor"
-      />
-    </svg>
+    <article className="border-l border-zinc-100 pl-6 dark:border-zinc-700/40">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h2 className="text-xl font-semibold text-zinc-800 dark:text-zinc-100">
+          {entry.company}
+        </h2>
+        <span className="text-sm text-zinc-400 dark:text-zinc-500">
+          {entry.period}
+        </span>
+      </div>
+      <p className="mt-1 text-sm font-medium text-teal-500">{entry.role}</p>
+      <p className="mt-4 text-base text-zinc-600 dark:text-zinc-400">
+        {entry.summary}
+      </p>
+      <ul className="mt-4 space-y-2 text-base text-zinc-600 dark:text-zinc-400">
+        {entry.highlights.map((highlight, i) => (
+          <li key={i} className="flex gap-3">
+            <span className="mt-[0.6rem] h-1 w-1 flex-none rounded-full bg-zinc-400 dark:bg-zinc-500" />
+            <span>{highlight}</span>
+          </li>
+        ))}
+      </ul>
+    </article>
   )
 }
 
@@ -58,43 +92,30 @@ export default function Projects() {
   return (
     <>
       <Head>
-        <title>Projects - Anfal Mushtaq</title>
+        <title>Work - Anfal Mushtaq</title>
         <meta
           name="description"
-          content="Things I’ve made trying to put my dent in the universe."
+          content="Selected work from the last several years — AI platforms, infrastructure at scale, and products shipped to millions of users."
         />
+        <meta property="og:title" content="Work by Anfal Mushtaq – Selected projects and shipped systems" />
+        <meta property="og:description" content="Selected work from the last several years — AI platforms, infrastructure at scale, and products shipped to millions of users." />
+        <meta property="og:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta property="og:url" content="https://anfalmushtaq.com/projects" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Work by Anfal Mushtaq – Selected projects and shipped systems" />
+        <meta name="twitter:description" content="Selected work from the last several years — AI platforms, infrastructure at scale, and products shipped to millions of users." />
+        <meta name="twitter:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta name="twitter:creator" content="@AnfalMushtaq" />
       </Head>
       <SimpleLayout
-        title="Things I’ve made trying to put my dent in the universe."
-        intro="The following is a showcase of a few out of many projects I have worked on over the years."
+        title="Selected work."
+        intro="A handful of the systems I’ve shipped over the last several years. The surface changes — AI platforms, infrastructure at scale, livestreaming products — but the job is always the same: turn a hard, vaguely-specified problem into a system that runs in production and actually helps the people using it."
       >
-        <ul
-          role="list"
-          className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {projects.map((project) => (
-            <Card as="li" key={project.name}>
-              <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
-                <Image
-                  src={project.logo}
-                  width={640}
-                  height={640}
-                  alt=""
-                  className="h-8 w-8"
-                  unoptimized
-                />
-              </div>
-              <h2 className="mt-6 text-base font-semibold text-zinc-800 dark:text-zinc-100">
-                <Card.Link href={project.link.href}>{project.name}</Card.Link>
-              </h2>
-              <Card.Description>{project.description}</Card.Description>
-              <p className="relative z-10 mt-6 flex text-sm font-medium text-zinc-400 transition group-hover:text-teal-500 dark:text-zinc-200">
-                <LinkIcon className="h-6 w-6 flex-none" />
-                <span className="ml-2">{project.link.label}</span>
-              </p>
-            </Card>
+        <div className="space-y-16">
+          {work.map((entry) => (
+            <WorkItem key={entry.company} entry={entry} />
           ))}
-        </ul>
+        </div>
       </SimpleLayout>
     </>
   )
