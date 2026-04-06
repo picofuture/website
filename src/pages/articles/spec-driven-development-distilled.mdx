@@ -1,0 +1,48 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2026-03-17',
+  title: 'Spec-Driven Development Distilled',
+  description: 'A distilled method for driving AI coding agents with specs — not a framework, but a practical approach to thinking before prompting.',
+  slug: 'spec-driven-development-distilled',
+  image: "blog/2026-03-17-spec-driven-development/cover.jpg"
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage src='blog/2026-03-17-spec-driven-development/cover.jpg' alt="Spec-Driven Development Distilled" />
+
+## Introduction
+There are many frameworks out there trying to solve spec-driven development for AI-assisted coding.
+<a href="https://github.com/github/spec-kit" target="_blank">GitHub Spec Kit</a>, <a href="https://github.com/Fission-AI/OpenSpec" target="_blank">OpenSpec</a>, and <a href="https://github.com/gsd-build/get-shit-done" target="_blank">Get Shit Done</a> are a few popular examples.
+
+This article takes a different path. I'm not going to sell you a framework — I actually <a href="https://github.com/MAnfal/kai" target="_blank">tried building one</a>. Never got past the README. I kept watching base agents ship the exact features I had on my roadmap, and eventually I just stopped. Features like <a href="/articles/vibe-code-like-an-engineer-material" target="_blank">git worktrees</a> that I would have built into my framework ended up being baked directly into the tools. It's a game of cat and mouse you can't win.
+
+So instead of a framework, I'm going to walk you through a method — one you can grow yourself and adapt to your own codebase.
+
+Here's why that matters: we're in the same phase we were with traditional programming languages. Every other day, a new framework or library drops and you end up in a rat race chasing the next shiny thing. But unlike programming languages — which come with their own rigid constructs — prompting is fundamentally more flexible. Probability is baked into the LLM's roots. No matter what you do, you cannot escape a certain level of uncertainty. And in trying to cover all possible scenarios, these OSS frameworks tend to add unwanted complexity and bloat.
+
+There's another problem. AI is stochastic. You don't want to wait for the perfect system before you launch — something you might have done in the traditional software engineering lifecycle. You should be launching a system that is just good enough, then iterating on it to meet the custom needs of your project and the engineers working on it.
+
+I believe this new way of building software requires a method that is more abstract, can be custom-grown for each codebase, and is not tied to any specific framework. Understanding the *what* and the *why* is more important than learning every new framework that comes out.
+
+## The Basics
+
+Before we start, I want to mention that for this guide I'm using <a href="https://code.claude.com/docs/en/overview" target="_blank">Claude Code</a> as my AI coding agent. However, I'll try to keep the discussion tool-agnostic wherever possible.
+
+At its core, a spec-driven meta framework is about giving the agent the right context at the right time. Everything in it serves one of two purposes: **telling the agent what to build** or **teaching it how your codebase works**.
+
+The first piece is **a plan**. This is where you describe the feature — user stories, acceptance criteria, success metrics, what's explicitly out of scope. The plan is the agent's contract. It tells the agent not just *what* to do, but *what done looks like*.
+
+The second piece is **resources** — markdown files that carry the knowledge the agent can't get from reading code alone. Think codebase documentation, technical specifications, recipes, guides, best practices. Some teams call these "bibles" — deep reference material for specific domains that the agent consults when it needs to make decisions. The key difference from regular docs is that these are living: when the agent changes code, it updates the corresponding documentation in the same unit of work.
+
+If you're using Claude Code, the meta framework typically includes two more pieces. **Skills** give the agent deterministic code execution — a skill that scaffolds files for a new feature, or one that audits your documentation against the actual codebase to catch drift. **Commands** let you interact with the agent and kick off workflows — for example, a command that starts a brainstorming session which eventually produces the plan.
+
+Tying it all together are **templates** — standardized formats for plans, specs, and task breakdowns so the agent doesn't reinvent the structure every time. Templates make plans predictable, reviewable, and resumable by a different agent or a different person.
+
+One thing worth calling out: **structure your context like a router, not a monolith.** It's tempting to dump everything into one giant prompt file, but that floods the agent's context window and dilutes what matters. Instead, your top-level files should act as routing tables — short references that point the agent to the right resource when it needs it. The agent reads the index, finds the relevant pointer, and pulls in only the context it actually needs for the task at hand. This keeps the context window lean and the agent focused.
+
+But the most important property of a good meta framework is **self-evolution**. Every plan you execute should have the potential to make the next one better. If the agent discovers a missing verification step, it patches the protocol. If a template is lacking a section, it adds one. Audit skills can automatically surface issues and write them into a feedback queue for the next planning cycle. The framework grows with your codebase — not because you sat down to redesign it, but because the process of using it keeps surfacing what's missing.
