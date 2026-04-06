@@ -32,57 +32,71 @@ export default function Uses() {
         <title>Uses - Anfal Mushtaq</title>
         <meta
           name="description"
-          content="Software I use, gadgets I love, and other things I recommend."
+          content="The tools I actually use to build software, think clearly, and ship things that matter."
         />
+        <meta property="og:title" content="Uses – Anfal Mushtaq’s tools and setup" />
+        <meta property="og:description" content="The tools I actually use to build software, think clearly, and ship things that matter." />
+        <meta property="og:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta property="og:url" content="https://anfalmushtaq.com/uses" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Uses – Anfal Mushtaq’s tools and setup" />
+        <meta name="twitter:description" content="The tools I actually use to build software, think clearly, and ship things that matter." />
+        <meta name="twitter:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
+        <meta name="twitter:creator" content="@AnfalMushtaq" />
       </Head>
       <SimpleLayout
-        title="Software I use, gadgets I love, and other things I recommend."
-        intro="I get asked a lot about the things I use to build software, stay productive, or buy to fool myself into thinking I’m being productive when I’m really just procrastinating. Here’s a big list of all of my favorite stuff."
+        title="The tools I actually use."
+        intro="I prefer fewer, better tools over a sprawling stack. Every item on this list earned its spot by surviving real work. I update it only when something actually changes — not when a new trend shows up."
       >
         <div className="space-y-20">
           <ToolsSection title="Workstation">
-            <Tool title="15” MacBook Pro, Intel, 16GB RAM (2019)">
-              One of my favorite computers to use. I really like the performance
-              output and responsiveness. I’ve never heard the fans turn on a
-              single time, even under the incredibly heavy loads I put it
-              through with our various launch simulations.
+            <Tool title="15” MacBook Pro (2019, Intel, 16GB RAM)">
+              Primary machine. Quiet under load, reliable, and still gets the job done for everything short of heavy local model work.
             </Tool>
-            <Tool title="15” Lenovo Legion Y550, Intel Core i7, Nvidia 1050Ti, 32GB RAM (2019)">
-              As much as I love my mac, I am also a big open source guy. I love using Linux as my main OS.
-              It does require a bit of hands on experience but it&apos;s worth it.
+            <Tool title="15” Lenovo Legion Y550 (Intel i7, Nvidia 1050Ti, 32GB RAM)">
+              My Linux workhorse. I like having a proper Linux environment for anything that benefits from full control over the stack.
             </Tool>
-            <Tool title="11” IPad Pro (2020)">
-              I am a big fan of writing all of my notes &amp; thoughts. Whether they are work related or personal, I love writing them down on my IPad.
-              Side note, if you are going to use IPad for writing, I highly recommend using the Apple Pencil and a paper-like screen protector.
+            <Tool title="11” iPad Pro with Apple Pencil">
+              Where I think in longhand. Specs, diagrams, and messy early drafts start here before they become code or prose. A paper-like screen protector makes the difference.
             </Tool>
             <Tool title="Herman Miller Embody Chair">
-              If I’m going to slouch in the worst ergonomic position imaginable
-              all day, I might as well do it in an expensive chair.
+              Worth every dollar. I sit in it for long stretches and it pays itself back in how my back feels at the end of the day.
             </Tool>
           </ToolsSection>
-          <ToolsSection title="Development tools">
-            <Tool title="Jetbrains Suite">
-              I am a big fan of the Jetbrains suite of tools. I use PHPStorm, PyCharm, DataGrip, and CLion as my main IDEs.
+
+          <ToolsSection title="Editor and IDE">
+            <Tool title="Cursor">
+              My primary editor these days. The tight AI integration fits how I actually build now — drafting with an agent, reviewing diffs, and keeping the human in the loop on the decisions that matter. I moved to it once the AI-assisted workflow outgrew bolting plugins onto a traditional IDE.
+            </Tool>
+            <Tool title="JetBrains Suite">
+              Still in the toolbox for anything that benefits from deep language-specific tooling — PHPStorm, PyCharm, DataGrip, CLion. A decade of muscle memory doesn’t go away, and the refactoring and debugging stack is still best in class when I need it.
             </Tool>
           </ToolsSection>
-          <ToolsSection title="Design">
-            <Tool title="Figma">
-              I started using Figma as just a design tool but now it’s become
-              my virtual whiteboard. I never would have
-              expected the collaboration features to be the real hook.
+
+          <ToolsSection title="AI in the loop">
+            <Tool title="Claude and Claude Code">
+              My primary AI pair. I drive most of my AI-assisted work through Claude Code in the terminal — it fits the way I actually build, instead of forcing me into an editor-centric workflow. I rely on it for exploration, scaffolding, and as a thinking partner on hard architectural calls.
+            </Tool>
+            <Tool title="Spec-driven development">
+              Not a tool, a method. I treat specifications as the source of truth and have AI agents execute against them. The spec is what I write and review carefully; the code is what the agent produces from it. This is how I actually ship at the pace I do.
             </Tool>
           </ToolsSection>
-          <ToolsSection title="Productivity">
+
+          <ToolsSection title="Thinking and writing">
             <Tool title="GoodNotes">
-              I use it for taking notes, writing down ideas, and keeping track of my daily tasks inside a yearly planner.
+              Where my long-form notes, planning, and daily task tracking live. I keep a yearly planner inside it and revisit it often.
             </Tool>
             <Tool title="Freeform">
-              I really love this free app from Apple. It allows me to freely jot down my thoughts and ideas without any distractions. It basically a really
-              big whiteboard for you to write on.
+              My infinite whiteboard. I use it when I need to spread out and see a problem at once instead of scrolling through a linear document.
             </Tool>
+            <Tool title="Figma">
+              Started as a design tool, stayed as a virtual whiteboard for cross-functional collaboration. The real hook was collaboration, not the design surface.
+            </Tool>
+          </ToolsSection>
+
+          <ToolsSection title="Staying organized">
             <Tool title="Trello">
-              Simple UX and great collaboration features. I use it for keeping track of all of my tasks. I really love the fact
-              that it&apos;s free and extremely easy to use.
+              Simple, fast, and collaborative. I’ve tried heavier tools and kept coming back to this one because the UX gets out of my way.
             </Tool>
           </ToolsSection>
         </div>
