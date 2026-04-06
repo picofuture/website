@@ -307,38 +307,38 @@ export default function Home({ articles }) {
   return (
     <>
       <Head>
-        <title>Home - Anfal Mushtaq</title>
+        <title>Anfal Mushtaq – I build things that ship.</title>
         <meta
           name="description"
-          content="I'm Anfal Mushtaq — a technical founder helping teams ship agentic, LLM-native products with clarity, speed, and soul. From 8 failed startups to scaling AI systems to 100K+ users, I now write, build, and consult from Vancouver."
+          content="12+ years shipping software across web, streaming, SMB SaaS, and AI. Products reaching 5M+ streamers, 100K+ businesses, 80K+ real estate pros. First principles over frameworks. Human outcomes over hype."
         />
-        <meta property="og:title" content="Anfal Mushtaq – Building AI-native tools with clarity, speed, and soul" />
-        <meta property="og:description" content="Technical founder helping teams ship agentic, LLM-native products. Writing, building, and consulting from Vancouver." />
+        <meta property="og:title" content="Anfal Mushtaq – I build things that ship." />
+        <meta property="og:description" content="12+ years shipping software across web, streaming, SMB SaaS, and AI. First principles over frameworks. Human outcomes over hype." />
         <meta property="og:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
         <meta property="og:url" content="https://anfalmushtaq.com" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Anfal Mushtaq – Building AI-native tools with clarity, speed, and soul" />
-        <meta name="twitter:description" content="Technical founder building agentic, LLM-native products. Writing, consulting, and building in public from Vancouver." />
+        <meta name="twitter:title" content="Anfal Mushtaq – I build things that ship." />
+        <meta name="twitter:description" content="12+ years shipping software across web, streaming, SMB SaaS, and AI. First principles over frameworks. Human outcomes over hype." />
         <meta name="twitter:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
         <meta name="twitter:creator" content="@AnfalMushtaq" />
 
         <meta name="author" content="Anfal Mushtaq" />
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="keywords" content="Anfal Mushtaq, LLM, agentic systems, technical founder, AI product development, Vancouver, ChatVisible AI" />
+        <meta name="keywords" content="Anfal Mushtaq, software engineer, staff engineer, systems, AI, first principles, Vancouver" />
       </Head>
 
       <Container className="mt-9">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            Building AI to amplify humans, not replace them.
+            I build things that ship.
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            From 8 failed startups to building AI systems used by 100K+ users, now helping teams ship agentic products that actually work
+            12+ years across web, streaming, SMB SaaS, and AI. Products reaching 5M+ streamers, 100K+ businesses, and 80K+ real estate pros. First principles over frameworks. Human outcomes over hype.
           </p>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            Let&apos;s connect – reach out at <a href='mailto:hello@anfalmushtaq.com' className='text-teal-500'>hello@anfalmushtaq.com</a>
+            Reach me at <a href='mailto:hello@anfalmushtaq.com' className='text-teal-500'>hello@anfalmushtaq.com</a>.
           </p>
           <div className="mt-6 flex gap-6">
             <SocialLink

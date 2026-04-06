@@ -45,17 +45,17 @@ export default function About() {
     <>
       <Head>
         <title>About - Anfal Mushtaq</title>
-        <meta name="description" content="Technical founder building agentic, AI-native tools from Vancouver. From 8 failed startups to 100K+ users—this is the story behind the systems." />
+        <meta name="description" content="Engineer and builder based in Vancouver. 12+ years shipping software across web, streaming, SMB SaaS, and AI. First principles over frameworks. Human outcomes over hype." />
 
-        <meta property="og:title" content="About Anfal Mushtaq – AI-native tools, LLM systems & startup lessons" />
-        <meta property="og:description" content="Technical founder. Builder of agentic products. Writing and shipping from Vancouver." />
+        <meta property="og:title" content="About Anfal Mushtaq – Engineer. Builder. Shipper." />
+        <meta property="og:description" content="12+ years shipping software across web, streaming, SMB SaaS, and AI. First principles over frameworks. Human outcomes over hype." />
         <meta property="og:url" content="https://anfalmushtaq.com/about" />
         <meta property="og:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
         <meta property="og:type" content="profile" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="About Anfal Mushtaq – AI-native tools, LLM systems & startup lessons" />
-        <meta name="twitter:description" content="Technical founder. Builder of agentic products. Writing and shipping from Vancouver." />
+        <meta name="twitter:title" content="About Anfal Mushtaq – Engineer. Builder. Shipper." />
+        <meta name="twitter:description" content="12+ years shipping software across web, streaming, SMB SaaS, and AI. First principles over frameworks. Human outcomes over hype." />
         <meta name="twitter:image" content="https://cdn.anfalmushtaq.com/static/imgs/dp.jpg" />
         <meta name="twitter:creator" content="@AnfalMushtaq" />
       </Head>
@@ -76,19 +76,35 @@ export default function About() {
           </div>
           <div className="lg:order-first lg:row-span-2">
             <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-              I’m Anfal, a technical founder building AI tools that amplify humans, not replace them.
+              I’m Anfal. I turn hard problems into shipped systems.
             </h1>
             <div className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
               <p>
-                I’m a technical founder based in Vancouver, focused on building AI-native products that actually work and amplify humans, not replace them. After launching 8 startups and leading engineering at Logitech and Durable, I’ve learned how to move fast and scale systems.
+                12+ years building software across web, IoT, livestreaming, SMB SaaS, and AI. Co-founded my first company at 20. Shipped products reaching 5M+ streamers at Logitech. Scaled AI infrastructure to 100K+ businesses at Durable — cut infra spend 75%, grew the team from 4 to 11. Now architecting the AI website generation platform at Luxury Presence, serving 80K+ real estate professionals.
               </p>
               <p>
-                My strength lies in turning abstract problems into clear flows. Whether I’m integrating AI, shipping agentic workflows, or just cleaning up a spaghetti API, I bring structure to chaos.
-              </p>
-              <p>
-                I’m not here to hype AI, I’m here to build with it. If you care about thoughtful systems, fast execution, and tools that amplify humans, not replace them, you’ll probably enjoy the work I share.
+                The tools keep changing. My approach doesn’t: start from what the problem actually needs, reject frameworks that don’t fit, ship fast, and keep humans at the center. I write about what I learn along the way.
               </p>
             </div>
+
+            <div className="mt-12">
+              <h2 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">How I work</h2>
+              <ul className="mt-6 space-y-4 text-base text-zinc-600 dark:text-zinc-400">
+                <li>
+                  <span className="font-semibold text-zinc-800 dark:text-zinc-200">First principles over frameworks.</span> Every problem gets looked at fresh. Off-the-shelf is a starting point, not an answer.
+                </li>
+                <li>
+                  <span className="font-semibold text-zinc-800 dark:text-zinc-200">Ship, then sharpen.</span> Shipped software beats perfect software that doesn’t exist.
+                </li>
+                <li>
+                  <span className="font-semibold text-zinc-800 dark:text-zinc-200">Humans at the center.</span> The person on the other side of the screen is the whole point.
+                </li>
+                <li>
+                  <span className="font-semibold text-zinc-800 dark:text-zinc-200">Write it down.</span> If I learned it the hard way, I write about it so someone else doesn’t have to.
+                </li>
+              </ul>
+            </div>
+
           </div>
           <div className="lg:pl-20">
             <ul role="list">
