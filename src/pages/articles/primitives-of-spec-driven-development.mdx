@@ -5,9 +5,9 @@ import BlogImage from "@/components/blog-components/BlogImage";
 export const meta = {
   author: BLOG_AUTHOR_ANFAL,
   date: '2026-04-06',
-  title: 'Spec-Driven Development: System Design Primitives',
+  title: 'Primitives of Spec-Driven Development',
   description: "SDD isn't a prompting style — it's the next layer of software engineering. Here are the six primitives every custom framework ends up needing, with ASCII diagrams you can steal.",
-  slug: 'spec-driven-development-new-system-design',
+  slug: 'primitives-of-spec-driven-development',
   image: 'blog/2026-03-17-spec-driven-development/cover.jpg',
 }
 
@@ -291,21 +291,58 @@ And here's the part where the bigger thesis closes on itself: **you could not bu
 
 If you take this primitive seriously, you stop maintaining your architecture document as a separate artifact. You stop trying to keep a Confluence page in sync with reality. The system generates its own documentation on demand, and it's correct by construction.
 
-## Composing the primitives: four subsystems
+## How the primitives connect
 
-These six primitives don't live on their own. They compose into four subsystems, which together show up in every serious SDD pipeline I've seen.
+Defining each primitive well still doesn't build a system. The leverage is in the handoffs — which artifact one primitive produces, which primitive picks it up, and which feedback edges close the loop.
 
-**Planning** turns intent into a reviewable artifact. This is where primitives 1 and 2 do most of their work — context discipline and state-machine decomposition shape a planning phase that pulls in exactly what the plan needs and nothing else. The output is a plan precise enough that a later agent can execute it without guessing, a template-shaped artifact that's diffable and resumable, and — crucially — an approval gate before any file is written. Humans are the cheapest filter in the whole system, so you put them at the point where a wrong direction is cheapest to fix.
+```
+  intent
+    │
+    ▼
+ [P2 router] ──► pick phase ──► [P1 budget] loads only what the phase needs
+                                         │
+                                         ▼
+                                   plan artifact ──► human approval
+                                         │            (cheapest filter)
+                                         ▼
+                                  agent executes
+                                         │
+                                         ▼
+                                ┌──────────────────┐
+                                │  [P4] walls      │  cheap, deterministic
+                                └────────┬─────────┘  fail → retry
+                                         ▼ green only
+                                ┌──────────────────┐
+                                │  [P3] reviewer   │  fresh, adversarial
+                                └────────┬─────────┘  fail → retry, cap → 👤
+                                         ▼
+                                       ship
+                                         │
+                                         ▼
+                                ┌──────────────────┐
+                                │  [P5] retro      │  mandatory gate
+                                └────────┬─────────┘
+                                         │ rewrites
+                  ┌──────────────────────┼──────────────────────┐
+                  ▼                      ▼                      ▼
+            P2 templates            P3 rubrics              P4 walls
+                  └──────────────────────┬──────────────────────┘
+                                         ▼
+                                 next run, sharper
 
-**Execution** turns the plan into code, tests, docs, and migrations. This is where primitive 4 lives — the agent is expressive inside the box, the deterministic walls are non-negotiable outside. Execution is also where you make the sequential-vs-parallel tradeoff: independent tasks run in isolated worktrees so they can fan out; dependent tasks stack on top of each other as sequential branches. That decision is made during planning, not execution, because the only place dependency analysis is legible is the plan.
+     [P6] reads the entire graph on demand — only possible because
+          every node above has a stable ID and a declared contract.
+```
 
-**Review** verifies the work against the plan. This is primitive 3 — the GAN loop — running as a hard gate before anything ships. The reviewer is fresh, read-only, and disagreeable by construction. The loop is capped and escalates to a human when it trips. Nothing ships without a PASS.
+Three things in this flow do most of the work, and they're where most homegrown frameworks get it wrong.
 
-**Evolution** closes the cycle. This is primitive 5 — the retrospective as a mandatory gate, the confidence ladder, the two-way feedback edges. It's the subsystem that keeps the other three from rotting.
+**Walls before reviewer, not in parallel.** P4 and P3 are both correctness gates but they're a cascade, not alternatives. Walls are cheap and deterministic; they catch the mechanical 80%. The adversarial reviewer is expensive and should only ever see code that already passed the walls. Run them in the other order and you burn reviewer budget on lint errors.
 
-Primitive 6 — the system seeing itself — isn't a subsystem. It's a cross-cutting capability that gets unlocked the moment the other five are in place. When every component has an explicit contract and a stable ID, introspection comes almost for free, and it's what lets you actually *own* the framework instead of just running it.
+**The retro edge is load-bearing.** P5 doesn't "capture learnings." It edits the exact files that P2, P3, and P4 will read on the next run — templates get sharper, rubrics learn which checks catch real bugs, walls gain rules. If a retro isn't modifying framework files, it's journaling.
 
-The flow through the four subsystems changes project to project. The primitives don't. If you get the primitives right, you can change the flow as many times as you want and the system will still work. If you get the flow right but the primitives wrong, you've built a Rube Goldberg machine that will fall apart the first time reality deviates from the happy path.
+**P6 is the trust layer.** Once your framework has more than a handful of components you stop being able to hold the graph in your head, and the moment that happens without an introspector, the other five start drifting. The map isn't a nice-to-have — it's what keeps the system honest as it grows.
+
+The shape of the flow will shift project to project. The handoffs won't. Get the handoffs right and you can swap individual primitives out as the tools get better without the system collapsing around them.
 
 ## Grow your own
 
