@@ -1,0 +1,314 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import {BLOG_AUTHOR_ANFAL} from "@/lib/sharedConsts"
+import BlogImage from "@/components/blog-components/BlogImage";
+
+export const meta = {
+  author: BLOG_AUTHOR_ANFAL,
+  date: '2026-04-06',
+  title: 'Spec-Driven Development: System Design Primitives',
+  description: "SDD isn't a prompting style — it's the next layer of software engineering. Here are the six primitives every custom framework ends up needing, with ASCII diagrams you can steal.",
+  slug: 'spec-driven-development-new-system-design',
+  image: 'blog/2026-03-17-spec-driven-development/cover.jpg',
+}
+
+export default (props) => <ArticleLayout meta={meta} {...props} />
+
+<BlogImage src='blog/2026-03-17-spec-driven-development/cover.jpg' alt="Spec-Driven Development: System Design Primitives" />
+
+## The ground is moving
+
+I've been writing about where software engineering is going for a while now — in <a href="/articles/a-practical-guide-to-ai-augmented-software-engineering" target="_blank">A Practical Guide to AI-Augmented Software Engineering</a>, in <a href="/articles/vibe-code-like-an-engineer-material" target="_blank">Vibe Code Like an Engineer</a>, and in the longer thread of posts about what it means for humans to stay relevant alongside systems that are getting smarter every month. This article is another beat in that same drum.
+
+The thesis is simple. **Software engineering has moved up a level.** The *actual* code — the thing a developer writes, reviews, versions, argues about in PRs — is increasingly the markdown: the plans, the specs, the rubrics, the references, the retrospectives. That's where intent lives. That's where correctness is decided. The Python, the TypeScript, the Go is what falls out the other end — closer to assembly than source, an artifact the agent produces on the way to making a computer do something. Markdown is the new source code, and code is the new assembly.
+
+Once you accept that, a lot of things follow. Markdown deserves the same discipline real source code has always deserved: system design, modularity, naming, review, testability, versioning, lint rules. A folder full of untyped, unreviewed, copy-pasted prompts is the 2026 equivalent of a codebase with no functions — and it will rot for the same reasons.
+
+Spec-driven development is what happens when you start treating markdown like code instead of like documentation. It is not a prompting style. It is not a clever template. It is a **system you design**, the same way you'd design a distributed service or a rendering pipeline, except the runtime is an AI-in-the-loop and the source language is English.
+
+And here's the thing I want you to leave with: **building this system for your own codebase is not hard.** It feels hard because nobody has laid out the pieces yet. Once you've seen them, you can sketch the whole thing on a whiteboard in an afternoon and start coding the next morning.
+
+## Frameworks are the floor, not the ceiling
+
+Think about Unreal Engine. It's a marvel — you can build almost any 3D game with it. But the studios shipping the most ambitious, genre-defining titles often don't use Unreal at all. They build their own engines from scratch, tuned to the exact game they're making. Unreal is great at getting you *to* a 3D game. It's not what you reach for when the game itself is the differentiator.
+
+Same dynamic with SDD frameworks. <a href="https://github.com/github/spec-kit" target="_blank">GitHub Spec Kit</a>, <a href="https://github.com/Fission-AI/OpenSpec" target="_blank">OpenSpec</a>, and <a href="https://github.com/gsd-build/get-shit-done" target="_blank">Get Shit Done</a> are good pieces of work and a great way to get started — they encode a lot of hard-won thinking and will take most projects a long way. But if SDD is system design, the normal rule of system design applies: the best solution is the one shaped to your specific constraints. Start with one of these, learn from it, and grow your own as you discover where it needs to bend. I'll admit I came to this the hard way — spent months trying to build a general-purpose framework of my own, never got past the README, watched base agents ship features off my roadmap before I could. That's a cat-and-mouse game you cannot win at the framework level. You can only win it if you own the system.
+
+## The primitives
+
+Here's where most articles about this topic go wrong: they show you a flow diagram. "Here are the ten phases of my planning pipeline. Here are the seven steps in my execution loop." And you read it and think, *okay but none of those steps exist in my codebase*. The flow is the part that changes. The flow depends on your language, your team, your deployment model, your risk tolerance. Showing you my flow doesn't help you.
+
+What transfers is the **primitives** — the irreducible building blocks every custom SDD system composes itself from, regardless of language or stack. Think of them the way you think of primitives in any other system design: lists, maps, queues, locks, channels. You don't design *with* them every time you start a project — you design *using* them. They're the vocabulary underneath your architecture, and once you've internalized them, building a framework is less "where do I start?" and more "which of these do I reach for first?"
+
+There are six of them. I'll take each in turn, with a diagram you can steal.
+
+## Primitive 1: Context is a budget
+
+Every agent you talk to has a finite context window. That's the first law. Everything else is a consequence.
+
+Most people treat context as a pantry — dump everything in and let the agent rummage. That works right up until the moment it doesn't, and when it stops working it stops in the worst possible way: the agent starts confidently ignoring the parts that mattered and fabricating around the parts it missed. The fix isn't a bigger window. The fix is treating context like a budget.
+
+```
+   ┌────────────────────────────────────────────────────────┐
+   │                    CONTEXT WINDOW                      │
+   └────────────────────────────────────────────────────────┘
+
+   ╔════════════╦══════════════════╦══════════════════════╗
+   ║  THE TASK  ║    RELEVANT      ║   "JUST IN CASE"     ║
+   ║            ║    REFERENCES    ║   (docs, prior       ║
+   ║  plan +    ║    (only what    ║    convos, bibles    ║
+   ║  rubric +  ║    this task     ║    unrelated to      ║
+   ║  current   ║    touches)      ║    this task)        ║
+   ║  file      ║                  ║                      ║
+   ╚════════════╩══════════════════╩══════════════════════╝
+        ↑              ↑                     ↑
+        high ROI       medium ROI            low ROI
+                                             (this is where
+                                              the reasoning
+                                              goes to die)
+```
+
+Every token you spend on the right-hand box is a token the agent can't spend reasoning about the left-hand box. Most of the "the agent got dumb" complaints I hear are really "we blew our context budget on things that weren't relevant to the task." The model didn't get worse. You asked it to think while carrying thirty bags of groceries.
+
+The consequence for your SDD system is immediate: **nothing loads by default.** Not your architecture doc, not your style guide, not the list of conventions. The agent pulls in what it needs when it needs it, and nothing else. Your top-level prompt is a routing table, not an encyclopedia.
+
+## Primitive 2: Prompts are a state machine, not a god-prompt
+
+If primitive 1 tells you *what to load*, primitive 2 tells you *how to organize what you could load*. The two are siblings — one is about discipline inside a single call, the other is about structure across every call your system can make.
+
+The second thing every custom framework converges on, sooner or later, is that the god-prompt is a trap. A god-prompt is a 3,000-line markdown file that tries to anticipate every situation, includes every convention, and turns into a mud ball within a week. The agent drowns in it. You can't diff it. You can't debug it. When something goes wrong you can't even tell which paragraph is responsible.
+
+The right structure is a state machine. A small router at the top, a taxonomy of narrow roles underneath, and a shared library of templates, skills, and references that any node can pull from on demand.
+
+```
+                         ┌──────────┐
+                         │  ROUTER  │   tiny; does nothing
+                         └────┬─────┘   except dispatch
+                              │
+            ┌─────────────────┼─────────────────┐
+            ▼                 ▼                 ▼
+       ┌─────────┐       ┌─────────┐       ┌─────────┐
+       │  PHASE  │       │  PHASE  │       │  PHASE  │
+       │  plan   │       │ execute │       │ review  │
+       └────┬────┘       └────┬────┘       └────┬────┘
+            │                 │                 │
+            │ pulls from      │ pulls from      │ pulls from
+            ▼                 ▼                 ▼
+     ┌──────────────────────────────────────────────────┐
+     │  SHARED LIBRARIES                                │
+     │    ├─ templates   (spec, plan, retro shapes)    │
+     │    ├─ skills      (scaffold, audit, validate)   │
+     │    └─ references  (conventions, architecture,   │
+     │                    domain bibles)               │
+     └──────────────────────────────────────────────────┘
+
+     each node is small. each node has one job.
+     nothing loads until it's asked for.
+```
+
+Each piece has a type. A **router** just dispatches — it doesn't know how to do anything. A **phase** is one step inside a workflow with a single responsibility. A **skill** is a deterministic capability the agent can invoke (file scaffolding, a doc audit, a diff generator). A **template** is the canonical shape of an artifact. A **reference** is durable knowledge about your codebase that the agent pulls in on demand — *never* loaded by default.
+
+This is not novel computer science. It is the same decomposition we've been doing to monolithic code for forty years: break it up, give each piece one responsibility, wire them through a thin dispatcher, share common utilities. We just hadn't bothered doing it to prompts yet because prompts didn't feel like code.
+
+They are code now. Treat them like code.
+
+The payoff is mundane and enormous: **you can debug it.** When something ships wrong, you can point at the exact phase that produced the bad artifact, read its inputs, and see why. You cannot do that with a god-prompt. You especially can't do it two weeks from now when the failure mode has changed shape and your only option is to re-read a 3,000-line file.
+
+## Primitive 3: Correctness is adversarial
+
+Deterministic tools catch the mechanical failures — lint errors, type errors, broken tests. They don't catch "this technically passes all the gates but subtly misreads the plan." For that, you need a different pattern, and it's the single most high-leverage pattern in the whole system.
+
+Treat correctness as adversarial. Borrow the shape, if not the math, from GANs — two agents, deliberately at odds, one trying to ship and one trying to reject. Nothing learns between rounds (there are no gradients, no training), but the adversarial posture alone does most of the work.
+
+```
+    ┌────────────────────┐              ┌────────────────────┐
+    │     GENERATOR      │              │      REVIEWER      │
+    │                    │              │                    │
+    │   warm context     │ ──artifact──►│   FRESH context    │
+    │   write access     │              │   read-only        │
+    │   "ship it"        │◄──FAIL + ev.─│   "prove it"       │
+    │                    │              │                    │
+    └─────────┬──────────┘              └────────────────────┘
+              │                                   ▲
+              │                                   │
+              │         new iteration =           │
+              └──────── brand new reviewer ───────┘
+                        (never reuse context)
+
+                              │
+                              │ PASS
+                              ▼
+                            ship
+
+                  if iter > cap ──► escalate to human 👤
+```
+
+The asymmetry is what makes the loop work. Same model on both sides, but one is *set up to agree with itself* and the other is *set up to disagree*. The generator has the warm context, the write access, the full history of justifications it told itself about why this change is fine. The reviewer has none of that. It sees the artifact, the plan, the rubric, and that's it. No conversation, no "but I already explained why" — just the evidence in front of it.
+
+Fresh context is the load-bearing detail. If you let the reviewer inherit the generator's conversation, the reviewer gets socially pressured. It's seen the justifications. It has already started to agree. A cold reviewer, starting from zero, is brutally honest in a way a warm one never is. And every retry spawns a brand-new reviewer — never the same one twice — so the pressure to concede never builds up.
+
+The cap matters too. Without it you get infinite polishing on low-value work. With it you get a system that handles the boring 80% unattended and escalates the interesting 20% to a human.
+
+If you take one thing from this entire article, take this pattern. I have watched it drag the quality floor of my agents up by an order of magnitude, and it costs you almost nothing to implement: a second agent whose only job is to disagree.
+
+## Primitive 4: Guidance inside, gates outside
+
+This is where the freedom-vs-control tension in SDD gets resolved. Traditional programming languages come with rigid constructs — there's one way to declare a function in Python and you either match the grammar or the parser rejects you. AI-assisted development is the opposite: there are a hundred ways to ask for the same thing and most of them work. That flexibility is the whole reason these systems are useful, and trying to cage it with enough rules to cover every edge case is how frameworks become bloated and brittle.
+
+The answer isn't more rules. The answer is **expressive freedom inside a walled box.**
+
+```
+    ╔═════════════════════════════════════════════════════╗
+    ║                                                     ║
+    ║    ┌───────────────────────────────────────────┐    ║
+    ║    │                                           │    ║
+    ║    │              AGENT                        │    ║
+    ║    │         (free to roam)                    │    ║
+    ║    │                                           │    ║
+    ║    │    picks its own approach                 │    ║
+    ║    │    picks its own idioms                   │    ║
+    ║    │    picks its own order                    │    ║
+    ║    │                                           │    ║
+    ║    └───────────────────────────────────────────┘    ║
+    ║                                                     ║
+    ╚═════════════════════════════════════════════════════╝
+        ↑         ↑          ↑         ↑          ↑
+       tests    types      lint     format    contracts
+
+       the walls are non-negotiable.
+       anything that fails a wall is rejected
+```
+
+Inside the box, the agent is expressive. It picks the shape of the code, the order of the steps, the idioms, the naming. You don't try to prescribe that — you'd just slow it down and make the framework brittle for no gain.
+
+Outside the box, the walls are deterministic and absolute. They come in three layers and it helps to keep them distinct, because they fail at different moments:
+
+- **Static gates** — type checkers, linters, formatters. Fail before the code ever runs.
+- **Runtime gates** — unit tests, integration tests, runtime validators (Zod, Typebox, Pydantic). Fail when the code executes against real inputs.
+- **Contract gates** — schema and interface definitions (OpenAPI, protobuf, JSON Schema). Fail when one component's shape stops matching another's.
+
+Between them, these are the same tools you've been using for a decade. You didn't even have to build them — someone else already did, and they're sitting in your `package.json` right now.
+
+The discipline is to **wire them into the execution loop** so the agent cannot declare done until every wall is green. Lint fails → fix and retry. Type error → fix and retry. Test red → fix and retry. No "I think that's fine." No negotiation. The walls don't have feelings. They just return a boolean.
+
+This is the single easiest change you can make to an agent-driven system. Most teams have all the pieces installed already. The leverage comes from making them part of the definition of "done" instead of something the agent runs *after* declaring done.
+
+## Primitive 5: The system rewrites itself
+
+The fifth primitive is what separates a framework that ages from a system that compounds. The world around your codebase is moving — the agents are getting better, the tools are getting new features, your own conventions are drifting — and if your SDD system can't keep up, it gets staler every week until eventually no one trusts it.
+
+The fix is to make the retrospective a **mandatory gate**, not a polite suggestion. Every completed cycle ends with a retro that asks what happened, what surprised us, what should change. The outputs are graded by confidence and live on a ladder that runs both ways.
+
+```
+               ┌──────────────────────────┐
+               │     RETROSPECTIVE        │
+               │   (mandatory gate —      │
+               │    no retro, no done)    │
+               └────────────┬─────────────┘
+                            │
+                            ▼
+               ┌──────────────────────────┐
+               │    DISTILLED PATTERNS    │
+               └────────────┬─────────────┘
+                            │
+          ┌─────────────────┼─────────────────┐
+          ▼                 ▼                 ▼
+    ┌──────────┐      ┌───────────┐      ┌─────────┐
+    │ OBSERVED │ ───► │ HEURISTIC │ ───► │  RULE   │
+    │ "noticed │promote│ "next    │promote│"always │
+    │  once"   │      │  time X"  │      │  do X"  │
+    └─────▲────┘      └─────▲─────┘      └────┬────┘
+          │                 │                  │
+          └─────────────────┴──────────────────┘
+                  demote if it stops earning its rank
+
+                            │
+            ┌───────────────┴────────────────┐
+            ▼                                ▼
+    feeds BACK into the            feeds FORWARD into
+    framework files                the next plan's
+    (routers, templates,           structure phase
+     rubrics, references)          ("what did we learn
+                                    from last time?")
+```
+
+Three things on this ladder matter and most of them get lost in typical retrospective practices.
+
+First, **promotion needs a threshold**, not a feeling. Pick a rule that fits your team — I use "observed in two or more plans with the same root cause" as the promotion bar from observation to heuristic, and "heuristic applied successfully in three or more runs" for heuristic to rule. Exact numbers don't matter; having a number does. Without a threshold, promotion becomes politics.
+
+Second, **the ladder runs both ways.** Rules can be demoted. If a rule stops earning its keep — the thing it was guarding against stopped happening, the tool it was working around got fixed, the convention it enforced got superseded — it moves back down, or gets deleted. A one-way ladder calcifies. A two-way ladder stays alive.
+
+Third, **the feedback edge goes two places.** Backward into the framework files themselves — templates get sharper, routers get updated, rubrics learn which checks actually catch bugs. And forward into the very next plan — when you sit down to structure the next piece of work, the first thing you do is read the retros of the last few pieces and let their patterns inform chunk sizing, review expectations, execution mode. The system isn't just *editable* at rest; it's actively feeding its own next run.
+
+This is what makes SDD a living system instead of a dead artifact. Without it, you have a pile of markdown that ages into irrelevance. With it, you have a framework that gets more useful every time you use it.
+
+## Primitive 6: The system can see itself
+
+This last one is the primitive I almost didn't include, and it's the one that, once I built it, changed how I work with the framework more than any of the other five. It's also the cleanest possible proof of the opening thesis — that markdown is the new source code.
+
+Here's the idea. Every component in your SDD system has a contract: what it reads, what it writes, what it guarantees to whoever consumes its output. In a god-prompt, contracts are implicit and you have to hold them in your head. In a state-machine system, contracts are explicit — they're sitting in the frontmatter of your markdown files, right next to the logic. Which means a small program can read the framework, parse those contracts, and render the whole thing as a diagram. Not a hand-drawn one. A *live* one, generated from the current source, always up to date, always accurate.
+
+I wrote this as a single command in my framework. Point it at the framework root, it reads every prompt file, extracts each component's ID, inputs, outputs, and contracts, and prints a black-box architecture diagram with a registry table mapping every box back to its source file.
+
+```
+    ┌──────────────────────────────────────────────────┐
+    │   SDD SOURCE FILES                               │
+    │   (routers, phases, templates, skills, refs)     │
+    │                                                  │
+    │   each with frontmatter declaring:               │
+    │     id, requires, produces, references           │
+    └──────────────────────┬───────────────────────────┘
+                           │ read
+                           ▼
+    ┌──────────────────────────────────────────────────┐
+    │   INTROSPECTOR                                   │
+    │   parses contracts + dependency graph            │
+    └──────────────────────┬───────────────────────────┘
+                           │
+          ┌────────────────┴────────────────┐
+          ▼                                 ▼
+    ┌──────────────┐              ┌─────────────────────┐
+    │  SYSTEM MAP  │              │  COMPONENT REGISTRY │
+    │  topology +  │              │  ID -> source file  │
+    │  labelled    │              │       -> in / out   │
+    │  contracts   │              │       -> contract   │
+    └──────────────┘              └─────────────────────┘
+
+           "I want to rework component E6 (Review)."
+           -> source file: review-loop.md
+           -> upstream: E5 (Implement)
+           -> downstream: E7 (Audit)
+           -> safe to change freely as long as E7's
+              input contract is still satisfied
+```
+
+The payoff is huge and it's two-fold.
+
+**You can see your system.** Any engineer who inherits the framework can run one command and get an accurate map — not the stale diagram someone drew six months ago, but the exact topology as it exists right now. The map is the "poster on the wall," the registry is the spec sheet, and together they turn your markdown folder from "a pile of prompts" into "an architecture you can reason about."
+
+**You can work in isolation.** This is the part that actually changes how you build. Because every component is a black box with a declared contract, you can zoom in on any single piece — the reviewer, the orchestrator, one specific phase — and modify it independently. As long as its output still matches what the next box expects, nothing else in the system cares. No shared state to worry about, no mystery coupling, no fear that touching the planning phase will silently break execution. You work on the box, you check the contract, you ship. The same discipline that makes good distributed systems tractable makes good SDD frameworks tractable, and for exactly the same reason: explicit contracts at every boundary.
+
+And here's the part where the bigger thesis closes on itself: **you could not build this tool if the source wasn't markdown.** If your SDD framework lived inside a monolithic god-prompt, there would be nothing to parse, no contracts to read, no components to enumerate. The only reason the introspector works is that you treated your markdown like code — gave every file a declared type, a frontmatter contract, a stable ID — and now you get to do the things you do with code: static analysis, dependency graphs, architecture diagrams, the works. The tooling writes itself when the source is structured.
+
+If you take this primitive seriously, you stop maintaining your architecture document as a separate artifact. You stop trying to keep a Confluence page in sync with reality. The system generates its own documentation on demand, and it's correct by construction.
+
+## Composing the primitives: four subsystems
+
+These six primitives don't live on their own. They compose into four subsystems, which together show up in every serious SDD pipeline I've seen.
+
+**Planning** turns intent into a reviewable artifact. This is where primitives 1 and 2 do most of their work — context discipline and state-machine decomposition shape a planning phase that pulls in exactly what the plan needs and nothing else. The output is a plan precise enough that a later agent can execute it without guessing, a template-shaped artifact that's diffable and resumable, and — crucially — an approval gate before any file is written. Humans are the cheapest filter in the whole system, so you put them at the point where a wrong direction is cheapest to fix.
+
+**Execution** turns the plan into code, tests, docs, and migrations. This is where primitive 4 lives — the agent is expressive inside the box, the deterministic walls are non-negotiable outside. Execution is also where you make the sequential-vs-parallel tradeoff: independent tasks run in isolated worktrees so they can fan out; dependent tasks stack on top of each other as sequential branches. That decision is made during planning, not execution, because the only place dependency analysis is legible is the plan.
+
+**Review** verifies the work against the plan. This is primitive 3 — the GAN loop — running as a hard gate before anything ships. The reviewer is fresh, read-only, and disagreeable by construction. The loop is capped and escalates to a human when it trips. Nothing ships without a PASS.
+
+**Evolution** closes the cycle. This is primitive 5 — the retrospective as a mandatory gate, the confidence ladder, the two-way feedback edges. It's the subsystem that keeps the other three from rotting.
+
+Primitive 6 — the system seeing itself — isn't a subsystem. It's a cross-cutting capability that gets unlocked the moment the other five are in place. When every component has an explicit contract and a stable ID, introspection comes almost for free, and it's what lets you actually *own* the framework instead of just running it.
+
+The flow through the four subsystems changes project to project. The primitives don't. If you get the primitives right, you can change the flow as many times as you want and the system will still work. If you get the flow right but the primitives wrong, you've built a Rube Goldberg machine that will fall apart the first time reality deviates from the happy path.
+
+## Grow your own
+
+The opening of this article made a big claim: software engineering has moved up a level and the source language is now markdown. If that's true — and I think a year from now it will be obvious that it was — then the people who thrive are the ones designing at that level now, on their own codebases, with the six primitives above as the whiteboard starting point.
+
+The flow can be whatever your codebase needs. The templates can be whatever your team writes. The skills can be whatever tools you already have. The framework that actually fits your codebase is the one you grow yourself, and growing it is mostly a matter of sitting down with the six primitives above, drawing them on a whiteboard, and writing the first crappy version on Monday morning.
