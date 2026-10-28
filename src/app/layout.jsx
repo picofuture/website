@@ -82,7 +82,9 @@ export default function RootLayout({ children }) {
       className={`${archivo.variable} ${instrument.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: modeScript }} />
+        <Script id="theme-mode" strategy="beforeInteractive">
+          {modeScript}
+        </Script>
         <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
       </head>
       <body className="min-h-full">
