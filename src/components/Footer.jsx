@@ -100,8 +100,14 @@ export function Footer() {
           <p className="label">
             &copy; {new Date().getFullYear()} {person.name}. All rights reserved.
           </p>
-          <p className="label">
-            {person.location} · Rev {revision}
+          <p className="label flex items-center gap-2">
+            {person.location} ·
+            <span className="inline-flex items-center gap-1.5 text-accent">
+              <svg viewBox="0 0 12 11" aria-hidden="true" className="h-2.5 w-3 flex-none">
+                <path d="M6 1 11 10H1z" fill="none" stroke="currentColor" strokeWidth="1" />
+              </svg>
+              Rev {revision}
+            </span>
           </p>
         </div>
       </div>

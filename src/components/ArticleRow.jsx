@@ -10,6 +10,12 @@ function ArrowIcon(props) {
   )
 }
 
+// Some older entries reuse the title as their description; don't print it twice.
+function isEcho({ title, description }) {
+  let normalize = (text) => text?.toLowerCase().replace(/[^a-z0-9]/g, '')
+  return !description || normalize(title) === normalize(description)
+}
+
 export function ArticleRow({ article, headingLevel: Heading = 'h3' }) {
   return (
     <article className="group relative grid gap-x-6 gap-y-1 border-t border-rule py-6 sm:grid-cols-[6.75rem_1fr]">
@@ -25,9 +31,11 @@ export function ArticleRow({ article, headingLevel: Heading = 'h3' }) {
             {article.title}
           </Link>
         </Heading>
+        {!isEcho(article) && (
         <p className="mt-1.5 line-clamp-2 max-w-[68ch] text-[0.9375rem] leading-relaxed text-ink-2">
           {article.description}
         </p>
+        )}
       </div>
       <ArrowIcon className="absolute top-7 right-0 hidden size-4 -translate-x-2 text-accent opacity-0 transition duration-300 ease-out-expo group-hover:translate-x-0 group-hover:opacity-100 sm:block" />
     </article>

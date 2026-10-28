@@ -52,7 +52,7 @@ export const resume = [
   {
     company: 'Durable',
     title: 'Engineering Lead, AI',
-    logo: 'logos/durable-logo.svg',
+    logo: '/logos/durable-mark.svg',
     start: '2023',
     end: '2025',
   },

@@ -105,7 +105,7 @@ export function Header() {
               className="size-7 border border-rule-strong object-cover grayscale-[35%] transition group-hover:grayscale-0"
               priority
             />
-            <span className="font-wide text-[0.9375rem] font-semibold tracking-tight">
+            <span className="font-wide text-[0.9375rem] font-semibold tracking-tight whitespace-nowrap">
               Anfal Mushtaq
             </span>
           </Link>

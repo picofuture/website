@@ -453,8 +453,8 @@
 
 @keyframes rise {
   from {
-    opacity: 0;
-    transform: translateY(10px);
+    opacity: 0.2;
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -658,6 +658,16 @@
   .article img {
     width: 100%;
     height: auto;
+  }
+
+  .article {
+    counter-reset: figure;
+  }
+  .article .figure {
+    counter-increment: figure;
+  }
+  .article .figure-number::before {
+    content: 'Fig. ' counter(figure);
   }
 
   .article iframe {

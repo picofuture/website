@@ -49,8 +49,15 @@ export async function generateMetadata({ params }) {
   }
 }
 
+function ArrowLeftIcon(props) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
+      <path d="M13 8H3.5M7 4.5 3.5 8 7 11.5" stroke="currentColor" strokeWidth="1.25" />
+    </svg>
+  )
+}
+
 function Neighbour({ article, direction }) {
-  if (!article) return <div className="hidden sm:block" />
   return (
     <Link
       href={`/articles/${article.slug}`}
@@ -99,8 +106,12 @@ export default async function ArticlePage({ params }) {
         }}
       />
       <header className="graph sheet-pad pt-10 pb-14 sm:pt-14 sm:pb-16">
-        <Link href="/articles" className="label cad inline-block py-1 pr-1 hover:text-ink">
-          ← All articles
+        <Link
+          href="/articles"
+          className="label cad inline-flex items-center gap-2 py-1 pr-1 hover:text-ink"
+        >
+          <ArrowLeftIcon className="size-3.5" />
+          All articles
         </Link>
         <h1 className="rise font-semiwide mt-10 max-w-4xl text-[clamp(2.125rem,5vw,3.75rem)] leading-[1.04] font-semibold tracking-[-0.03em] text-ink">
           {meta.title}
@@ -170,9 +181,11 @@ export default async function ArticlePage({ params }) {
         aria-label="More articles"
         className="sheet-pad mt-24"
       >
-        <div className="grid border border-rule-strong sm:grid-cols-2 sm:divide-x sm:divide-rule-strong">
-          <Neighbour article={older} direction="previous" />
-          <Neighbour article={newer} direction="next" />
+        <div
+          className={`grid border border-rule-strong ${older && newer ? 'divide-y divide-rule-strong sm:grid-cols-2 sm:divide-x sm:divide-y-0' : ''}`}
+        >
+          {older && <Neighbour article={older} direction="previous" />}
+          {newer && <Neighbour article={newer} direction="next" />}
         </div>
       </nav>
     </>

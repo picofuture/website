@@ -15,9 +15,10 @@ export default function BlogImage({ src, alt, caption, ...props }) {
           {...props}
         />
       </div>
-      {caption && (
-        <figcaption className="label mt-3">{caption}</figcaption>
-      )}
+      <figcaption className="label mt-3 flex justify-between gap-6">
+        <span className="figure-number flex-none" />
+        {caption && <span className="text-right">{caption}</span>}
+      </figcaption>
     </figure>
   )
 }

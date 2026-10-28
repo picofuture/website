@@ -88,10 +88,7 @@ function Hero() {
             </ul>
           </div>
         </div>
-        <figure
-          className="rise hidden self-end lg:col-span-3 lg:col-start-10 lg:block"
-          style={{ '--delay': '200ms' }}
-        >
+        <figure className="hidden self-end lg:col-span-3 lg:col-start-10 lg:block">
           <div className="cad-grips border border-ink bg-paper-raised p-2">
             <Image
               src="dp.jpg"
@@ -113,6 +110,34 @@ function Hero() {
   )
 }
 
+const THIS_YEAR = new Date().getFullYear()
+const FIRST_YEAR = Math.min(...resume.map((role) => Number(role.start)))
+const SPAN = THIS_YEAR + 1 - FIRST_YEAR
+
+function tenure({ start, end }) {
+  return start === end ? start : `${start} – ${end}`
+}
+
+// Each tenure drawn as a dimension on a shared axis, so overlaps and gaps read at a glance.
+function TenureSpan({ start, end }) {
+  let from = Number(start) - FIRST_YEAR
+  let to = (end === 'Present' ? THIS_YEAR : Number(end)) + 1 - FIRST_YEAR
+
+  return (
+    <div aria-hidden="true" className="relative mt-2.5 h-2 w-full">
+      <span className="absolute inset-x-0 top-1/2 h-px bg-rule" />
+      <span
+        className="absolute inset-y-0 flex items-center text-ink-3"
+        style={{ left: `${(from / SPAN) * 100}%`, width: `${((to - from) / SPAN) * 100}%` }}
+      >
+        <span className="h-full w-px flex-none bg-current" />
+        <span className="draw-x h-px flex-1 bg-current" />
+        <span className="h-full w-px flex-none bg-current" />
+      </span>
+    </div>
+  )
+}
+
 function Work() {
   return (
     <section aria-labelledby="work-heading">
@@ -128,9 +153,9 @@ function Work() {
             key={role.company}
             className="flex items-center gap-4 border-t border-rule py-4"
           >
-            <div className="grid size-11 flex-none place-items-center border border-rule bg-white">
+            <div className="grid size-11 flex-none place-items-center border border-rule bg-paper-raised dark:bg-ink">
               <Image
-                src={formatCDNURl(role.logo)}
+                src={role.logo.startsWith('/') ? role.logo : formatCDNURl(role.logo)}
                 width={64}
                 height={64}
                 alt=""
@@ -144,8 +169,9 @@ function Work() {
               <dt className="sr-only">Role</dt>
               <dd className="text-sm text-ink-2">{role.title}</dd>
               <dt className="sr-only">Dates</dt>
-              <dd className="label ml-auto">
-                {role.start} – {role.end}
+              <dd className="label ml-auto">{tenure(role)}</dd>
+              <dd className="w-full">
+                <TenureSpan start={role.start} end={role.end} />
               </dd>
             </dl>
           </li>
