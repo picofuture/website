@@ -1,16 +1,15 @@
-export default function BlogYoutubeVideoEmbed({ src, title, ...props }) {
-  return <>
-    <div className="text-center">
+export default function BlogYoutubeVideoEmbed({ src, title = 'YouTube video', ...props }) {
+  return (
+    <figure className="my-10! border border-rule-strong bg-paper-raised p-1.5">
       <iframe
-        className="mx-auto"
-        width="560"
-        height="315"
-        src={`https://www.youtube.com/embed/${src}`}
+        className="aspect-video w-full"
+        src={`https://www.youtube-nocookie.com/embed/${src}`}
         title={title}
-        frameBorder="0"
+        loading="lazy"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen>
-      </iframe>
-    </div>
-  </>
+        allowFullScreen
+        {...props}
+      />
+    </figure>
+  )
 }
