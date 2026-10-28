@@ -32,8 +32,8 @@ function setMode(mode) {
 }
 
 const options = [
-  { mode: 'light', label: 'Paper' },
-  { mode: 'dark', label: 'Blueprint' },
+  { mode: 'light', label: 'Light' },
+  { mode: 'dark', label: 'Dark' },
 ]
 
 export function ThemeSwitch({ className }) {
@@ -42,7 +42,7 @@ export function ThemeSwitch({ className }) {
   return (
     <div
       role="group"
-      aria-label="Sheet"
+      aria-label="Theme"
       className={clsx('flex items-center gap-1', className)}
     >
       {options.map((option) => {

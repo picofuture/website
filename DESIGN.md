@@ -136,7 +136,7 @@ components:
 
 **Creative North Star: "The Drafting Sheet"**
 
-Every page is one sheet pinned to a drawing table. Structure comes from the conventions of an engineering drawing rather than from cards: a centred sheet with two ink rails, hatched margins outside it (the cut-section convention), a non-photo-blue graph grid that fades out before long text, full-bleed hairlines with registration ticks, and a title block where a footer would be. The light theme is drafting vellum with paper grain and a low mottle; the dark theme is the same sheet redrawn as a blueprint, chalk linework on Prussian blue. The two are named Paper and Blueprint in the UI, not light and dark.
+Every page is one sheet pinned to a drawing table. Structure comes from the conventions of an engineering drawing rather than from cards: a centred sheet with two ink rails, hatched margins outside it (the cut-section convention), a non-photo-blue graph grid that fades out before long text, full-bleed hairlines with registration ticks, and a title block where a footer would be. The light theme is drafting vellum with paper grain and a low mottle; the dark theme is the same sheet redrawn as a blueprint, chalk linework on Prussian blue. The themes are called Paper and Blueprint in this system; the UI switch labels them Light and Dark so visitors recognise it.
 
 The density is calm and editorial. Long-form reading is the main job, so the grid recedes under the article column, body text sits at 1.0625rem/1.75 in a 40rem measure, and decoration lives in the margins, rules and labels instead of in the text. Interaction borrows from CAD: a selected object shows square grips at its corners, hover springs crop marks out from an element, and the hero carries a crosshair that snaps to the 24px grid with a coordinate readout.
 
@@ -228,7 +228,7 @@ Square, quiet, and outlined like a box on a form.
 - **Focus:** 1px dashed redline outline, 4px offset (global).
 
 ### Navigation
-Header: wordmark (28px framed avatar, semibold wide name) left, nav centred, Paper/Blueprint switch right, 64px tall, sticky. Nav items are plain 0.9375rem text in ink-graphite; the current page wears grips, others show crop marks on hover. The theme switch uses the same grip/crop vocabulary on mono labels. Mobile: a "Menu" button opens a popover framed in ink with a hairline-divided list of semiwide 1.25rem items, a grip square marking the current sheet.
+Header: wordmark (28px framed avatar, semibold wide name) left, nav centred, Light / Dark switch right (themes named Paper and Blueprint), 64px tall, sticky. Nav items are plain 0.9375rem text in ink-graphite; the current page wears grips, others show crop marks on hover. The theme switch uses the same grip/crop vocabulary on mono labels. Mobile: a "Menu" button opens a popover framed in ink with a hairline-divided list of semiwide 1.25rem items, a grip square marking the current sheet.
 
 ### Register Row (article list)
 A hairline-topped row: mono date column, semibold 1.125rem title, optional two-line description in ink-graphite. The whole row is the link; hover underlines the title in non-photo-blue and slides in a redline arrow from the right.

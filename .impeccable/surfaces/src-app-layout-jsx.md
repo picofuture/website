@@ -17,7 +17,7 @@ OWN-WORLD: Light = drafting vellum (#f5f3ec) with paper grain, non-photo-blue gr
 
 STORY: Visitor meets a person who builds, sees the latest writing as a drawing register, scans the work record, and knows how to reach Anfal. Readers get a calm column with figures and code set as drawing details.
 
-FIRST VIEWPORT (home): sticky header across the sheet (wordmark left, nav center, Paper/Blueprint switch right). Hero: "I build things" in wide grotesk ~6rem, "that ship." in italic serif, a dimension line under it labelled with the career span, intro paragraph, email, socials, CV button. A CAD crosshair follows the pointer over the hero grid, snapping to the 24px grid, with a live X/Y readout. Primary action = read latest / reach out.
+FIRST VIEWPORT (home): sticky header across the sheet (wordmark left, nav center, Light / Dark switch right (themes named Paper and Blueprint)). Hero: "I build things" in wide grotesk ~6rem, "that ship." in italic serif, a dimension line under it labelled with the career span, intro paragraph, email, socials, CV button. A CAD crosshair follows the pointer over the hero grid, snapping to the 24px grid, with a live X/Y readout. Primary action = read latest / reach out.
 
 FORM: Pinned by owner (drafting paper, hex.tech inspired); not from an ordered list.
 seed:3fcbce7942ef7880 (roll ran after the build; the owner-pinned world governs)
