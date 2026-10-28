@@ -3,6 +3,7 @@ import { Archivo, Geist_Mono, Instrument_Serif } from 'next/font/google'
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+import { ThemeScript } from '@/components/ThemeScript'
 import { SITE_URL, home, person } from '@/content/site'
 
 import '@/styles/globals.css'
@@ -61,19 +62,6 @@ export const viewport = {
   ],
 }
 
-// Runs before paint so the sheet never flashes the wrong theme.
-const modeScript = `(() => {
-  let q = window.matchMedia('(prefers-color-scheme: dark)')
-  function update() {
-    let stored = null
-    try { stored = window.localStorage.isDarkMode } catch {}
-    let dark = stored === 'true' || (stored === undefined && q.matches)
-    document.documentElement.classList.toggle('dark', dark)
-  }
-  update()
-  q.addEventListener('change', update)
-})()`
-
 export default function RootLayout({ children }) {
   return (
     <html
@@ -82,9 +70,7 @@ export default function RootLayout({ children }) {
       className={`${archivo.variable} ${instrument.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <Script id="theme-mode" strategy="beforeInteractive">
-          {modeScript}
-        </Script>
+        <ThemeScript />
         <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
       </head>
       <body className="min-h-full">
