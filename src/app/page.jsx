@@ -6,6 +6,7 @@ import { Button } from '@/components/Button'
 import { Crosshair } from '@/components/Crosshair'
 import { DimensionLine } from '@/components/DimensionLine'
 import { JsonLd } from '@/components/JsonLd'
+import { Tape } from '@/components/Tape'
 import { GitHubIcon, LinkedInIcon, XIcon } from '@/components/SocialIcons'
 import { SITE_URL, home, person, resume } from '@/content/site'
 import { getAllArticles } from '@/lib/articles'
@@ -29,6 +30,19 @@ const socials = [
   { href: GITHUB_LINK, label: 'Follow on GitHub', icon: GitHubIcon },
 ]
 
+// Runs the highlighter over one phrase of the text, if it's there.
+function Marked({ text, mark }) {
+  let at = mark ? text.indexOf(mark) : -1
+  if (at < 0) return text
+  return (
+    <>
+      {text.slice(0, at)}
+      <mark className="marker">{mark}</mark>
+      {text.slice(at + mark.length)}
+    </>
+  )
+}
+
 function Hero() {
   return (
     <section className="graph sheet-pad relative pt-16 pb-20 sm:pt-24 sm:pb-28">
@@ -51,7 +65,7 @@ function Hero() {
             className="rise mt-8 max-w-xl text-lg leading-relaxed text-ink-2"
             style={{ '--delay': '320ms' }}
           >
-            {home.intro}
+            <Marked text={home.intro} mark={home.introMark} />
           </p>
           <p
             className="rise mt-4 max-w-xl text-lg leading-relaxed text-ink-2"
@@ -90,6 +104,8 @@ function Hero() {
         </div>
         <figure className="hidden self-end lg:col-span-3 lg:col-start-10 lg:block">
           <div className="cad-grips border border-ink bg-paper-raised p-2">
+            <Tape className="tape-top" />
+            <Tape className="tape-bl" />
             <Image
               src="dp.jpg"
               alt={`Portrait of ${person.name}`}

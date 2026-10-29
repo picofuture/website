@@ -1,10 +1,14 @@
 import Image from 'next/image'
 
-// Figures sit in a frame with registration marks, like a plate pasted onto the sheet.
+import { Tape } from '@/components/Tape'
+
+// Figures sit in a frame with registration marks, taped onto the sheet like a print.
 export default function BlogImage({ src, alt, caption, ...props }) {
   return (
     <figure className="figure my-10!">
       <div className="cad border border-rule-strong bg-paper-raised p-1.5">
+        <Tape className="tape-tl" />
+        <Tape className="tape-tr" />
         <Image
           src={src}
           width={1000}

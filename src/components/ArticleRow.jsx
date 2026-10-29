@@ -5,7 +5,13 @@ import { formatSheetDate } from '@/lib/formatDate'
 function ArrowIcon(props) {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
-      <path d="M3 8h9.5M9 4.5 12.5 8 9 11.5" stroke="currentColor" strokeWidth="1.25" />
+      <path
+        d="M2.5 8.4c3.1-.5 6.5-.1 10-.6M9.1 4.6c1.3 1.1 2.5 2.2 3.5 3.3-1.1 1-2.3 2.2-3.7 3.7"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
@@ -26,7 +32,7 @@ export function ArticleRow({ article, headingLevel: Heading = 'h3' }) {
         <Heading className="text-lg leading-snug font-semibold text-ink">
           <Link
             href={`/articles/${article.slug}`}
-            className="decoration-blue underline-offset-4 group-hover:underline after:absolute after:inset-0"
+            className="scribble-hover after:absolute after:inset-0"
           >
             {article.title}
           </Link>

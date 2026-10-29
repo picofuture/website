@@ -3,6 +3,7 @@ import { Architects_Daughter, Caveat, Geist_Mono, Shantell_Sans } from 'next/fon
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+import { Highlighter } from '@/components/Highlighter'
 import { PencilFilters } from '@/components/PencilFilters'
 import { ThemeScript } from '@/components/ThemeScript'
 import { SITE_URL, home, person } from '@/content/site'
@@ -97,6 +98,7 @@ export default function RootLayout({ children }) {
           </main>
           <Footer />
         </div>
+        <Highlighter />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-0YZE9YDZQ2"
           strategy="afterInteractive"
