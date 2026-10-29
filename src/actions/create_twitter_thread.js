@@ -1,5 +1,5 @@
 const createClient = require('@supabase/supabase-js').createClient;
-const { Configuration, OpenAIApi } = require("openai");
+const OpenAI = require("openai");
 
 // This is here for testing purposes only.
 // On local, we need to load the environment variables. Because I won't be using next js.
@@ -20,12 +20,10 @@ const getSupabaseClient = () => {
 }
 
 const getOpenAIClient = () => {
-  const configuration = new Configuration({
+  return new OpenAI({
     organization: process.env.OPEN_AI_ORGANIZATION,
     apiKey: process.env.OPEN_AI_API_KEY,
   });
-
-  return new OpenAIApi(configuration);
 }
 
 const getArticleToProcess = async () => {
@@ -52,7 +50,7 @@ const updateArticleInDB = async (article, formattedContent) => {
 }
 
 const generateThread = async (articleName, content) => {
-  const response = await getOpenAIClient().createChatCompletion({
+  const response = await getOpenAIClient().chat.completions.create({
     model: "gpt-4",
     messages: [
       {
@@ -73,7 +71,7 @@ const generateThread = async (articleName, content) => {
     temperature: 1,
   });
 
-  return response.data.choices[0].message.content;
+  return response.choices[0].message.content;
 }
 
 const addAdvertisementToArray = (threadArray, article) => {

@@ -37,3 +37,9 @@ yarn-error.log*
 .idea/
 
 .env
+# impeccable working files
+/.impeccable/ref/
+/.impeccable/review/
+/.impeccable/mocks/
+
+/.impeccable/build/
