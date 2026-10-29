@@ -368,7 +368,7 @@
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Home hero line only; Archivo at width 125."
+        "purpose": "Home hero line only; Shantell Sans at informality 55."
       },
       "display-accent": {
         "displayName": "Display Accent",
@@ -539,7 +539,7 @@
     "keyCharacteristics": [
       "One sheet, two inks: Paper (vellum) and Blueprint share every rule, only the token values swap.",
       "Hairlines, rails, ticks and title blocks carry all structure; corners are square everywhere.",
-      "Wide Archivo for display, Instrument Serif italic as the hand-lettered counter-voice, Geist Mono tracked caps for fields.",
+      "Hand-drawn type throughout: Shantell Sans for headings and reading, Caveat for the handwritten second voice, Architects Daughter drafting caps for fields.",
       "CAD selection vocabulary: grips mark the current/primary object, crop marks answer hover and focus.",
       "Lines draw themselves in (scaleX/scaleY from zero) with an exponential ease-out; all motion yields to reduced-motion."
     ],
@@ -560,8 +560,8 @@
         "section": "typography"
       },
       {
-        "name": "The Serif Is a Note Rule",
-        "body": "Instrument Serif is used only in italic, for the second voice: the hero continuation, standfirsts, role titles, blockquotes. Never for body or UI.",
+        "name": "The Handwritten Note Rule",
+        "body": "Caveat is used only for the second voice: the hero continuation, standfirsts, role titles, blockquotes, the footer role. Never for body or UI.",
         "section": "typography"
       },
       {
@@ -583,7 +583,7 @@
       "**Don't** use redline as a fill, heading colour, or resting decoration; it marks change and attention only.",
       "**Don't** hard-code a colour that only reads on one sheet (for example a white tile behind content).",
       "**Don't** put mono labels above headings as decorative tags; a label names a field.",
-      "**Don't** set body or UI text in Instrument Serif; it is the italic second voice only.",
+      "**Don't** set body or UI text in Caveat; it is the handwritten second voice only.",
       "**Don't** let the graph grid run under long-form text."
     ]
   }
