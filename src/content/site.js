@@ -32,12 +32,13 @@ export const home = {
     '12+ years shipping software across web, streaming, SMB SaaS, and AI. Products reaching 5M+ streamers, 100K+ businesses, 80K+ real estate pros. First principles over frameworks. Human outcomes over hype.',
   intro:
     '12+ years across web, streaming, SMB SaaS, and AI. Products reaching 5M+ streamers, 100K+ businesses, and 80K+ real estate pros. First principles over frameworks. Human outcomes over hype.',
+  introMark: '5M+ streamers, 100K+ businesses, and 80K+ real estate pros',
 }
 
 export const resume = [
   {
     company: 'Luxury Presence',
-    title: 'Staff Software Engineer, AI',
+    title: 'Staff Software Engineer, Applied AI',
     logo: 'logos/luxury-presence.jpeg',
     start: '2025',
     end: 'Present',
@@ -51,16 +52,16 @@ export const resume = [
   },
   {
     company: 'Durable',
-    title: 'Engineering Lead, AI',
+    title: 'Engineering Lead',
     logo: '/logos/durable-mark.svg',
     start: '2023',
     end: '2025',
   },
   {
-    company: 'Logitech',
-    title: 'Principal Software Engineer',
+    company: 'Streamlabs (Logitech)',
+    title: 'Senior → Principal Software Engineer',
     logo: 'logos/logitech.svg',
-    start: '2021',
+    start: '2019',
     end: '2023',
   },
 ]
@@ -70,7 +71,7 @@ export const about = {
   description:
     'Engineer and builder based in Vancouver. 12+ years shipping software across web, streaming, SMB SaaS, and AI. First principles over frameworks. Human outcomes over hype.',
   paragraphs: [
-    '12+ years building software across web, IoT, livestreaming, SMB SaaS, and AI. Co-founded my first company at 20. Shipped products reaching 5M+ streamers at Logitech. Scaled AI infrastructure to 100K+ businesses at Durable — cut infra spend 75%, grew the team from 4 to 11. Now architecting the AI website generation platform at Luxury Presence, serving 80K+ real estate professionals.',
+    '12+ years building software across web, IoT, livestreaming, SMB SaaS, and AI. Co-founded my first company at 20. Shipped products reaching 5M+ streamers at Logitech. Scaled AI infrastructure to 100K+ businesses at Durable — cut infra spend 75%, grew the team from 4 to 11. Now architecting the distributed AI system that builds and maintains websites at Luxury Presence, serving 80K+ real estate professionals.',
     'The tools keep changing. My approach doesn’t: start from what the problem actually needs, reject frameworks that don’t fit, ship fast, and keep humans at the center. I write about what I learn along the way.',
   ],
   principles: [
@@ -115,17 +116,30 @@ export const work = [
     role: 'Staff Software Engineer, Applied AI',
     period: '2025 — Present',
     summary:
-      'Architecting the AI website generation platform from the ground up. Luxury Presence is a Series C proptech company serving 80,000+ real estate professionals, and every generated site has to be indistinguishable from human-designed work — which means the hard problem is making non-deterministic systems produce deterministic-quality output at scale.',
+      'Architect and technical lead of the distributed AI system that generates and maintains websites at Luxury Presence, a Bessemer-backed Series C proptech company ($74M+ raised) serving 80,000+ real estate professionals. Every generated site has to be indistinguishable from human-designed work — which means the hard problem is making non-deterministic systems produce deterministic-quality output at scale.',
     highlights: [
-      'Designed and built the end-to-end AI site generation pipeline, replacing a multi-week manual workflow with an automated system that ships production-ready sites in hours.',
-      'Own prompt orchestration, output evaluation, layout consistency, and brand-fidelity controls across the generation pipeline.',
-      'Built and run a spec-driven development framework for the platform — treating specifications as the source of truth and using AI agents to execute against them — before the industry converged on the term.',
-      'Set technical direction for every AI-powered web experience the company ships. Collaborate directly with executives and product leadership on the AI roadmap.',
+      'Built the system from the ground up on AI-first principles with a human in the loop. Agents are first-class citizens: autonomous agents manage a site’s whole lifecycle, from creation to ongoing maintenance to quality management.',
+      'Replaced a multi-week manual site-building workflow with an automated pipeline that ships production-ready sites in hours.',
+      'Own the full generation pipeline: prompt design, output evaluation, layout consistency, and brand-fidelity controls.',
+      'Architect of the spec-driven development meta-framework built on Claude Code — treating specifications as the source of truth and using AI agents to execute against them — before the industry converged on the term.',
+      'Lead the engineering team building on the AI foundation and set technical direction for every AI-powered website experience the company ships. Work directly with the C-suite and product leadership on the AI roadmap.',
+    ],
+  },
+  {
+    company: 'Pico Future',
+    role: 'Founder and Technical Consultant',
+    period: '2025',
+    summary:
+      'Independent build and consulting practice. Partnered with early-stage founders and SaaS teams to take AI-native products from 0 → 1, shipping across mobile, voice, and developer tooling.',
+    highlights: [
+      'Designed and launched an AI debugging agent targeting the emerging AI-assisted development segment. Secured 100+ beta signups and converted paid pilot conversations within 8 weeks.',
+      'Partnered with a health-tech founder to build a cross-platform iOS and Android application for postpartum support, integrating AI across the core user experience — from scoping the product with the founder to shipping the AI-powered features.',
+      'Delivered a low-latency voice AI system for a small-business SaaS client, achieving sub-500ms response times and enabling a new real-time customer interaction revenue line.',
     ],
   },
   {
     company: 'Durable',
-    role: 'Engineering Lead, AI',
+    role: 'Engineering Lead',
     period: '2023 — 2025',
     summary:
       'Led AI engineering at Durable, an AI-powered small business platform serving 100,000+ SMBs. Owned the AI infrastructure, customer-facing AI agents, and engineering team growth — at a moment when the entire AI infrastructure stack was brand new and providers were going down daily from timeouts, rate limits, and outages.',
@@ -141,29 +155,18 @@ export const work = [
   },
   {
     company: 'Streamlabs (Logitech)',
-    role: 'Principal Software Engineer',
+    role: 'Senior → Principal Software Engineer',
     period: '2019 — 2023',
     summary:
       'Led core services and GenAI R&D at Streamlabs, one of the largest platforms for live streamers. Shipped products used by 5M+ creators, pioneered the company’s first generative-AI products before the current AI wave was mainstream, and drove platform-wide reliability, identity, and security initiatives.',
     highlights: [
+      'Promoted from Senior to Principal within two years (2019 → 2021) on technical impact and scope.',
       'Directed GenAI research and development for Streamlabs and shipped the company’s first generative-AI products — including Logo Maker and AI-powered creator tooling — in the early days of the current AI wave.',
       'Pioneered new products adopted by 5M+ streamers, including Campaign Manager, Alert Box V2, and a suite of widgets and tools that became core to the creator workflow.',
       'Led the Streamlabs Identity initiative, unifying authentication across the platform for 5M+ users and eliminating fragmented identity systems.',
       'Rebuilt the real-time event alert pipeline processing millions of events per day. Reduced P99 backend latency by 65%.',
       'Replaced the legacy jQuery and iframe widget system with a modern Vue.js architecture, cutting feature development cycle time by 50%.',
       'Led the core services team responsible for global platform reliability, performance, and availability. Ran the company-wide bug bounty program.',
-    ],
-  },
-  {
-    company: 'Pico Future',
-    role: 'Founder and Technical Consultant',
-    period: '2025',
-    summary:
-      'Independent build and consulting practice. Partnered with early-stage founders and SaaS teams to take AI-native products from 0 → 1, shipping across mobile, voice, and developer tooling.',
-    highlights: [
-      'Designed and launched an AI debugging agent targeting the emerging AI-assisted development segment. Secured 100+ beta signups and converted paid pilot conversations within 8 weeks.',
-      'Partnered with a health-tech founder to build a cross-platform iOS and Android application for postpartum support, integrating AI across the core user experience — from scoping the product with the founder to shipping the AI-powered features.',
-      'Delivered a low-latency voice AI system for a small-business SaaS client, achieving sub-500ms response times and enabling a new real-time customer interaction revenue line.',
     ],
   },
 ]
