@@ -127,7 +127,7 @@ export const work = [
   },
   {
     company: 'Pico Future',
-    role: 'Founder and Technical Consultant',
+    role: 'Founder',
     period: '2025',
     summary:
       'Independent build and consulting practice. Partnered with early-stage founders and SaaS teams to take AI-native products from 0 → 1, shipping across mobile, voice, and developer tooling.',
@@ -144,7 +144,7 @@ export const work = [
     summary:
       'Led AI engineering at Durable, an AI-powered small business platform serving 100,000+ SMBs. Owned the AI infrastructure, customer-facing AI agents, and engineering team growth — at a moment when the entire AI infrastructure stack was brand new and providers were going down daily from timeouts, rate limits, and outages.',
     highlights: [
-      'Designed and built an AI service processing 1B+ tokens per month when the industry had no playbook for operating LLM workloads at that scale. Engineered the retries, fallbacks, queueing, and provider failover that kept it reliable while the underlying APIs were still wobbling.',
+      'Designed and built an AI service processing 500B+ tokens per month when the industry had no playbook for operating LLM workloads at that scale. Engineered the retries, fallbacks, queueing, and provider failover that kept it reliable while the underlying APIs were still wobbling.',
       'Built an internal agent development framework on top of the AI infrastructure — the abstraction layer the rest of the engineering team used to ship customer-facing AI agents without reinventing the plumbing. Everything shipped after that was built on top of it.',
       'Cut annual infrastructure spend by $375K (75%) through architecture redesign and CDN optimization, freeing budget for product investment.',
       'Scaled AI services to 100,000+ active small businesses at 99.99% uptime — through the rockiest year of commercial LLM infrastructure.',
