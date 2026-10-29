@@ -1,25 +1,34 @@
 import Script from 'next/script'
-import { Archivo, Geist_Mono, Instrument_Serif } from 'next/font/google'
+import { Architects_Daughter, Caveat, Geist_Mono, Shantell_Sans } from 'next/font/google'
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+import { PencilFilters } from '@/components/PencilFilters'
 import { ThemeScript } from '@/components/ThemeScript'
 import { SITE_URL, home, person } from '@/content/site'
 
 import '@/styles/globals.css'
 
-const archivo = Archivo({
+// Hand-drawn type: Shantell Sans for reading (its informality is dialled per role
+// in globals.css), Caveat for the handwritten accents, Architects Daughter for
+// drafting-lettered labels. Geist Mono stays for code.
+const shantell = Shantell_Sans({
   subsets: ['latin'],
-  axes: ['wdth'],
-  variable: '--font-archivo',
+  axes: ['INFM', 'BNCE'],
+  variable: '--font-shantell',
   display: 'swap',
 })
 
-const instrument = Instrument_Serif({
+const caveat = Caveat({
+  subsets: ['latin'],
+  variable: '--font-caveat',
+  display: 'swap',
+})
+
+const architects = Architects_Daughter({
   subsets: ['latin'],
   weight: '400',
-  style: ['normal', 'italic'],
-  variable: '--font-instrument',
+  variable: '--font-architects',
   display: 'swap',
 })
 
@@ -67,13 +76,14 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${archivo.variable} ${instrument.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${shantell.variable} ${caveat.variable} ${architects.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
         <ThemeScript />
         <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
       </head>
       <body className="min-h-full">
+        <PencilFilters />
         <a
           href="#main"
           className="label fixed top-3 left-3 z-50 -translate-y-20 bg-paper px-3 py-2 text-ink focus:translate-y-0"

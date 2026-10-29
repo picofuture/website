@@ -81,8 +81,9 @@
   --color-accent: var(--accent);
   --color-fill: var(--fill);
 
-  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-sans: var(--font-shantell), ui-rounded, ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-caveat), 'Segoe Print', 'Bradley Hand', cursive;
+  --font-letter: var(--font-architects), 'Segoe Print', ui-rounded, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -113,6 +114,9 @@
       transparent 1px 7px
     );
     text-rendering: optimizeLegibility;
+    /* Steady hand for reading; headings loosen up below. Caveat has no italic, so never fake one. */
+    font-variation-settings: 'INFM' 15, 'BNCE' 0;
+    font-synthesis: none;
   }
 
   /* Paper: fine grain plus a low-frequency mottle, laid over everything. */
@@ -150,6 +154,7 @@
   h2,
   h3 {
     text-wrap: balance;
+    font-variation-settings: 'INFM' 55, 'BNCE' 15;
   }
 
   p {
@@ -325,7 +330,7 @@
 
   /* Tracked mono label: dates, fields, figure numbers. */
   .label {
-    font-family: var(--font-mono);
+    font-family: var(--font-letter);
     font-size: 0.6875rem;
     line-height: 1rem;
     letter-spacing: 0.09em;
@@ -351,6 +356,20 @@
   .link:hover {
     color: var(--accent);
     text-decoration-color: var(--accent);
+  }
+}
+
+/* ───────────────────────── Graphite ─────────────────────────
+   Content drawn on the sheet goes through the pencil (see PencilFilters).
+   The sheet itself stays printed: paper, grid, rails, ruled section breaks,
+   and the CAD crosshair. */
+
+@layer components {
+  main > :not(.graph, .rule-x),
+  .graph > :not(.crosshair),
+  .site-header > :not(.header-marks),
+  footer > * {
+    filter: url(#pencil);
   }
 }
 
@@ -585,7 +604,7 @@
     list-style: decimal;
   }
   .article ol > li::marker {
-    font-family: var(--font-mono);
+    font-family: var(--font-letter);
     font-size: 0.8125rem;
     color: var(--ink-3);
   }
@@ -639,7 +658,7 @@
     overflow-x: auto;
   }
   .article thead th {
-    font-family: var(--font-mono);
+    font-family: var(--font-letter);
     font-size: 0.6875rem;
     letter-spacing: 0.09em;
     text-transform: uppercase;
