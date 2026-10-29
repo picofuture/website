@@ -97,7 +97,7 @@
   --font-sans: var(--font-shantell), ui-rounded, ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-caveat), 'Segoe Print', 'Bradley Hand', cursive;
   --font-letter: var(--font-architects), 'Segoe Print', ui-rounded, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: var(--font-diagram), var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }

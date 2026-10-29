@@ -1,5 +1,6 @@
 import Script from 'next/script'
 import { Architects_Daughter, Caveat, Geist_Mono, Shantell_Sans } from 'next/font/google'
+import localFont from 'next/font/local'
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
@@ -24,6 +25,19 @@ const caveat = Caveat({
   subsets: ['latin'],
   variable: '--font-caveat',
   display: 'swap',
+})
+
+// Geist Mono's web subsets stop short of the arrows, box-drawing and triangle
+// glyphs the ASCII diagrams use, so those borrow from wider fonts and knock the
+// columns out of line. This JetBrains Mono subset (same 0.6em advance) carries
+// just those glyphs and sits first in the mono stack, limited to their range.
+const diagram = localFont({
+  src: '../fonts/jetbrains-mono-diagram.woff2',
+  variable: '--font-diagram',
+  display: 'swap',
+  // No Arial stand-in: it would claim every character ahead of Geist Mono.
+  adjustFontFallback: false,
+  declarations: [{ prop: 'unicode-range', value: 'U+2190-21FF, U+2500-25FF' }],
 })
 
 const architects = Architects_Daughter({
@@ -77,7 +91,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${shantell.variable} ${caveat.variable} ${architects.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${shantell.variable} ${caveat.variable} ${architects.variable} ${geistMono.variable} ${diagram.variable} h-full antialiased`}
     >
       <head>
         <ThemeScript />

@@ -46,9 +46,9 @@ Every agent you talk to has a finite context window. That's the first law. Every
 Most people treat context as a pantry — dump everything in and let the agent rummage. That works right up until the moment it doesn't, and when it stops working it stops in the worst possible way: the agent starts confidently ignoring the parts that mattered and fabricating around the parts it missed. The fix isn't a bigger window. The fix is treating context like a budget.
 
 ```
-   ┌────────────────────────────────────────────────────────┐
-   │                    CONTEXT WINDOW                      │
-   └────────────────────────────────────────────────────────┘
+   ┌──────────────────────────────────────────────────────┐
+   │                    CONTEXT WINDOW                    │
+   └──────────────────────────────────────────────────────┘
 
    ╔════════════╦══════════════════╦══════════════════════╗
    ║  THE TASK  ║    RELEVANT      ║   "JUST IN CASE"     ║
@@ -93,10 +93,10 @@ The right structure is a state machine. A small router at the top, a taxonomy of
             ▼                 ▼                 ▼
      ┌──────────────────────────────────────────────────┐
      │  SHARED LIBRARIES                                │
-     │    ├─ templates   (spec, plan, retro shapes)    │
-     │    ├─ skills      (scaffold, audit, validate)   │
-     │    └─ references  (conventions, architecture,   │
-     │                    domain bibles)               │
+     │    ├─ templates   (spec, plan, retro shapes)     │
+     │    ├─ skills      (scaffold, audit, validate)    │
+     │    └─ references  (conventions, architecture,    │
+     │                    domain bibles)                │
      └──────────────────────────────────────────────────┘
 
      each node is small. each node has one job.
@@ -197,36 +197,36 @@ The fifth primitive is what separates a framework that ages from a system that c
 The fix is to make the retrospective a **mandatory gate**, not a polite suggestion. Every completed cycle ends with a retro that asks what happened, what surprised us, what should change. The outputs are graded by confidence and live on a ladder that runs both ways.
 
 ```
-               ┌──────────────────────────┐
-               │     RETROSPECTIVE        │
-               │   (mandatory gate —      │
-               │    no retro, no done)    │
-               └────────────┬─────────────┘
-                            │
-                            ▼
-               ┌──────────────────────────┐
-               │    DISTILLED PATTERNS    │
-               └────────────┬─────────────┘
-                            │
-          ┌─────────────────┼─────────────────┐
-          ▼                 ▼                 ▼
-    ┌──────────┐      ┌───────────┐      ┌─────────┐
-    │ OBSERVED │ ───► │ HEURISTIC │ ───► │  RULE   │
-    │ "noticed │promote│ "next    │promote│"always │
-    │  once"   │      │  time X"  │      │  do X"  │
-    └─────▲────┘      └─────▲─────┘      └────┬────┘
-          │                 │                  │
-          └─────────────────┴──────────────────┘
-                  demote if it stops earning its rank
+                  ┌──────────────────────────┐
+                  │     RETROSPECTIVE        │
+                  │   (mandatory gate —      │
+                  │    no retro, no done)    │
+                  └────────────┬─────────────┘
+                               │
+                               ▼
+                  ┌──────────────────────────┐
+                  │    DISTILLED PATTERNS    │
+                  └────────────┬─────────────┘
+                               │
+          ┌────────────────────┼────────────────────┐
+          ▼                    ▼                    ▼
+    ┌──────────┐ promote ┌───────────┐ promote ┌─────────┐
+    │ OBSERVED │ ──────► │ HEURISTIC │ ──────► │  RULE   │
+    │ "noticed │         │  "next    │         │ "always │
+    │  once"   │         │  time X"  │         │  do X"  │
+    └─────▲────┘         └─────▲─────┘         └────┬────┘
+          │                    │                    │
+          └────────────────────┴────────────────────┘
+              demote if it stops earning its rank
 
-                            │
-            ┌───────────────┴────────────────┐
-            ▼                                ▼
-    feeds BACK into the            feeds FORWARD into
-    framework files                the next plan's
-    (routers, templates,           structure phase
-     rubrics, references)          ("what did we learn
-                                    from last time?")
+                               │
+               ┌───────────────┴────────────────┐
+               ▼                                ▼
+       feeds BACK into the            feeds FORWARD into
+       framework files                the next plan's
+       (routers, templates,           structure phase
+        rubrics, references)          ("what did we learn
+                                       from last time?")
 ```
 
 Three things on this ladder matter and most of them get lost in typical retrospective practices.
