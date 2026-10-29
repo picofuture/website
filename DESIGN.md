@@ -180,7 +180,7 @@ A near-monochrome drafting palette: warm vellum and cool blue-black ink, a non-p
 - **Hatch** (hatch): the -45deg 1px-in-7px hatching in the margins outside the sheet.
 
 ### Highlighter and tape
-- **Highlighter** (highlighter / blueprint-highlighter): marker ink over a marked phrase and over the reader's text selection. Multiplied on vellum, screened on blueprint.
+- **Highlighter** (highlighter / blueprint-highlighter): marker ink over a marked phrase and over the reader's text selection. Multiplied on vellum, screened on blueprint. Text under the marker is set in Drafting Ink (Chalk on blueprint), one step darker than body copy, so it reads through the ink.
 - **Tape** (tape / blueprint-tape): translucent paper tape with torn ends holding photos and figures onto the sheet.
 
 ### Named Rules
@@ -224,7 +224,7 @@ Flat. There are no box shadows anywhere. Paper tape is the only object that sits
 
 ## Graphite
 
-`src/components/PencilFilters.jsx` defines one SVG filter, `#pencil`, mounted once in the layout: a slow low-frequency displacement (scale 2.2, frequency 0.018) so long rules and frames waver by about a pixel, then fine fractal-noise "tooth" composited in so strokes break up like lead on paper. It is applied in `globals.css` to what is drawn on the sheet: `main > :not(.graph, .rule-x)`, the children of `.graph` headers except the crosshair, the header contents and the footer contents. The paper, grid, rails, section rules and crosshair are excluded. Photos keep their colour; they pick up the tooth from their container. Hover animations and scrolling stay at full frame rate with the filter on.
+`src/components/PencilFilters.jsx` defines one SVG filter, `#pencil`, mounted once in the layout: a slow low-frequency displacement (scale 2.2, frequency 0.018) so long rules and frames waver by about a pixel, then fine fractal-noise "tooth" composited in so strokes break up like lead on paper. It is applied in `globals.css` to each drawn block inside `main`, the header and the footer: the outermost heading, paragraph, list item, figure, table, code detail, link, control, label or bordered row. Bordered containers that hold whole rows or sections (`:has(article, section)`) are skipped so their rows filter one by one. Never filter a whole section: a filtered region as tall as a long article runs past what mobile Safari will render, and the content disappears. The paper, grid, rails, section rules and crosshair are excluded. Photos keep their colour; they pick up the tooth from their container. Hover animations and scrolling stay at full frame rate with the filter on.
 
 The marks drawn on top of type are hand-made too: links carry a wavy pencil underline (an SVG tile, non-photo blue, redline on hover), article bullets are small pencil scribbles in grip blue, and the article-row arrow is drawn freehand.
 

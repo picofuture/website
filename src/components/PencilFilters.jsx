@@ -7,10 +7,11 @@ export function PencilFilters() {
       <defs>
         <filter
           id="pencil"
-          x="-1%"
-          y="-1%"
-          width="102%"
-          height="102%"
+          // Headroom for the wobble on small inline blocks (links, labels).
+          x="-4%"
+          y="-15%"
+          width="108%"
+          height="130%"
           colorInterpolationFilters="sRGB"
         >
           {/* A slow wobble, so long rules aren't ruler-straight. */}

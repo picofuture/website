@@ -383,13 +383,27 @@
 /* ───────────────────────── Graphite ─────────────────────────
    Content drawn on the sheet goes through the pencil (see PencilFilters).
    The sheet itself stays printed: paper, grid, rails, ruled section breaks,
-   and the CAD crosshair. */
+   and the CAD crosshair.
+
+   The filter goes on each drawn block (the outermost heading, paragraph,
+   row, frame or control), not on whole sections. A filtered region as tall
+   as a long article runs past what mobile Safari will render, and the
+   content disappears. Bordered containers that hold whole rows or sections
+   (:has(article, section)) are skipped so their rows filter one by one. */
 
 @layer components {
-  main > :not(.graph, .rule-x),
-  .graph > :not(.crosshair),
-  .site-header > :not(.header-marks),
-  footer > * {
+  :is(main, .site-header, footer)
+    :is(
+      h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, figure, table, pre, hr,
+      a, button, img, svg, time, input, .label, .draw-x, .draw-y,
+      [class*='border']:not(:has(article, section))
+    ):not(
+      :is(
+        h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, figure, table, pre, hr,
+        a, button, img, svg, time, input, .label, .draw-x, .draw-y,
+        [class*='border']:not(:has(article, section))
+      ) *
+    ):not(.crosshair, .crosshair *) {
     filter: url(#pencil);
   }
 }
@@ -399,8 +413,9 @@
 
 @layer components {
   /* Highlighter: a marked phrase, and whatever the reader selects. */
+  /* Highlighted text is inked one step darker so it reads through the marker. */
   mark.marker {
-    color: inherit;
+    color: var(--ink);
     background: var(--marker) 0 62% / 100% 82% no-repeat;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
@@ -427,7 +442,7 @@
   }
   .has-highlighter :not(input, textarea)::selection {
     background: transparent;
-    color: inherit;
+    color: var(--ink);
   }
 
   /* Paper tape with torn ends. */
