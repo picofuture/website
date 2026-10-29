@@ -428,17 +428,20 @@
     }
   }
 
+  /* The blend sits on the container: its z-index makes it a stacking
+     context, so a blend on the strokes would only mix with this empty layer
+     and wash the yellow over the text instead of multiplying into it. */
   .highlighter {
     position: absolute;
     top: 0;
     left: 0;
     z-index: 30;
     pointer-events: none;
+    mix-blend-mode: var(--marker-blend);
   }
   .highlighter > span {
     position: absolute;
     background: var(--marker) center / 100% 100% no-repeat;
-    mix-blend-mode: var(--marker-blend);
   }
   .has-highlighter :not(input, textarea)::selection {
     background: transparent;
