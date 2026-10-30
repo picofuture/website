@@ -6,7 +6,7 @@ import { Button } from '@/components/Button'
 import { Crosshair } from '@/components/Crosshair'
 import { DimensionLine } from '@/components/DimensionLine'
 import { JsonLd } from '@/components/JsonLd'
-import { Tape } from '@/components/Tape'
+import { Portrait } from '@/components/Portrait'
 import { GitHubIcon, LinkedInIcon, XIcon } from '@/components/SocialIcons'
 import { SITE_URL, home, person, resume } from '@/content/site'
 import { getAllArticles } from '@/lib/articles'
@@ -102,25 +102,11 @@ function Hero() {
             </ul>
           </div>
         </div>
-        <figure className="hidden self-end lg:col-span-3 lg:col-start-10 lg:block">
-          <div className="cad-grips border border-ink bg-paper-raised p-2">
-            <Tape className="tape-top" />
-            <Tape className="tape-bl" />
-            <Image
-              src="dp.jpg"
-              alt={`Portrait of ${person.name}`}
-              width={640}
-              height={640}
-              sizes="16rem"
-              className="aspect-square w-full object-cover"
-              priority
-            />
-          </div>
-          <figcaption className="label mt-3 flex justify-between">
-            <span>Fig. A</span>
-            <span>{person.location}</span>
-          </figcaption>
-        </figure>
+        <Portrait
+          sizes="16rem"
+          tilt={-1.5}
+          className="hidden self-end lg:col-span-3 lg:col-start-10 lg:block"
+        />
       </div>
     </section>
   )

@@ -448,6 +448,50 @@
     color: var(--ink);
   }
 
+  /* Prints (Print component): photos taped onto the sheet. Deliberately
+     static, with no hover state: a print stuck down on paper doesn't move.
+     The plate takes the tilt; the caption is written on the sheet, so it
+     stays level. */
+  .print-plate {
+    position: relative;
+    padding: 6px;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-raised);
+    rotate: var(--tilt, 0deg);
+  }
+  /* The primary plate (the portrait) is outlined in ink and wears grips. */
+  .print-primary {
+    padding: 8px;
+    border-color: var(--ink);
+  }
+  .print-primary::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    pointer-events: none;
+    --g: 5px;
+    background:
+      linear-gradient(var(--grip), var(--grip)) top left / var(--g) var(--g) no-repeat,
+      linear-gradient(var(--grip), var(--grip)) top right / var(--g) var(--g) no-repeat,
+      linear-gradient(var(--grip), var(--grip)) bottom left / var(--g) var(--g) no-repeat,
+      linear-gradient(var(--grip), var(--grip)) bottom right / var(--g) var(--g) no-repeat;
+  }
+  .print-caption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 0.75rem;
+  }
+  /* Captions are pencilled onto the sheet by hand. */
+  .print-note {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    line-height: 1.2;
+    color: var(--ink-2);
+    text-align: right;
+  }
+
   /* Paper tape with torn ends. */
   .tape {
     position: absolute;
