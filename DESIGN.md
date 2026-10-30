@@ -278,6 +278,26 @@ On fine-pointer devices, the hero grid carries a CAD cursor: horizontal and vert
 ### Inline elements
 Links: ink text with a wavy pencil underline in non-photo blue, turning redline on hover. Inline code: mono at 0.86em on wash with a hairline frame. Unordered lists in articles use grip-blue pencil scribbles (work highlights keep 5px squares); ordered lists use drafting-caps markers. Horizontal rules are drawn as a dimension: a hairline with end ticks.
 
+## Shared Components
+
+Reach for these before writing markup by hand. Each one owns its look in one place.
+
+| Component | File | Use it for |
+|---|---|---|
+| `PageHeader` | `src/components/PageHeader.jsx` | Index-page openers: graph-paper header, headline, intro, ticked rule below. |
+| `SheetSection` | `src/components/SheetSection.jsx` | A ruled band with a sticky heading column and a content column (`split="4/8"` or `"3/9"`). Work entries, Uses groups, article years, "How I work". |
+| `SectionTitle` | `src/components/SectionTitle.jsx` | A section heading with an optional "see more" link ("Latest writing" / "All articles"). |
+| `Field` | `src/components/Field.jsx` | A drafting-caps label over its value, inside a `<dl>` (article Date / Reading, rail legend). |
+| `Print`, `Portrait` | `src/components/Print.jsx`, `Portrait.jsx` | Every photo: taped plate, tilt, handwritten caption. `BlogImage` wraps `Print` for MDX. |
+| `ArticleRow` | `src/components/ArticleRow.jsx` | One article in a register list. |
+| `Button` | `src/components/Button.jsx` | Primary (grips) and secondary (crop marks) buttons; picks `Link`, `<a>` or `<button>` from `href`. |
+| `SocialLinks`, `EmailLink` | `src/components/SocialLinks.jsx` | Where to find me: `variant="icons"` (`size="md"` hero, `"sm"` title block) or `variant="list"` (about). The links live here, nowhere else. |
+| `Marked` | `src/components/Marked.jsx` | Runs the highlighter over one phrase of a string. |
+| `DimensionLine` | `src/components/DimensionLine.jsx` | A drafting dimension stating a measurement. |
+| `CodeBlock` | `src/components/CodeBlock.jsx` | Code and ASCII diagrams as a tabbed drawing detail (wired through MDX). |
+
+Site-wide lists live in `src/content/site.js`: `nav` (header pages) and `sheets` (every page including Home, for the menu and title block).
+
 ## Do's and Don'ts
 
 ### Do:

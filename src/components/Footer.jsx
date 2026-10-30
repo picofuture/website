@@ -2,9 +2,8 @@ import Link from 'next/link'
 import clsx from 'clsx'
 
 import { SheetName } from '@/components/SheetName'
-import { GitHubIcon, LinkedInIcon, XIcon } from '@/components/SocialIcons'
-import { nav, person } from '@/content/site'
-import { GITHUB_LINK, LINKEDIN_LINK, TWITTER_LINK } from '@/lib/sharedConsts'
+import { EmailLink, SocialLinks } from '@/components/SocialLinks'
+import { person, sheets } from '@/content/site'
 
 const revision = new Date().toISOString().slice(0, 10).replaceAll('-', '.')
 
@@ -16,12 +15,6 @@ function Cell({ label, className, children }) {
     </div>
   )
 }
-
-const socials = [
-  { href: TWITTER_LINK, label: 'X', icon: XIcon },
-  { href: GITHUB_LINK, label: 'GitHub', icon: GitHubIcon },
-  { href: LINKEDIN_LINK, label: 'LinkedIn', icon: LinkedInIcon },
-]
 
 // The drawing's title block: who drew it, which sheet, which revision.
 export function Footer() {
@@ -42,7 +35,7 @@ export function Footer() {
           className="border-b sm:col-span-7 sm:border-r lg:col-span-4"
         >
           <ul className="flex flex-wrap gap-x-4 gap-y-1">
-            {[{ href: '/', label: 'Home' }, ...nav].map((item) => (
+            {sheets.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="link">
                   {item.label}
@@ -58,24 +51,8 @@ export function Footer() {
           label="Contact"
           className="border-b sm:col-span-7 sm:border-r sm:border-b-0 lg:col-span-4"
         >
-          <a href={`mailto:${person.email}`} className="link">
-            {person.email}
-          </a>
-          <ul className="mt-3 flex gap-2">
-            {socials.map(({ href, label, icon: Icon }) => (
-              <li key={label}>
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="me noopener"
-                  aria-label={label}
-                  className="cad grid size-8 place-items-center text-ink-2 hover:text-ink"
-                >
-                  <Icon className="size-[1.125rem] fill-current" />
-                </a>
-              </li>
-            ))}
-          </ul>
+          <EmailLink />
+          <SocialLinks size="sm" className="mt-3" />
         </Cell>
         <Cell label="Feeds" className="sm:col-span-5 lg:col-span-3">
           <ul className="flex flex-wrap gap-x-4 gap-y-1">

@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button'
 import { PageHeader } from '@/components/PageHeader'
+import { SheetSection } from '@/components/SheetSection'
 import { work, workPage } from '@/content/site'
 
 export const metadata = {
@@ -28,18 +29,22 @@ export default function Projects() {
       </PageHeader>
       <div className="sheet-pad">
         {work.map((entry) => (
-          <article
+          <SheetSection
             key={entry.company}
-            className="grid gap-x-10 gap-y-5 border-b border-rule py-14 lg:grid-cols-12"
+            as="article"
+            gap="gap-y-5"
+            pad="py-14"
+            side={
+              <header>
+                <h2 className="font-wide text-2xl leading-tight font-semibold tracking-tight text-ink sm:text-3xl">
+                  {entry.company}
+                </h2>
+                <p className="mt-3 font-serif text-xl text-ink-2 italic">{entry.role}</p>
+                <p className="label mt-3">{entry.period}</p>
+              </header>
+            }
           >
-            <header className="lg:col-span-4">
-              <h2 className="font-wide text-2xl leading-tight font-semibold tracking-tight text-ink sm:text-3xl lg:sticky lg:top-28">
-                {entry.company}
-              </h2>
-              <p className="mt-3 font-serif text-xl text-ink-2 italic">{entry.role}</p>
-              <p className="label mt-3">{entry.period}</p>
-            </header>
-            <div className="lg:col-span-8">
+            <div>
               <p className="max-w-[68ch] text-[1.0625rem] leading-relaxed text-ink">
                 {entry.summary}
               </p>
@@ -52,7 +57,7 @@ export default function Projects() {
                 ))}
               </ul>
             </div>
-          </article>
+          </SheetSection>
         ))}
       </div>
     </>

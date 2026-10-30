@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+import { Field } from '@/components/Field'
 import { JsonLd } from '@/components/JsonLd'
 import { SITE_URL, person } from '@/content/site'
 import {
@@ -132,28 +133,16 @@ export default async function ArticlePage({ params }) {
           className="rise mt-8 flex flex-wrap gap-x-8 gap-y-3"
           style={{ '--delay': '160ms' }}
         >
-          <div>
-            <dt className="label">Date</dt>
-            <dd className="mt-1 text-sm text-ink">
-              <time dateTime={meta.date}>{formatDate(meta.date)}</time>
-            </dd>
-          </div>
-          <div>
-            <dt className="label">Reading</dt>
-            <dd className="mt-1 text-sm text-ink">{minutes} min</dd>
-          </div>
-          <div>
-            <dt className="label">Drawn by</dt>
-            <dd className="mt-1 text-sm text-ink">{person.name}</dd>
-          </div>
-          <div>
-            <dt className="label">Source</dt>
-            <dd className="mt-1 text-sm">
-              <a href={`/articles/${slug}.md`} className="link text-ink">
-                Markdown
-              </a>
-            </dd>
-          </div>
+          <Field label="Date">
+            <time dateTime={meta.date}>{formatDate(meta.date)}</time>
+          </Field>
+          <Field label="Reading">{minutes} min</Field>
+          <Field label="Drawn by">{person.name}</Field>
+          <Field label="Source">
+            <a href={`/articles/${slug}.md`} className="link">
+              Markdown
+            </a>
+          </Field>
         </dl>
       </header>
       <div className="rule-x" />
@@ -183,16 +172,8 @@ export default async function ArticlePage({ params }) {
                   One continuous essay, no sections.
                 </p>
                 <dl className="mt-5 flex gap-8">
-                  <div>
-                    <dt className="label">Words</dt>
-                    <dd className="mt-1 text-sm text-ink">{words.toLocaleString('en')}</dd>
-                  </div>
-                  {figures > 0 && (
-                    <div>
-                      <dt className="label">Figures</dt>
-                      <dd className="mt-1 text-sm text-ink">{figures}</dd>
-                    </div>
-                  )}
+                  <Field label="Words">{words.toLocaleString('en')}</Field>
+                  {figures > 0 && <Field label="Figures">{figures}</Field>}
                 </dl>
               </div>
             </div>
