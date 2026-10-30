@@ -81,8 +81,8 @@ export default async function ArticlePage({ params }) {
   let source = await getArticleSource(slug)
   let headings = getHeadings(source)
   let minutes = getReadingMinutes(source)
-  // Two sections are enough to navigate; essays without any get a legend in the rail instead.
-  let hasContents = headings.length >= 2
+  // Any sections get listed; essays without any get a legend in the rail instead.
+  let hasContents = headings.length > 0
   let words = getWordCount(source)
   let figures = getFigureCount(source)
 
