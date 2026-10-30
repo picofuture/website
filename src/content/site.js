@@ -26,6 +26,9 @@ export const nav = [
   { href: '/uses', label: 'Uses' },
 ]
 
+// Every sheet in the set, Home included (menus and the title block).
+export const sheets = [{ href: '/', label: 'Home' }, ...nav]
+
 export const home = {
   title: 'Anfal Mushtaq – I build things that ship.',
   description:

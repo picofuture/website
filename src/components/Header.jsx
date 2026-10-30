@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 
 import { ThemeSwitch } from '@/components/ThemeSwitch'
-import { nav } from '@/content/site'
+import { nav, sheets } from '@/content/site'
 
 function isCurrent(pathname, href) {
   return pathname === href || pathname.startsWith(`${href}/`)
@@ -65,7 +65,7 @@ function MobileNav() {
         </div>
         <nav className="mt-4">
           <ul className="divide-y divide-rule border-y border-rule">
-            {[{ href: '/', label: 'Home' }, ...nav].map((item) => {
+            {sheets.map((item) => {
               let current =
                 item.href === '/' ? pathname === '/' : isCurrent(pathname, item.href)
               return (

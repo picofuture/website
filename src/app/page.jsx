@@ -1,18 +1,18 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { ArticleRow } from '@/components/ArticleRow'
 import { Button } from '@/components/Button'
 import { Crosshair } from '@/components/Crosshair'
 import { DimensionLine } from '@/components/DimensionLine'
 import { JsonLd } from '@/components/JsonLd'
+import { Marked } from '@/components/Marked'
 import { Portrait } from '@/components/Portrait'
-import { GitHubIcon, LinkedInIcon, XIcon } from '@/components/SocialIcons'
+import { SectionTitle } from '@/components/SectionTitle'
+import { EmailLink, SocialLinks } from '@/components/SocialLinks'
 import { SITE_URL, home, person, resume } from '@/content/site'
 import { getAllArticles } from '@/lib/articles'
 import { formatCDNURl } from '@/lib/cloudflareImageLoader'
 import { PERSON_ID, personSchema } from '@/lib/schema'
-import { GITHUB_LINK, LINKEDIN_LINK, TWITTER_LINK } from '@/lib/sharedConsts'
 
 export const metadata = {
   title: { absolute: home.title },
@@ -22,25 +22,6 @@ export const metadata = {
     types: { 'text/markdown': '/index.md' },
   },
   openGraph: { title: home.title, description: home.description, url: '/' },
-}
-
-const socials = [
-  { href: TWITTER_LINK, label: 'Follow on X', icon: XIcon },
-  { href: LINKEDIN_LINK, label: 'Follow on LinkedIn', icon: LinkedInIcon },
-  { href: GITHUB_LINK, label: 'Follow on GitHub', icon: GitHubIcon },
-]
-
-// Runs the highlighter over one phrase of the text, if it's there.
-function Marked({ text, mark }) {
-  let at = mark ? text.indexOf(mark) : -1
-  if (at < 0) return text
-  return (
-    <>
-      {text.slice(0, at)}
-      <mark className="marker">{mark}</mark>
-      {text.slice(at + mark.length)}
-    </>
-  )
 }
 
 function Hero() {
@@ -71,11 +52,7 @@ function Hero() {
             className="rise mt-4 max-w-xl text-lg leading-relaxed text-ink-2"
             style={{ '--delay': '380ms' }}
           >
-            Reach me at{' '}
-            <a href={`mailto:${person.email}`} className="link text-ink">
-              {person.email}
-            </a>
-            .
+            Reach me at <EmailLink className="text-ink" />.
           </p>
           <div
             className="rise mt-9 flex flex-wrap items-center gap-3"
@@ -85,21 +62,7 @@ function Hero() {
               Read the articles
             </Button>
             <Button href="/api/resume">Download CV</Button>
-            <ul className="ml-1 flex items-center gap-1">
-              {socials.map(({ href, label, icon: Icon }) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="me noopener"
-                    aria-label={label}
-                    className="cad grid size-11 place-items-center text-ink-2 transition-colors hover:text-ink"
-                  >
-                    <Icon className="size-5 fill-current" />
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <SocialLinks className="ml-1" />
           </div>
         </div>
         <Portrait
@@ -143,12 +106,7 @@ function TenureSpan({ start, end }) {
 function Work() {
   return (
     <section aria-labelledby="work-heading">
-      <h2
-        id="work-heading"
-        className="font-semiwide text-2xl font-semibold tracking-tight"
-      >
-        Work
-      </h2>
+      <SectionTitle id="work-heading">Work</SectionTitle>
       <ol className="mt-6 border-b border-rule">
         {resume.map((role) => (
           <li
@@ -212,17 +170,9 @@ export default async function Home() {
       <div className="rule-x" />
       <div className="sheet-pad grid gap-16 pt-16 lg:grid-cols-12 lg:gap-0">
         <section aria-labelledby="writing-heading" className="lg:col-span-7 lg:pr-14">
-          <div className="flex items-baseline justify-between gap-4">
-            <h2
-              id="writing-heading"
-              className="font-semiwide text-2xl font-semibold tracking-tight"
-            >
-              Latest writing
-            </h2>
-            <Link href="/articles" className="link text-sm text-ink-2">
-              All articles
-            </Link>
-          </div>
+          <SectionTitle id="writing-heading" action={{ href: '/articles', label: 'All articles' }}>
+            Latest writing
+          </SectionTitle>
           <div className="mt-6 border-b border-rule">
             {articles.map((article) => (
               <ArticleRow key={article.slug} article={article} />

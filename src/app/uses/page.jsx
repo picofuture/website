@@ -1,4 +1,5 @@
 import { PageHeader } from '@/components/PageHeader'
+import { SheetSection } from '@/components/SheetSection'
 import { uses, usesPage } from '@/content/site'
 
 export const metadata = {
@@ -21,18 +22,16 @@ export default function Uses() {
       <PageHeader title={usesPage.title} intro={usesPage.intro} />
       <div className="sheet-pad">
         {uses.map((section) => (
-          <section
+          <SheetSection
             key={section.title}
-            aria-labelledby={section.title}
-            className="grid gap-x-10 gap-y-6 border-b border-rule py-12 lg:grid-cols-12"
+            id={section.title}
+            side={
+              <h2 id={section.title} className="font-semiwide text-xl font-semibold tracking-tight text-ink">
+                {section.title}
+              </h2>
+            }
           >
-            <h2
-              id={section.title}
-              className="font-semiwide text-xl font-semibold tracking-tight text-ink lg:col-span-4"
-            >
-              {section.title}
-            </h2>
-            <ul className="space-y-8 lg:col-span-8">
+            <ul className="space-y-8">
               {section.tools.map((tool) => (
                 <li key={tool.title}>
                   <h3 className="font-semibold text-ink">{tool.title}</h3>
@@ -42,7 +41,7 @@ export default function Uses() {
                 </li>
               ))}
             </ul>
-          </section>
+          </SheetSection>
         ))}
       </div>
     </>
