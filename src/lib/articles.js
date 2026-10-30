@@ -66,7 +66,14 @@ export function getHeadings(source) {
   return headings
 }
 
+export function getWordCount(source) {
+  return proseLines(source).join(' ').split(/\s+/).filter(Boolean).length
+}
+
 export function getReadingMinutes(source) {
-  let words = proseLines(source).join(' ').split(/\s+/).filter(Boolean).length
-  return Math.max(1, Math.round(words / 230))
+  return Math.max(1, Math.round(getWordCount(source) / 230))
+}
+
+export function getFigureCount(source) {
+  return (proseLines(source).join('\n').match(/<BlogImage\b|!\[/g) ?? []).length
 }

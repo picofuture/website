@@ -6,8 +6,10 @@ import { SITE_URL, person } from '@/content/site'
 import {
   getAllArticles,
   getArticleSource,
+  getFigureCount,
   getHeadings,
   getReadingMinutes,
+  getWordCount,
   importArticle,
 } from '@/lib/articles'
 import { formatCDNURl } from '@/lib/cloudflareImageLoader'
@@ -79,6 +81,10 @@ export default async function ArticlePage({ params }) {
   let source = await getArticleSource(slug)
   let headings = getHeadings(source)
   let minutes = getReadingMinutes(source)
+  // Any sections get listed; essays without any get a legend in the rail instead.
+  let hasContents = headings.length > 0
+  let words = getWordCount(source)
+  let figures = getFigureCount(source)
 
   let articles = await getAllArticles()
   let index = articles.findIndex((a) => a.slug === slug)
@@ -152,8 +158,8 @@ export default async function ArticlePage({ params }) {
       </header>
       <div className="rule-x" />
       <div className="sheet-pad grid gap-10 pt-14 lg:grid-cols-12 lg:gap-0">
-        {headings.length >= 3 && (
-          <aside className="hidden lg:col-span-3 lg:block">
+        <aside className="hidden lg:col-span-3 lg:block">
+          {hasContents ? (
             <nav aria-label="On this page" className="sticky top-28 pr-8">
               <p className="label">On this page</p>
               <ol className="mt-4 space-y-2 border-l border-rule">
@@ -169,10 +175,31 @@ export default async function ArticlePage({ params }) {
                 ))}
               </ol>
             </nav>
-          </aside>
-        )}
+          ) : (
+            <div className="sticky top-28 pr-8">
+              <p className="label">On this page</p>
+              <div className="mt-4 border-l border-rule pl-4">
+                <p className="text-[0.8125rem] leading-snug text-ink-2">
+                  One continuous essay, no sections.
+                </p>
+                <dl className="mt-5 flex gap-8">
+                  <div>
+                    <dt className="label">Words</dt>
+                    <dd className="mt-1 text-sm text-ink">{words.toLocaleString('en')}</dd>
+                  </div>
+                  {figures > 0 && (
+                    <div>
+                      <dt className="label">Figures</dt>
+                      <dd className="mt-1 text-sm text-ink">{figures}</dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+            </div>
+          )}
+        </aside>
         <article
-          className={`article min-w-0 max-w-[40rem] lg:col-span-9 ${headings.length >= 3 ? 'lg:col-start-4 xl:pl-6' : 'lg:col-start-3'}`}
+          className="article min-w-0 max-w-[40rem] lg:col-span-9 lg:col-start-4 xl:pl-6"
         >
           <Content />
         </article>
