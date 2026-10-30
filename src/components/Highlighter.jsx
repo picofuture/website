@@ -32,36 +32,45 @@ export function Highlighter() {
   useEffect(() => {
     let root = document.documentElement
     root.classList.add('has-highlighter')
-    let frame
+    let frame = 0
+    let drawn = ''
+
+    function measure() {
+      frame = 0
+      let selection = document.getSelection()
+      let range =
+        selection && !selection.isCollapsed && selection.rangeCount
+          ? selection.getRangeAt(0)
+          : null
+      let next = []
+      if (range?.commonAncestorContainer.isConnected) {
+        let rects = [...range.getClientRects()].filter((r) => r.width > 1 && r.height > 1)
+        next = joinLines(rects).map((l) => ({
+          left: l.left + window.scrollX,
+          top: l.top + window.scrollY,
+          width: l.right - l.left,
+          height: l.bottom - l.top,
+        }))
+      }
+      let key = JSON.stringify(next)
+      if (key !== drawn) {
+        drawn = key
+        setMarks(next)
+      }
+      // While something is selected, keep following it: hover states,
+      // images loading, scroll boxes and page navigations all move or remove
+      // the text without firing selectionchange.
+      if (next.length) frame = requestAnimationFrame(measure)
+    }
 
     function update() {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(() => {
-        let selection = document.getSelection()
-        if (!selection || selection.isCollapsed || !selection.rangeCount) {
-          setMarks([])
-          return
-        }
-        let rects = [...selection.getRangeAt(0).getClientRects()].filter(
-          (r) => r.width > 1 && r.height > 1,
-        )
-        setMarks(
-          joinLines(rects).map((l) => ({
-            left: l.left + window.scrollX,
-            top: l.top + window.scrollY,
-            width: l.right - l.left,
-            height: l.bottom - l.top,
-          })),
-        )
-      })
+      if (!frame) frame = requestAnimationFrame(measure)
     }
 
     document.addEventListener('selectionchange', update)
-    window.addEventListener('resize', update)
     return () => {
       cancelAnimationFrame(frame)
       document.removeEventListener('selectionchange', update)
-      window.removeEventListener('resize', update)
       root.classList.remove('has-highlighter')
     }
   }, [])
