@@ -259,8 +259,12 @@ A drafting dimension: end ticks, filled arrowheads, a hairline either side of a 
 ### Code Detail
 Code is a drawing detail: vellum-raised box in a hairline-strong frame, a tab on the top-left edge naming the language in a label, a copy control above the right edge. Prism tokens are inked from the code palette (blue-black keywords, rust functions, green strings) and swap with the sheet. Code and ASCII diagrams stay monospaced (they are the one typed thing on the sheet); every glyph a diagram uses renders at the same 0.6em advance, and wide diagrams scroll inside their box on phones.
 
-### Figure Plate
-Images sit in a hairline-strong frame with 6px of vellum-raised mat, crop marks on hover, and a caption bar below: auto-numbered "Fig. n" left, caption right. Blog figures are taped at both top corners; the hero portrait (ink frame with grips, captioned "Fig. A") is taped across the top and at the bottom-left corner. Tape is `<Tape className="tape-top | tape-tl | tape-tr | tape-bl" />` inside the frame.
+### Prints (figures and the portrait)
+Every photo on the sheet is a print taped onto it, rendered by one component: `<Print>` (`src/components/Print.jsx`). It draws the plate (a hairline-strong frame with 6px of vellum-raised mat), the tape, the tilt and the caption, so no page builds this by hand.
+- **Kinds:** `kind="figure"` (article images, via `BlogImage`) is taped at both top corners and stays level, so screenshots and diagrams stay readable. `kind="portrait"` is the primary plate: an ink frame with static grips, taped across the top and at the bottom-left corner.
+- **Portrait:** `<Portrait>` (`src/components/Portrait.jsx`) is "Fig. A" on both the home and about pages. Home tilts it -1.5°, about +1.25°. Only portraits tilt.
+- **Caption:** the field label ("Fig. A", auto-numbered "Fig. n") stays in drafting caps. The note beside it (location, figure caption) is pencilled in Caveat at 1.2rem, and it stays level when the plate tilts.
+- **No hover state:** a print stuck down on paper doesn't move, so prints have no crop marks, lift or straightening on hover.
 
 ### Highlighter
 Marker ink with uneven ends. `<mark className="marker">` highlights one phrase (the hero marks the reach figures, set by `home.introMark` in `src/content/site.js`) and swipes in once after load. `<Highlighter />` in the layout replaces the browser's selection box with the same ink over whatever the reader selects; native selection is made transparent only once it has mounted, and inputs keep the normal selection.
@@ -292,5 +296,6 @@ Links: ink text with a wavy pencil underline in non-photo blue, turning redline 
 - **Don't** hard-code a colour that only reads on one sheet (for example a white tile behind content).
 - **Don't** put mono labels above headings as decorative tags; a label names a field.
 - **Don't** set body or UI text in Caveat; it is the handwritten second voice only.
+- **Don't** give prints a hover state, or hand-build a framed photo; use `<Print>`.
 - **Don't** fake paper with scanned textures, folded panels, creases or 3D lighting; paper comes from the tooth, the wobble, the hand-drawn type and real props (tape, highlighter).
 - **Don't** let the graph grid run under long-form text.

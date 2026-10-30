@@ -1,6 +1,5 @@
-import Image from 'next/image'
-
 import { JsonLd } from '@/components/JsonLd'
+import { Portrait } from '@/components/Portrait'
 import { GitHubIcon, LinkedInIcon, XIcon } from '@/components/SocialIcons'
 import { SITE_URL, about, person } from '@/content/site'
 import { personSchema } from '@/lib/schema'
@@ -66,23 +65,12 @@ export default function About() {
           </div>
         </div>
         <aside className="lg:col-span-4 lg:col-start-9">
-          <figure className="rise max-w-xs lg:max-w-none" style={{ '--delay': '160ms' }}>
-            <div className="cad-grips border border-ink bg-paper-raised p-2">
-              <Image
-                src="dp.jpg"
-                width={640}
-                height={640}
-                alt={`Portrait of ${person.name}`}
-                sizes="(min-width: 1024px) 24rem, 20rem"
-                className="aspect-square w-full object-cover"
-                priority
-              />
-            </div>
-            <figcaption className="label mt-3 flex justify-between">
-              <span>Fig. A</span>
-              <span>{person.location}</span>
-            </figcaption>
-          </figure>
+          <Portrait
+            sizes="(min-width: 1024px) 24rem, 20rem"
+            tilt={1.25}
+            className="rise max-w-xs lg:max-w-none"
+            style={{ '--delay': '160ms' }}
+          />
           <ul className="mt-10 border-t border-rule">
             {links.map(({ href, label, icon: Icon }) => (
               <li key={href} className="border-b border-rule">
